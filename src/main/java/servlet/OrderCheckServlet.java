@@ -1,4 +1,4 @@
-
+package servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.ItemsBean;
-import model.OrderCheckBean;
+import models.views.ItemsBean;
+import models.views.OrderCheckBean;
 
 /**
  * Servlet implementation class OrderCheckServlet

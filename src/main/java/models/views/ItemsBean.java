@@ -1,4 +1,4 @@
-package model;
+package models.views;
 
 public class ItemsBean {
 	private int cartDetailId;
