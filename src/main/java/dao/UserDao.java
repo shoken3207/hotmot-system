@@ -1,54 +1,61 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import models.UserBean;
 
 public class UserDao extends CommonDao {
 	
-    private final Connection conn;
+    public ArrayList<UserBean> findAll() {
+        ArrayList<UserBean> users = new ArrayList<UserBean>();
+		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+			String sql = "SELECT * FROM user";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
 
-    public UserDao(Connection conn) {
-        this.conn = conn;
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String email = rs.getString("email");
+				String name= rs.getString("name");
+				Boolean isAdmin = rs.getBoolean("isAdmin");
+
+				UserBean User = new UserBean(id, email, name, isAdmin);
+				users.add(User);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return users;
     }
+    public int insert (int id,String email,String name,boolean isAdmin) throws SQLException {
+    	
+    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+    	String sql = "INSERT INTO user(id,email,name,isAdmin) " +
+                "VALUES('" + id + "'," + email + "," + name + "," + isAdmin + ")";
 
-    public List<UserBean> getAll() {
-        List<UserBean> data = new ArrayList<UserBean>();
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            String sql = "select * from User";
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-
-            while(rs.next()) {
-                int id = rs.getInt("id");
-                String email = rs.getString("email");
-                String name = rs.getString("name");
-                boolean isAdmin = rs.getBoolean("isAdmin");
-                UserBean prf = new UserBean(id, email, name, isAdmin);
-                data.add(prf);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if(pstmt != null) {
-                    pstmt.close();
-                }
-                if(rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return data;
+    	PreparedStatement statement = conn.prepareStatement(sql);
+    	ResultSet rs = statement.executeQuery();
+    	rs.next();
+    	
+    	rs.close();
+    	statement.close();
+    	
+    	statement = conn.prepareStatement(sql);
+    	
+    	int updateCount = statement.executeUpdate();
+    	
+    	statement.close();
+    	
+    	conn.commit();
+    	conn.close();
+    	
+    	return updateCount;
+    	}
     }
 }
