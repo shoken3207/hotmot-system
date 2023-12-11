@@ -5,10 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src ="test.js"></script>
 </style>
 </head>
-<body>
+<body background="C:\Users\st20214131\Downloads\IMG_4786.jpg">
 <h1 class="sc-dJjYWb eHZTFO" _msttexthash="3899025"_mstash="52">カート</h1>
 <button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1ujsas3" tabindex="0" type="button" _msttexthash="13345345" _msthash="97">カートを更新<span class="MuiTouchRipple-root css-w0pj6f"></span></button>
 <button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1ujsas3" tabindex="0" type="button" _msttexthash="14066052" _msthash="98">注文を確定<span class="MuiTouchRipple-root css-w0pj6f"></span></button>
