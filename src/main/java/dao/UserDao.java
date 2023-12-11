@@ -58,4 +58,51 @@ public class UserDao extends CommonDao {
     	return updateCount;
     	}
     }
+    
+    public int update(int id,String email,String name,boolean isAdmin) throws SQLException {
+    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+    		String sql = "UPDATE SET user(id,email,name,isAdmin) " +
+                    "VALUES('" + id + "'," + email + "," + name + "," + isAdmin + ")";
+        	PreparedStatement statement = conn.prepareStatement(sql);
+        	ResultSet rs = statement.executeQuery();
+        	rs.next();
+        	
+        	rs.close();
+        	statement.close();
+        	
+        	statement = conn.prepareStatement(sql);
+        	
+        	int updateCount = statement.executeUpdate();
+        	
+        	statement.close();
+        	
+        	conn.commit();
+        	conn.close();
+        	
+        	return updateCount;
+    	}
+    }
+    
+    public int delete(int id,String email,String name,boolean isAdmin) throws SQLException{
+    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+            String sql = "DELETE FROM usert WHERE id = '" + id + "'";
+            PreparedStatement statement = conn.prepareStatement(sql);
+        	ResultSet rs = statement.executeQuery();
+        	rs.next();
+        	
+        	rs.close();
+        	statement.close();
+        	
+        	statement = conn.prepareStatement(sql);
+        	
+        	int updateCount = statement.executeUpdate();
+        	
+        	statement.close();
+        	
+        	conn.commit();
+        	conn.close();
+        	
+        	return updateCount;
+    	}
+    }
 }
