@@ -6,38 +6,41 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
-import models.UserBean;
+import models.CartBean;
 
-public class UserDao extends CommonDao {
-	
-    public ArrayList<UserBean> findAll() {
-        ArrayList<UserBean> users = new ArrayList<UserBean>();
+
+public class CartDao extends CommonDao{
+
+	public ArrayList<CartBean> findAll() {
+        ArrayList<CartBean> Carts = new ArrayList<CartBean>();
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-			String sql = "SELECT * FROM user";
+			String sql = "SELECT * FROM cart";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				UserBean userbean = new UserBean(0, sql, sql, null);
-				userbean.setId(rs.getInt("id"));
-				userbean.setEmail(rs.getString("email"));
-				userbean.setName(rs.getString("name"));
-				userbean.setIsAdmin(rs.getBoolean("isAdmin"));
-				users.add(userbean);
+				int id = rs.getInt("id");
+				int userId = rs.getInt("orderId");
+				int shopId = rs.getInt("productId");
+				Date createdAt = rs.getDate("createdAt");
+
+				CartBean Cart  = new CartBean(id, userId, shopId,createdAt);
+				Carts.add(Cart);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return users;
+		return Carts;
     }
-    public int insert (String email,String name,Boolean isAdmin) throws SQLException {
+    public int insert (int id, int userId, int shopId,Date createdAt) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO user(email,name) " +
-                "VALUES(" +email + "," + name +")";
-    	
+    	String sql = "INSERT INTO cart(id, userId, shopId,createdAt) " +
+                "VALUES(" + id + "," + userId + "," + shopId + ","  + createdAt + ")";
+
     	PreparedStatement statement = conn.prepareStatement(sql);
     	ResultSet rs = statement.executeQuery();
     	rs.next();
@@ -53,16 +56,15 @@ public class UserDao extends CommonDao {
     	
     	conn.commit();
     	conn.close();
-    	System.out.print(email);
+    	
     	return updateCount;
     	}
-    	
     }
     
-    public int update(String email,String name,boolean isAdmin) throws SQLException {
+    public int update(int id, int userId, int shopId,Date createdAt) throws SQLException {
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    		String sql = "UPDATE SET user(id,email,name,isAdmin) " +
-                    "VALUES("  + email + "," + name + "," + isAdmin + ")";
+    		String sql = "UPDATE SET cart(id,userId,shopId,createdAt) " +
+                    "VALUES(" + id + "," + userId + "," + shopId + "," + createdAt + ")";
         	PreparedStatement statement = conn.prepareStatement(sql);
         	ResultSet rs = statement.executeQuery();
         	rs.next();
@@ -83,9 +85,9 @@ public class UserDao extends CommonDao {
     	}
     }
     
-    public int delete(int id,String email,String name,boolean isAdmin) throws SQLException{
+    public int delete(int id, int orderId, int productId, int riceId, int quantity,Date createdAt) throws SQLException{
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-            String sql = "DELETE FROM user WHERE id = " + id ;
+            String sql = "DELETE FROM cart WHERE id = " + id;
             PreparedStatement statement = conn.prepareStatement(sql);
         	ResultSet rs = statement.executeQuery();
         	rs.next();
@@ -104,5 +106,5 @@ public class UserDao extends CommonDao {
         	
         	return updateCount;
     	}
-    }
+   }
 }
