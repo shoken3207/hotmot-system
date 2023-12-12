@@ -1,4 +1,4 @@
-package model;
+package models.json;
 
 public class ItemsBean {
 	private int cartDetailId;
