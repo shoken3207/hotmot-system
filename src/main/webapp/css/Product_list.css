@@ -1,26 +1,50 @@
 @charset "UTF-8";
-
-.zentai{
+.product{
 	display: flex;
-	flex-wrap: wrap;
-	width:  100%;
 	justify-content: center;
-	margin-top: 50px;
+	flex-wrap: wrap; /*はみ出る分は改行*/
 }
-
-.box{
+.box {
 	width: 18%;
-	margin: 30px 5px;
+	margin: 40px 10px;
+	min-width: 174px;
+	padding-top: 20px;
 }
 
-.image img{
+.image img {
 	max-width: 100%;
 	height: auto;
+	margin-bottom: 20px;
 }
 
-.kazu{
-	display:flex;
+.kazu {
+	display: flex;
+	max-width: 100%;
+	flex-wrap: nowrap;
+	margin: 20px 0 10px 0;
+}
+
+input.quantity {
+	width: 10%;
 	white-space: nowrap;
-	
+	text-align: center;
+	padding: 5px;
 }
 
+.cart-star {
+	white-space: nowrap;
+}
+
+.cart,.star {
+	padding: 10px;
+}
+
+h3 {
+	padding: 0;
+	margin: 0;
+}
+
+/*改行後左に寄せる処理*/
+.empty_item{
+  width:18%;
+}
