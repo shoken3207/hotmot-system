@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class test
+ * Servlet implementation class CartServlet
  */
-@WebServlet("/test")
-public class test extends HttpServlet {
+@WebServlet("/CartServlet")
+public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public test() {
+    public CartServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,13 +28,7 @@ public class test extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.print("test");
-		 String jsonData = "{\"message\": \"Hello from Servlet!\"}";
-
-        // JSON形式のデータを返す
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(jsonData);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -42,7 +36,11 @@ public class test extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		System.out.println("kkkkk");
+//		int productId =Integer.parseInt(request.getParameter("productId")) ;
+//		String name = request.getParameter("name");
+//		System.out.println("id" + productId);
+//		System.out.println("name" + name);
 	}
 
 }
