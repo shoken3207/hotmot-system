@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/AddBookmarkServlet")
-public class AddBookmarkServlet extends HttpServlet {
+@WebServlet("/Product_listServlet")
+public class Product_listServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,12 +31,10 @@ public class AddBookmarkServlet extends HttpServlet {
 		// JSONデータをリクエスト属性に設定
 		request.setAttribute("json", json);
 		System.out.print(json);
-		 // 値を宣言
-	    String text = "Hello";
-	    // 値をリクエスト属性に設定
-	    request.setAttribute("text", text);
+		
+		
 		//フォワード
-		RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/product_list.jsp");
+		RequestDispatcher dispatcher=request.getRequestDispatcher("/Product_list.jsp");
 		dispatcher.forward(request, response);
 		
 		
