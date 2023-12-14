@@ -12,11 +12,12 @@ import models.OrderDetailBean;
 
 public class OrderDetailDao extends CommonDao{
 
-	public ArrayList<OrderDetailBean> findAll() {
+	public ArrayList<OrderDetailBean> findAll(int userId) {
         ArrayList<OrderDetailBean> OrderDetails = new ArrayList<OrderDetailBean>();
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-			String sql = "SELECT * FROM orderdetail";
+			String sql = "SELECT * FROM orderdetail WHERE userId=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1,userId);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -36,76 +37,44 @@ public class OrderDetailDao extends CommonDao{
 
 		return OrderDetails;
     }
-    public int insert (int id, int orderId, int productId, int riceId, int quantity,Date createdAt) throws SQLException {
+    public int insert (int userId, int shopId) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO orderdetail(id, orderId, productId,riceId,quantity,createdAt) " +
-                "VALUES(" + id + "," + orderId + "," + productId + "," + riceId + "," + quantity + "," + createdAt + ")";
+    	String sql = "INSERT INTO orderdetail(userId,shopId) " +
+                "VALUES(?,?)";
 
-    	PreparedStatement statement = conn.prepareStatement(sql);
-    	ResultSet rs = statement.executeQuery();
-    	rs.next();
-    	
-    	rs.close();
-    	statement.close();
-    	
-    	statement = conn.prepareStatement(sql);
-    	
-    	int updateCount = statement.executeUpdate();
-    	
-    	statement.close();
-    	
-    	conn.commit();
-    	conn.close();
-    	
-    	return updateCount;
-    	}
+    	try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            // プリペアードステートメントのパラメータに値をセット
+            statement.setInt(1, userId);
+            statement.setInt(2, shopId);
+
+            // アップデートを実行
+            int updateCount = statement.executeUpdate();
+
+            // トランザクションをコミット
+            conn.commit();
+
+            return updateCount;
+        }
     }
+}
     
-    public int update(int id, int orderId, int productId, int riceId, int quantity,Date createdAt) throws SQLException {
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    		String sql = "UPDATE SET orderdetail(id,orderId,productId,riceId,quantity,createdAt) " +
-                    "VALUES(" + id + "," + orderId + "," + productId + "," + riceId + "," + quantity + "," + createdAt + ")";
-        	PreparedStatement statement = conn.prepareStatement(sql);
-        	ResultSet rs = statement.executeQuery();
-        	rs.next();
-        	
-        	rs.close();
-        	statement.close();
-        	
-        	statement = conn.prepareStatement(sql);
-        	
-        	int updateCount = statement.executeUpdate();
-        	
-        	statement.close();
-        	
-        	conn.commit();
-        	conn.close();
-        	
-        	return updateCount;
-    	}
-    }
     
-    public int delete(int id, int orderId, int productId, int riceId, int quantity,Date createdAt) throws SQLException{
+    public int delete(int id) throws SQLException{
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
             String sql = "DELETE FROM orderdetail WHERE id = " + id;
-            PreparedStatement statement = conn.prepareStatement(sql);
-        	ResultSet rs = statement.executeQuery();
-        	rs.next();
+            
+            try(PreparedStatement statement = conn.prepareStatement(sql)) {
+            	statement.setInt(1, id);
+            	
+            	int updateCount = statement.executeUpdate();
+            	
+            	conn.commit();
+            	return updateCount;
+            	
+            }
         	
-        	rs.close();
-        	statement.close();
         	
-        	statement = conn.prepareStatement(sql);
-        	
-        	int updateCount = statement.executeUpdate();
-        	
-        	statement.close();
-        	
-        	conn.commit();
-        	conn.close();
-        	
-        	return updateCount;
     	}
    }
 }

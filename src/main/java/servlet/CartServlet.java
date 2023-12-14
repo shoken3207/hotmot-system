@@ -26,7 +26,10 @@ public class CartServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
+		int Id = Integer.parseInt(request.getParameter("Id"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		int shopId = Integer.parseInt(request.getParameter("shopId"));
+		CartDAO dao=new CartDAO();
 		RequestDispatcher dispatcher =  request.getRequestDispatcher("/cart.jsp");
 		dispatcher.forward(request, response);
 		

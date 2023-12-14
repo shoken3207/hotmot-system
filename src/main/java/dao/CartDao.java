@@ -61,7 +61,7 @@ public class CartDao extends CommonDao{
     	}
     }
     
-    public int update(int id, int userId, int shopId,Date createdAt) throws SQLException {
+    public int update(int id, int userId, int shopId) throws SQLException {
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
     		String sql = "UPDATE SET cart(id,userId,shopId,createdAt) " +
                     "VALUES(" + id + "," + userId + "," + shopId + "," + createdAt + ")";
@@ -85,7 +85,7 @@ public class CartDao extends CommonDao{
     	}
     }
     
-    public int delete(int id, int orderId, int productId, int riceId, int quantity,Date createdAt) throws SQLException{
+    public int delete(int id, int orderId, int productId, int riceId, int quantity) throws SQLException{
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
             String sql = "DELETE FROM cart WHERE id = " + id;
             PreparedStatement statement = conn.prepareStatement(sql);
