@@ -5,34 +5,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import models.UserBean;
+public class UserDao {
+		
+	private static final String URL  = "jdbc:mariadb://localhost/database?serverTimezone=JST";
+	private static final String USER = "root";
+	private static final String PASS = "mysql";
+	public static Connection getConnection() throws ClassNotFoundException,SQLException {
+			Class.forName("org,postgresql.Driver");
+			return DriverManager.getConnection(URL,USER,PASS);
 
-public class UserDao extends CommonDao {
-	
-    public ArrayList<UserBean> findAll() {
-        ArrayList<UserBean> users = new ArrayList<UserBean>();
-		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-			String sql = "SELECT * FROM user";
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				UserBean userbean = new UserBean(0, sql, sql, null);
-				userbean.setId(rs.getInt("id"));
-				userbean.setEmail(rs.getString("email"));
-				userbean.setName(rs.getString("name"));
-				userbean.setIsAdmin(rs.getBoolean("isAdmin"));
-				users.add(userbean);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return users;
-    }
-    public int insert (String email,String name,Boolean isAdmin) throws SQLException {
+    public int select (int Id,String email,String name,Boolean isAdmin) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
     	String sql = "INSERT INTO user(email,name) " +
@@ -105,4 +88,7 @@ public class UserDao extends CommonDao {
         	return updateCount;
     	}
     }
+		}
+	}
 }
+
