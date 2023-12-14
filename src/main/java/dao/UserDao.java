@@ -5,90 +5,83 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import models.UserBean;
 
 public class UserDao {
-		
-	private static final String URL  = "jdbc:mariadb://localhost/database?serverTimezone=JST";
-	private static final String USER = "root";
-	private static final String PASS = "mysql";
-	public static Connection getConnection() throws ClassNotFoundException,SQLException {
-			Class.forName("org,postgresql.Driver");
-			return DriverManager.getConnection(URL,USER,PASS);
-
-    public int select (int Id,String email,String name,Boolean isAdmin) throws SQLException {
-    	
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO user(email,name) " +
-                "VALUES(" +email + "," + name +")";
-    	
-    	PreparedStatement statement = conn.prepareStatement(sql);
-    	ResultSet rs = statement.executeQuery();
-    	rs.next();
-    	
-    	rs.close();
-    	statement.close();
-    	
-    	statement = conn.prepareStatement(sql);
-    	
-    	int updateCount = statement.executeUpdate();
-    	
-    	statement.close();
-    	
-    	conn.commit();
-    	conn.close();
-    	System.out.print(email);
-    	return updateCount;
-    	}
-    	
+	
+	private Connection createConnection() throws ClassNotFoundException,SQLException {
+		 String URL  = "jdbc:mariadb://localhost/database?serverTimezone=JST";
+		 String USER = "root";
+		 String PASS = "mysql";
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		return DriverManager.getConnection(URL,USER,PASS);
+	}
+	
+    public List<UserBean> findAll(){
+    	try (Connection conn = createConnection()) {
+    	String sql = "SELECT * from UserBean";
+    	PreparedStatement pstmt = conn.prepareStatement(sql);
+    		
+    		ResultSet rs = pstmt.executeQuery();
+    		List<UserBean> list = new ArrayList<>();
+    		while (rs.next()) {
+    			int id = rs.getInt("id");
+    			String email = rs.getString("email");
+    			String name = rs.getString("name");
+    			boolean isAdmin = rs.getBoolean("isAdmin");
+    			list.add(new UserBean(id,email,name, isAdmin));
+    		}
+    		return list;
+    	}catch (ClassNotFoundException | SQLException e) {
+    		throw new RuntimeException(e);
+		}
     }
     
-    public int update(String email,String name,boolean isAdmin) throws SQLException {
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    		String sql = "UPDATE SET user(id,email,name,isAdmin) " +
-                    "VALUES("  + email + "," + name + "," + isAdmin + ")";
-        	PreparedStatement statement = conn.prepareStatement(sql);
-        	ResultSet rs = statement.executeQuery();
-        	rs.next();
-        	
-        	rs.close();
-        	statement.close();
-        	
-        	statement = conn.prepareStatement(sql);
-        	
-        	int updateCount = statement.executeUpdate();
-        	
-        	statement.close();
-        	
-        	conn.commit();
-        	conn.close();
-        	
-        	return updateCount;
-    	}
-    }
+    public int insert(UserBean users) throws ClassNotFoundException, SQLException{
+		try (Connection con = createConnection()){
+		String sql = "INSERT INTO users(email,name) value(?,?);";
+				PreparedStatement pstmt = con.prepareStatement(sql);
+					
+				pstmt.setString(1, users.getEmail());
+				pstmt.setString(2, users.getName());
+					
+				return pstmt.executeUpdate();
+		}catch (ClassNotFoundException | SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
     
-    public int delete(int id,String email,String name,boolean isAdmin) throws SQLException{
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-            String sql = "DELETE FROM user WHERE id = " + id ;
-            PreparedStatement statement = conn.prepareStatement(sql);
-        	ResultSet rs = statement.executeQuery();
-        	rs.next();
+    public int update(UserBean users) throws SQLException {
+		try (Connection con = createConnection()){
+		String sql = "UPDATE users SET (email,name) " +
+				"VALUES(?,?)";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, users.getEmail());
+			pstmt.setString(2, users.getName());
+				
+			return pstmt.executeUpdate();
+		}catch (ClassNotFoundException | SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+    
+    public int delete(UserBean users) throws SQLException{
+    	try (Connection con = createConnection()) {
+            String sql = "DELETE FROM user WHERE id = " ;
+            PreparedStatement pstmt = con.prepareStatement(sql);
         	
-        	rs.close();
-        	statement.close();
-        	
-        	statement = conn.prepareStatement(sql);
-        	
-        	int updateCount = statement.executeUpdate();
-        	
-        	statement.close();
-        	
-        	conn.commit();
-        	conn.close();
-        	
-        	return updateCount;
-    	}
-    }
+            pstmt.setInt(1,users.getId());
+            pstmt.setString(2, users.getEmail());
+            pstmt.setString(3,users.getName());
+            pstmt.setBoolean(4,users.getIsAdmin());
+            
+            return pstmt.executeUpdate();
+    	}catch (ClassNotFoundException | SQLException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }
-
