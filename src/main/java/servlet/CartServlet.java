@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import dao.CartDao;
+import models.CartBean;
 
 
 /**
@@ -29,7 +33,11 @@ public class CartServlet extends HttpServlet {
 		int Id = Integer.parseInt(request.getParameter("Id"));
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		int shopId = Integer.parseInt(request.getParameter("shopId"));
-		CartDAO dao=new CartDAO();
+		CartDao dao= new CartDao();
+		ArrayList<CartBean> data = dao.findAll();
+		
+		CartBean bean = new CartBean();
+        bean.setDataList(data);
 		RequestDispatcher dispatcher =  request.getRequestDispatcher("/cart.jsp");
 		dispatcher.forward(request, response);
 		

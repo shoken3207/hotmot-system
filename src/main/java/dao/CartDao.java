@@ -64,7 +64,7 @@ public class CartDao extends CommonDao{
     public int update(int id, int userId, int shopId) throws SQLException {
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
     		String sql = "UPDATE SET cart(id,userId,shopId,createdAt) " +
-                    "VALUES(" + id + "," + userId + "," + shopId + "," + createdAt + ")";
+                    "VALUES(" + id + "," + userId + "," + shopId + "," + ")";
         	PreparedStatement statement = conn.prepareStatement(sql);
         	ResultSet rs = statement.executeQuery();
         	rs.next();
