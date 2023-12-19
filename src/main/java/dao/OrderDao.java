@@ -106,4 +106,44 @@ public class OrderDao extends CommonDao{
         	return updateCount;
     	}
    }
+    
+    public boolean confirmOrder(String userId, String cartId) throws SQLException {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+            conn.setAutoCommit(false); // トランザクション開始
+
+            // カートの所有者を確認
+            String checkOwnershipQuery = "SELECT userId FROM carts WHERE cartId = ?";
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkOwnershipQuery)) {
+                checkStmt.setString(1, cartId);
+                ResultSet resultSet = checkStmt.executeQuery();
+
+                if (!resultSet.next() || !resultSet.getString("userId").equals(userId)) {
+                    // カートが存在しないか、ユーザーに紐づいていない場合
+                    conn.rollback(); // ロールバック
+                    return false;
+                }
+            }
+
+            // 注文を作成する
+            String insertOrderQuery = "INSERT INTO orders (userId, cartId) VALUES (?, ?)";
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertOrderQuery)) {
+                insertStmt.setString(1, userId);
+                insertStmt.setString(2, cartId);
+                int rowsAffected = insertStmt.executeUpdate();
+
+                if (rowsAffected == 0) {
+                    conn.rollback(); // ロールバック
+                    return false;
+                }
+            }
+
+            // 他の処理が必要ならばここに追加する
+
+            conn.commit(); // トランザクションのコミット
+            return true; // 成功を示すフラグ
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // 例外を呼び出し元に投げる
+        }
+    }
 }
