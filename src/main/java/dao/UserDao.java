@@ -5,24 +5,18 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import models.UserBean;
 
 public class UserDao extends CommonDao {
 	
-	public interface Dao {
-	    boolean authenticateUser(String username, String password);
-	    // 他に必要なメソッドがあれば追加することができます（ユーザーの作成、情報の取得など）
-	}
-
-	public boolean authenticateUser(String username, String password) {
-        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+	public boolean authenticateUser(String email, String name) {
+        String query = "SELECT * FROM users WHERE email = ? AND name = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, username);
-            statement.setString(2, password);
+            statement.setString(1, email);
+            statement.setString(2, name);
             ResultSet resultSet = statement.executeQuery();
             
             return resultSet.next(); // ユーザーが存在すればtrueを返す
@@ -32,29 +26,6 @@ public class UserDao extends CommonDao {
             // エラーハンドリングを適切に行う
         }
         return false;
-    }
-	
-    public ArrayList<UserBean> findAll(){
-    	ArrayList<UserBean> Users = new ArrayList<UserBean>();
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "SELECT * from users";
-    	PreparedStatement pstmt = conn.prepareStatement(sql);
-    	ResultSet rs = pstmt.executeQuery();
-    		
-    		while (rs.next()) {
-    			int id = rs.getInt("id");
-    			String email = rs.getString("email");
-    			String name = rs.getString("name");
-    			boolean isAdmin = rs.getBoolean("isAdmin");
-    			
-    			UserBean User = new UserBean(id,email,name,isAdmin);
-    			Users.add(User);
-    		 }
-    	}catch (SQLException e) {
-    		e.printStackTrace();
-		}
-    	
-    	return Users;
     }
     
     public int insert(UserBean users) throws ClassNotFoundException, SQLException{
