@@ -11,6 +11,29 @@ import models.UserBean;
 
 public class UserDao extends CommonDao {
 	
+	public interface Dao {
+	    boolean authenticateUser(String username, String password);
+	    // 他に必要なメソッドがあれば追加することができます（ユーザーの作成、情報の取得など）
+	}
+
+	public boolean authenticateUser(String username, String password) {
+        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            
+            return resultSet.next(); // ユーザーが存在すればtrueを返す
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // エラーハンドリングを適切に行う
+        }
+        return false;
+    }
+	
     public ArrayList<UserBean> findAll(){
     	ArrayList<UserBean> Users = new ArrayList<UserBean>();
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
