@@ -1,4 +1,46 @@
-<script id="__NEXT_DATA__" type="application/json"></script>
- 	<next-route-announcer><p aria-live="assertive" id="__next-route-announcer__" role="alert" _msttexthash="3899025" _msthash="23" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; top: 0px; width: 1px; white-space: nowrap; overflow-wrap: normal;">カート</p></next-route-announcer>
- 	<script src="/_next/static/chunks/669-5568ca64dafb5a24.js"></script>
- 	<script src="/_next/static/chunks/pages/SignUp-45e97f57ec09d8f0.js"></script>
+import rice from '../jsons/Rice.json' assert {type: 'json'}
+import product from '../jsons/Product.json' assert {type: 'json'}
+import ProductData from '../jsons/Product.json' assert {type: 'json'}
+import {fetchProductsByCategory} from '../js/master.js'
+
+window.addEventListener("DOMContentLoaded", async () => {
+	console.log("called")
+	await fetchProductsByCategory(5)
+	const options = [
+		{
+			cartId: 1,
+			productId: 3,
+			riceId: 4,
+			quantity: 2
+		},
+		{
+			cartId: 10,
+			productId: 32,
+			riceId: 2,
+			quantity: 20
+		},
+		{
+			cartId: 2,
+			productId: 9,
+			riceId: 2,
+			quantity: 7
+		}
+	]
+	await fetch('/hotmot/test', {
+		method: "POST",
+		body: JSON.stringify(options)
+	})
+        .then(response => {
+			console.log("res: ", response)
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data from Servlet:', data);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+})
