@@ -6,42 +6,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import models.UserBean;
 
-public class UserDao {
+public class UserDao extends CommonDao {
 	
-	private Connection createConnection() throws ClassNotFoundException,SQLException {
-		 String URL  = "jdbc:mariadb://localhost/database?serverTimezone=JST";
-		 String USER = "root";
-		 String PASS = "mysql";
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		return DriverManager.getConnection(URL,USER,PASS);
-	}
-	
-    public List<UserBean> findAll(){
-    	try (Connection conn = createConnection()) {
-    	String sql = "SELECT * from UserBean";
+    public ArrayList<UserBean> findAll(){
+    	ArrayList<UserBean> Users = new ArrayList<UserBean>();
+    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+    	String sql = "SELECT * from users";
     	PreparedStatement pstmt = conn.prepareStatement(sql);
+    	ResultSet rs = pstmt.executeQuery();
     		
-    		ResultSet rs = pstmt.executeQuery();
-    		List<UserBean> list = new ArrayList<>();
     		while (rs.next()) {
     			int id = rs.getInt("id");
     			String email = rs.getString("email");
     			String name = rs.getString("name");
     			boolean isAdmin = rs.getBoolean("isAdmin");
-    			list.add(new UserBean(id,email,name, isAdmin));
-    		}
-    		return list;
-    	}catch (ClassNotFoundException | SQLException e) {
-    		throw new RuntimeException(e);
+    			
+    			UserBean User = new UserBean(id,email,name,isAdmin);
+    			Users.add(User);
+    		 }
+    	}catch (SQLException e) {
+    		e.printStackTrace();
 		}
+    	
+    	return Users;
     }
     
     public int insert(UserBean users) throws ClassNotFoundException, SQLException{
-		try (Connection con = createConnection()){
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS)){
 		String sql = "INSERT INTO users(email,name) value(?,?);";
 				PreparedStatement pstmt = con.prepareStatement(sql);
 					
@@ -49,13 +43,13 @@ public class UserDao {
 				pstmt.setString(2, users.getName());
 					
 				return pstmt.executeUpdate();
-		}catch (ClassNotFoundException | SQLException e) {
+		}catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
     
     public int update(UserBean users) throws SQLException {
-		try (Connection con = createConnection()){
+		try (Connection con = DriverManager.getConnection(URL, USER, PASS)){
 		String sql = "UPDATE users SET (email,name) " +
 				"VALUES(?,?)";
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -64,13 +58,13 @@ public class UserDao {
 			pstmt.setString(2, users.getName());
 				
 			return pstmt.executeUpdate();
-		}catch (ClassNotFoundException | SQLException e) {
+		}catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
     
     public int delete(UserBean users) throws SQLException{
-    	try (Connection con = createConnection()) {
+    	try (Connection con = DriverManager.getConnection(URL, USER, PASS)) {
             String sql = "DELETE FROM user WHERE id = " ;
             PreparedStatement pstmt = con.prepareStatement(sql);
         	
@@ -80,7 +74,7 @@ public class UserDao {
             pstmt.setBoolean(4,users.getIsAdmin());
             
             return pstmt.executeUpdate();
-    	}catch (ClassNotFoundException | SQLException e) {
+    	}catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
