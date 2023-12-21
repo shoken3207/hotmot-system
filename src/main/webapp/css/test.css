@@ -78,16 +78,17 @@
 }
 
 .counter .add {
-/*	transition: all 0.2s;*/
-/*      border: ${({ addCount }: { addCount: number }) =>*/
-/*        addCount === 0 && '1px solid #ccc'};*/
-/*      background-color: ${({ addCount }: { addCount: number }) =>*/
-/*        addCount === 0 && 'white'};*/
-      border-radius: 7px 0 0 7px;
+	 border-radius: 0 7px 7px 0;
 }
 
 .counter .sub {
-	 border-radius: 0 7px 7px 0;
+      border-radius: 7px 0 0 7px;
+}
+
+.counter .sub.disabled {
+	pointer-events: none;
+	border: 1px solid #ccc;
+	background-color: white;
 }
 
 

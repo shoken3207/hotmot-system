@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 
  export const PRODUCT_CATEGORIES = {
   LIMITED_TIME: 1,
@@ -17,3 +15,13 @@ export const TABS = [
   { id: PRODUCT_CATEGORIES.SIDE_DISH_ONLY, name: 'おかずのみ' },
   { id: PRODUCT_CATEGORIES.SIDE_MENU, name: 'サイドメニュー' },
 ];
+
+export const RICE_TYPE = {
+	MEDIUM: 1,
+	LARGE: 2,
+	SMALL: 3,
+	MEDIUM_STICKY_BARLEY: 4,
+  	LARGE_STICKY_BARLEY: 5,
+  	SMALL_STICKY_BARLEY: 6,
+  	NONE: 7,
+}
