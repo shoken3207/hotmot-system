@@ -13,8 +13,8 @@ UserServ regUserContServ = (UserServ) session.getAttribute("regUserContServ");
 <body>
 <p>下記のユーザーを登録しますか？</p>
 <p>
-ログインID:<%= regUserContServ.getId() %><br>
-名前:<%= regUserContServ.getName() %><br>
+eメール:<%= regUserContServ.getEmail() %><br>
+名前   :<%= regUserContServ.getName() %><br>
 </p>
 <a href="/servlet/RegUserContServ">戻る</a>
 <a href="/servlet/RegUserContServ?action=done">登録</a>

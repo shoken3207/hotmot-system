@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import models.UserBean;
+
 @WebServlet("/RegUserContServ")
 public class RegUserContServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -20,12 +22,15 @@ public class RegUserContServ extends HttpServlet {
     	if(action == null) {
     		forwardPath = "/WEB-INF/jsp/RegForm.jsp";
     	}
-    	else if (action.equals("done")) {
+    	//else if (action.equals("done")) 
+    	else if(action != null && action.equals("done")){
     		HttpSession session = request.getSession();
-    		UserServ regUserContServ = (UserServ) session.getAttribute("regUserContServ");
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("/RegUserServ");
+            dispatcher.forward(request, response);
+    		//UserServ regUserContServ = (UserServ) session.getAttribute("regUserContServ");
     		
-    		RegUserServ logic = new RegUserServ();
-    		logic.execute(regUserContServ);
+    		//RegUserServ logic = new RegUserServ();
+    		//logic.execute(regUserContServ);
     		
     		session.removeAttribute("regUserContServ");
     		
@@ -37,11 +42,11 @@ public class RegUserContServ extends HttpServlet {
     }
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		request.setCharacterEncoding("UTF-8");
-		String id = request.getParameter("id");
+		String email = request.getParameter("email");
 		String name = request.getParameter("name");
 		String pass = request.getParameter("pass");
 		
-		UserServ regUserContServ = new UserServ(id,name,pass);
+		UserBean regUserContServ = new UserBean(email,name,pass);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("regUserContServ", regUserContServ);

@@ -14,7 +14,7 @@ public class UserDao extends CommonDao {
     public ArrayList<UserBean> findAll() {
         ArrayList<UserBean> users = new ArrayList<UserBean>();
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-			String sql = "SELECT * FROM user";
+			String sql = "SELECT * FROM users";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -35,7 +35,7 @@ public class UserDao extends CommonDao {
     public int insert (String email,String name,Boolean isAdmin) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO user(email,name) " +
+    	String sql = "INSERT INTO users(email,name) " +
                 "VALUES(" +email + "," + name +")";
     	
     	PreparedStatement statement = conn.prepareStatement(sql);
@@ -61,7 +61,7 @@ public class UserDao extends CommonDao {
     
     public int update(String email,String name,boolean isAdmin) throws SQLException {
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    		String sql = "UPDATE SET user(id,email,name,isAdmin) " +
+    		String sql = "UPDATE SET users(id,email,name,isAdmin) " +
                     "VALUES("  + email + "," + name + "," + isAdmin + ")";
         	PreparedStatement statement = conn.prepareStatement(sql);
         	ResultSet rs = statement.executeQuery();
@@ -85,7 +85,7 @@ public class UserDao extends CommonDao {
     
     public int delete(int id,String email,String name,boolean isAdmin) throws SQLException{
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-            String sql = "DELETE FROM user WHERE id = " + id ;
+            String sql = "DELETE FROM users WHERE id = " + id ;
             PreparedStatement statement = conn.prepareStatement(sql);
         	ResultSet rs = statement.executeQuery();
         	rs.next();
