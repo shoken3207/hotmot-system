@@ -1,0 +1,39 @@
+h1{
+	color:red;
+	text-align: center;
+	
+}
+
+body {
+  background-color: #fff;
+  font-family: sans-serif;
+}
+
+.login-form {
+  text-align: center;
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.login-form h1 {
+  text-align: center;
+}
+
+.login-form input {
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.login-form button {
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}

@@ -12,6 +12,7 @@ import models.CartDetailBean;
 
 public class CartDetailDao extends CommonDao {
 
+	private static final Object[] CartDetailReques = null;
 	private Connection conn;
 
 	public CartDetailDao() throws SQLException {
@@ -125,18 +126,18 @@ public class CartDetailDao extends CommonDao {
 	// UPDATE文
 	public void update(ArrayList<Integer> CartDetailRequest) throws SQLException {
     	try{
-        	PreparedStatement ps = conn.prepareStatement(sql);
+        	String sql = null;
+			PreparedStatement ps = conn.prepareStatement(sql);
         	
-        	if(quantity != 1) {
-        		String sql = "UPDATE CartDetails SET quantity =  ? WHERE id=?";
+        	int quantity = 0;
+			if(quantity != 1) {
         		for(int i = 0; i < CartDetailReques.length; i++) {
-        			ps.setInt(1, CartDetailReques[i].getQuantity());
-            		ps.setInt(2, CartDetailReques[i].getId());
-            		ResultSet rs = ps.executeQuery();
+        			ps.setInt(1, ((CartDetailBean) CartDetailReques[i]).getQuantity());
+            		ps.setInt(2, ((CartDetailBean) CartDetailReques[i]).getId());
         		}
         	}else {
-        		String sql = "DELETE FROM cartdetails WHERE id = ?";
-        		ps.setInt(1, CartDetailReques[i].getId());
+        		int i = 0;
+				ps.setInt(1, ((CartDetailBean) CartDetailReques[i]).getId());
         	}
     	}catch (SQLException e) {
 			e.printStackTrace();
@@ -150,7 +151,6 @@ public class CartDetailDao extends CommonDao {
             String sql = "DELETE FROM cartdetails WHERE id = ?" ;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
-        	ResultSet rs = ps.executeQuery();
         	
     	}catch (SQLException e) {
 			e.printStackTrace();
