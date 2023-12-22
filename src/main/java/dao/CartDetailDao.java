@@ -22,7 +22,7 @@ public class CartDetailDao extends CommonDao {
 	}
 
 	// SELECT文 - cartIDに一致する複数のCartDetailを表示
-	public ArrayList<CartDetailBean> findAll(int args_cartId) throws SQLException {
+	public ArrayList<CartDetailBean> getCartDetails(int args_cartId) throws SQLException {
 		ArrayList<CartDetailBean> CartDetails = new ArrayList<CartDetailBean>();
 		try {
 			String sql = "SELECT * FROM cartdetail WHERE cartId=? ORDER_BY productId";
@@ -31,14 +31,15 @@ public class CartDetailDao extends CommonDao {
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				CartDetailBean cd = new CartDetailBean();
-				cd.setId(rs.getInt("id"));
-				cd.setCartId(rs.getInt("cartId"));
-				cd.setProductId(rs.getInt("productId"));
-				cd.setRiceId(rs.getInt("riceId"));
-				cd.setQuantity(rs.getInt("quantity"));
-				cd.setCreatedAt(rs.getDate("createdAt"));
-
+				
+				int id = rs.getInt("id");
+				int cartId = rs.getInt("cartId");
+				int productId = rs.getInt("productId");
+				int riceId = rs.getInt("riceId");
+				int quantity = rs.getInt("quantity");
+				Date createdAt = rs.getDate("createdAt");
+				CartDetailBean cd = new CartDetailBean(id, cartId, productId, riceId, quantity, createdAt);
+				
 				CartDetails.add(cd);
 			}
 		} catch (SQLException e) {
@@ -122,7 +123,7 @@ public class CartDetailDao extends CommonDao {
 				ps.setInt(2, addCartDetailRequest.getProductId());
 				ps.setInt(3, addCartDetailRequest.getRiceId());
 				ps.setInt(4, addCartDetailRequest.getQuantity());
-				ResultSet rs = ps.executeQuery();
+				ps.executeQuery();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,68 +138,41 @@ public class CartDetailDao extends CommonDao {
 		try {
 			String sql = "UPDATE CartDetails SET quantity = ? WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			String sql2 = "";
+			String sql2 = "DELETE FROM CartDetails WHERE id = ?";
 			PreparedStatement ps2 = conn.prepareStatement(sql2);
-			
-			
 
 			for (UpdateCartDetailRequestBean updateCartDetailRequest : updateCartDetailsRequest) {
-				
+
 				if( updateCartDetailRequest.getQuantity() != 0 ) {
 					ps.setInt(1, updateCartDetailRequest.getQuantity());
 					ps.setInt(2, updateCartDetailRequest.getQuantity());
-					
-					
+					ps.executeQuery();
+
 				}else {
-					ps2.setInt(1, updateCartDetailRequest.getQuantity());
-					ps2.setInt(2, updateCartDetailRequest.getQuantity());
+					ps2.setInt(1, updateCartDetailRequest.getId());
+					ps2.executeQuery();
 				}
-				
-				
 			}
-			ResultSet rs = ps.executeQuery();
-			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
-//		try {
-//			String sql = "UPDATE CartDetails SET quantity =  ? WHERE id=?";
-//			PreparedStatement ps = conn.prepareStatement(sql);
-//				
-//			for (UpdateCartDetailRequestBean updateCartDetailRequest : updateCartDetailsRequest) {
-//				
-//					ps.setInt(1, updateCartDetailRequest).getQuantity();
-//					ps.setInt(2, updateCartDetailRequest).getId();
-//					ResultSet rs = ps.executeQuery();
-//					
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
+
 
 	// DELETE文
-	public int delete(int id) throws SQLException {
+	public void delete(int id) throws SQLException {
 		try {
 			String sql = "DELETE FROM cartdetails WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
-			ResultSet rs = ps.executeQuery();
-
-			if (rs.next()) {
-				int id = rs.getInt("id");
-
-			} else {
-				return null;
-
-			}
+			ps.executeQuery();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return CartDetails;
 	}
 
 }
