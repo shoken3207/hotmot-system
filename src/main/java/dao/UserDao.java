@@ -10,15 +10,15 @@ import models.UserBean;
 
 public class UserDao extends CommonDao {
 	
-	public boolean authenticateUser(String email, String name) {
-        String query = "SELECT * FROM users WHERE email = ? AND name = ?";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement statement = connection.prepareStatement(query)) {
+	public boolean authenticateUser(String email,String pass) {
+        String query = "SELECT * FROM users WHERE email = ? AND pass = ?"; 
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement statement = con.prepareStatement(query)) {
 
             statement.setString(1, email);
-            statement.setString(2, name);
+            statement.setString(2, pass);
             ResultSet resultSet = statement.executeQuery();
-            
+           
             return resultSet.next(); // ユーザーが存在すればtrueを返す
 
         } catch (SQLException e) {
@@ -59,7 +59,7 @@ public class UserDao extends CommonDao {
     
     public int delete(UserBean users) throws SQLException{
     	try (Connection con = DriverManager.getConnection(URL, USER, PASS)) {
-            String sql = "DELETE FROM user WHERE id = " ;
+            String sql = "DELETE FROM users WHERE id = " ;
             PreparedStatement pstmt = con.prepareStatement(sql);
         	
             pstmt.setInt(1,users.getId());

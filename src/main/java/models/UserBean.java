@@ -5,7 +5,7 @@ public class UserBean {
 	private String email, name;
 	private Boolean isAdmin;
 	
-	public UserBean(int id, String email, String name, Boolean isAdmin) {
+	public UserBean(int id, String email, String name,String pass, Boolean isAdmin) {
 		super();
 		this.id = id;
 		this.email = email;
