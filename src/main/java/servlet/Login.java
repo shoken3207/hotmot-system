@@ -37,7 +37,7 @@ throws ServletException, IOException {
 		session.setAttribute("loginUser", user);
 	}
 	
-	RequestDispatcher dispatcher = request.getRequestDispatcher("/webapp/loginResult.jsp");
+	RequestDispatcher dispatcher = request.getRequestDispatcher("/hotmot/loginResult.jsp");
 	dispatcher.forward(request, response);
 }
 }

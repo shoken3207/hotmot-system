@@ -12,5 +12,12 @@ public User(String name, String pass) {
 	this.pass = pass;
 }
 public String getName() { return name; }
-public String getPass() { return pass; }
+public String getPass() {
+    if (this.pass == null) {
+        this.pass = "";
+    }
+
+    return this.pass;
+}
+
 }

@@ -10,8 +10,8 @@
 <h1>ログイン</h1>
 
 <form action="/hotmot/Login" method="post">
-  <input type="text" name="username" placeholder="ユーザー名"><br>
-  <input type="password" name="password" placeholder="パスワード"><br>
+  <input type="text" name="name" placeholder="ユーザー名"><br>
+  <input type="password" name="pass" placeholder="パスワード"><br>
   <button type="submit">ログイン</button>
 </form>
 
