@@ -15,7 +15,7 @@ User loginUser = (User) session.getAttribute("loginUser");
 <% if(loginUser != null) {  %>
   <p>ログインに成功しました</p>
   <p>ようこそ<%= loginUser.getName() %>さん</p>
-  <a href="">メニュー画面へ</a>
+  <a href="https://school-hotmot.vercel.app/Home">メニュー画面へ</a>
 <% } else { %>
   <p>ログインに失敗しました</p>
   <a href="/hotmot/index.jsp">TOPへ</a>

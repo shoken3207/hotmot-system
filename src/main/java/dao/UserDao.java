@@ -72,4 +72,9 @@ public class UserDao extends CommonDao {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public void insert(String name, String pass) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+	}
 }
