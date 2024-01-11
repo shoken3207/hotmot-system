@@ -13,16 +13,11 @@ import models.CartDetailBean;
 import models.UpdateCartDetailRequestBean;
 
 public class CartDetailDao extends CommonDao {
-
 	private Connection conn;
 
-	public CartDetailDao(Connection connection) throws SQLException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "password");
-		this.conn = connection;
-	}
-
-	// SELECT文 - cartIDに一致する複数のCartDetailを表示
+	// SELECT文 - cartIDに一致する複数のCartDetailを表示 
 	public ArrayList<CartDetailBean> getCartDetails(int args_cartId) throws SQLException {
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
 		ArrayList<CartDetailBean> CartDetails = new ArrayList<CartDetailBean>();
 		try {
 			String sql = "SELECT * FROM cartdetail WHERE cartId=? ORDER_BY productId";
@@ -31,15 +26,14 @@ public class CartDetailDao extends CommonDao {
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				
 				int id = rs.getInt("id");
 				int cartId = rs.getInt("cartId");
 				int productId = rs.getInt("productId");
 				int riceId = rs.getInt("riceId");
 				int quantity = rs.getInt("quantity");
 				Date createdAt = rs.getDate("createdAt");
+
 				CartDetailBean cd = new CartDetailBean(id, cartId, productId, riceId, quantity, createdAt);
-				
 				CartDetails.add(cd);
 			}
 		} catch (SQLException e) {
@@ -48,8 +42,9 @@ public class CartDetailDao extends CommonDao {
 		return CartDetails;
 	}
 
-	// SELECT文 - idに一致するひとつのCartDetailを表示
+	// SELECT文 - idに一致するひとつのCartDetailを表示 
 	public ArrayList<CartDetailBean> getCratDetailById(int args_id) throws SQLException {
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
 		ArrayList<CartDetailBean> CartDetails = new ArrayList<CartDetailBean>();
 		try {
 			String sql = "SELECT * FROM cartdetail WHERE id=?";
@@ -68,19 +63,18 @@ public class CartDetailDao extends CommonDao {
 				CartDetailBean CartDetail = new CartDetailBean(id, cartId, productId, riceId, quantity, createdAt);
 				CartDetails.add(CartDetail);
 			} else {
-				return null;
+				return CartDetails;
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
 
+		}
 		return CartDetails;
 	}
 
-	// SELECT文 - cartId,ProductId,riceIdに一致するひとつのCartDetailを表示
-	public ArrayList<CartDetailBean> getCratDetail(int args_cartId, int args_productId, int args_riceId)
-			throws SQLException {
+	// SELECT文 - cartId,ProductId,riceIdに一致するひとつのCartDetailを表示 
+	public ArrayList<CartDetailBean> getCratDetail(int args_cartId, int args_productId, int args_riceId)throws SQLException {
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
 		ArrayList<CartDetailBean> CartDetails = new ArrayList<CartDetailBean>();
 		try {
 			String sql = "SELECT * FROM cartdetail WHERE cartid=? and productId=? and riceId=?";
@@ -102,39 +96,37 @@ public class CartDetailDao extends CommonDao {
 				CartDetails.add(CartDetail);
 			} else {
 				return null;
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return CartDetails;
 	}
 
-	// INSERT文
+	// INSERT文 
 	public void insert(ArrayList<AddCartDetailRequestBean> addCartDetailsRequest) throws SQLException {
-
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
 		try {
-			String sql = "INSERT INTO cartdetails(cartId, productId,riceId,quantity) VALUES(?,?,?,?)";
+			String sql = "INSERT INTO CartDetails(cartId, productId,riceId,quantity) VALUES(?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 
 			for (AddCartDetailRequestBean addCartDetailRequest : addCartDetailsRequest) {
+
 				ps.setInt(1, addCartDetailRequest.getCartId());
 				ps.setInt(2, addCartDetailRequest.getProductId());
 				ps.setInt(3, addCartDetailRequest.getRiceId());
-				ps.setInt(4, addCartDetailRequest.getQuantity());
-				ps.executeQuery();
+				ps.setInt(4, addCartDetailRequest.getQuantity()); 
+
+				ps.executeUpdate();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	// UPDATE文
-	public void update(ArrayList<UpdateCartDetailRequestBean> updateCartDetailsRequest, ArrayList<CartDetailBean> cartDetails) throws SQLException {
-		
-		
+	// UPDATE文 
+	public void update(ArrayList<UpdateCartDetailRequestBean> updateCartDetailsRequest,ArrayList<CartDetailBean> cartDetails) throws SQLException {
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
 		try {
 			String sql = "UPDATE CartDetails SET quantity = ? WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -142,37 +134,31 @@ public class CartDetailDao extends CommonDao {
 			PreparedStatement ps2 = conn.prepareStatement(sql2);
 
 			for (UpdateCartDetailRequestBean updateCartDetailRequest : updateCartDetailsRequest) {
-
-				if( updateCartDetailRequest.getQuantity() != 0 ) {
+				if (updateCartDetailRequest.getQuantity() != 0) {
 					ps.setInt(1, updateCartDetailRequest.getQuantity());
-					ps.setInt(2, updateCartDetailRequest.getQuantity());
-					ps.executeQuery();
-
-				}else {
+					ps.setInt(2, updateCartDetailRequest.getId());
+					
+					ps.executeUpdate();
+				} else {
 					ps2.setInt(1, updateCartDetailRequest.getId());
-					ps2.executeQuery();
+					ps2.executeUpdate();
 				}
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
-
-	// DELETE文
+	// DELETE文 
 	public void delete(int id) throws SQLException {
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
 		try {
 			String sql = "DELETE FROM cartdetails WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
-			ps.executeQuery();
-			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
