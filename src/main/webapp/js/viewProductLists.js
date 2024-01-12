@@ -5,9 +5,6 @@ import { PRODUCT_CATEGORIES, TABS, RICE_TYPE } from './const.js'
  const tabs = document.getElementById("tabs");
  
  
- 
- console.log("list: ", lists)
- 
  window.addEventListener("DOMContentLoaded", async () => {
 	 let selectTab = 5;
 	 TABS.forEach(({id, name}) => {
@@ -38,30 +35,18 @@ import { PRODUCT_CATEGORIES, TABS, RICE_TYPE } from './const.js'
 	 createProductList(data)
  })
  
- const func1 = async () => {
-	 await fetch('/hotmot/CartServlet', {method: 'POST', body: {}}) 
-//        .then(response => {
-//			console.log("res: ", response)
-//            if (!response.ok) {
-//                throw new Error('Network response was not ok');
-//            }
-//            return response.json(); // JSONデータを取得して解析する
-//        })
-//        .then(data => {
-//            // 取得したデータを使って何らかの処理を行う
-//            console.log('Data from Servlet:', data);
-//            // ここで取得したデータを適切に処理する（例えば、HTMLに表示するなど）
-//        })
-//        .catch(error => {
-//            console.error('There was a problem with the fetch operation:', error);
-//        });
+ const func1 = async (option) => {
+	 await fetch('/hotmot/AddCartDetailServlet', {method: 'POST', body: option}) 
  }
  
  
  const createProductList = (data) => {
 	 data.map(x => {
 		 const listItem = document.createElement("div");
-		 listItem.classList.add("list-item")
+		 listItem.classList.add("list-item");
+		 setTimeout(() => {
+		 	listItem.classList.add("show");	 
+		 }, 200)
 		 createImgEl({src: x.image, parentEl: listItem, className: "image"});
 		 const divEl = document.createElement("div");
 		 divEl.classList.add("text-group");
@@ -69,20 +54,26 @@ import { PRODUCT_CATEGORIES, TABS, RICE_TYPE } from './const.js'
 		 createH3El({text: `${x.price}円`, parentEl: divEl, className: "text"});
 		 listItem.appendChild(divEl);
 		 let riceId = RICE_TYPE.NONE;
+		 const changeRiceIdFunc = (value) => riceId = value;
 		 if(x.rices.length > 0) {
 			riceId = x.rices[0].id;
-		 	createSelecRicetEl({options: x.rices, parentEl: listItem, className: "select", riceId});	 
+		 	createSelecRicetEl({options: x.rices, parentEl: listItem, className: "select", changeRiceIdFunc});	 
 		 }
 		 let quantity = 0;
-		 createEditQuantity({parentEl: divEl, value: quantity});
+		 const addQuantityFunc = () => quantity++;
+		 const subQuantityFunc = () => quantity--;
+		 const changeQuantityFunc = (value) => quantity = value;
+		 createEditQuantity({parentEl: divEl, value: quantity, addQuantityFunc, subQuantityFunc, changeQuantityFunc});
 		 const btnEl = document.createElement("button");
 		 btnEl.innerText = "button";
 		 btnEl.addEventListener("click", async () => {
+			 if(quantity === 0) return;
 			 console.log("click");
 			 console.log("id: ", x.id);
 			 console.log("riceId: ", riceId);
 			 console.log("quantity: ", quantity)
-			 await func1()
+			 const option = [{productId: x.id, riceId, quantity}]
+			 await func1(option)
 		 })
 		 listItem.appendChild(btnEl)
 		 lists.appendChild(listItem);
@@ -120,11 +111,11 @@ import { PRODUCT_CATEGORIES, TABS, RICE_TYPE } from './const.js'
 	 parentEl.appendChild(imgEl);
  }
  
- const createSelecRicetEl = ({options, className, parentEl, riceId}) => {
+ const createSelecRicetEl = ({options, className, parentEl, changeRiceIdFunc}) => {
 	 const selectEl = document.createElement("select")
 	 selectEl.addEventListener("change", (e) => {
 		 console.log(e.target.value)
-		 riceId = Number(e.target.value);
+		 changeRiceIdFunc(Number(e.target.value))
 	 })
 	 selectEl.classList.add(className);
 	 options.forEach(({id, name, price}) => {
@@ -139,26 +130,31 @@ import { PRODUCT_CATEGORIES, TABS, RICE_TYPE } from './const.js'
 	 parentEl.appendChild(selectEl);
  }
  
- const createEditQuantity = ({value, parentEl}) => {
+ const createEditQuantity = ({value, parentEl, addQuantityFunc, subQuantityFunc, changeQuantityFunc}) => {
 	const divEl = document.createElement("div");
 	divEl.classList.add("counter");
 	const inputEl = document.createElement("input");
 	inputEl.value = value;
+	inputEl.type = "number";
 	inputEl.addEventListener("input", (e) => {
-		console.log("change", e.target.value);
 		value = Number(e.target.value);
 		inputEl.value = value;
+		changeQuantityFunc(value);
+		if(value > 0) {
+			subBtnEl.classList.remove("disabled");
+		}
 	})
 	const addBtnEl = document.createElement("button");
 	addBtnEl.innerText = "＋"
 	addBtnEl.classList.add("add");
 	addBtnEl.addEventListener("click", (e) => {
 		value++;
+		addQuantityFunc();
 		inputEl.value = value;
 		if(value > 0) {
 			subBtnEl.classList.remove("disabled");
 		}
-		console.log("click");
+		console.log("click", value);
 	})
 	const subBtnEl = document.createElement("button");
 	subBtnEl.classList.add("sub");
@@ -166,11 +162,12 @@ import { PRODUCT_CATEGORIES, TABS, RICE_TYPE } from './const.js'
 	subBtnEl.innerText = "ー"
 	subBtnEl.addEventListener("click", (e) => {
 		value--;
+		subQuantityFunc();
 		inputEl.value = value;
 		if(value === 0) {
 			subBtnEl.classList.add("disabled");
 		}
-		console.log("click");
+		console.log("click", value);
 	})
 	divEl.appendChild(subBtnEl);
 	divEl.appendChild(inputEl);

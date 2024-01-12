@@ -4,21 +4,35 @@
 	box-sizing: border-box;
 }
 
+.container {
+	width: 90%;
+	max-width: 1120px;
+	margin: 0 auto;
+}
+
 .lists {
+	margin-bottom: 2rem;
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-	padding: .8rem;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 
 
 .list-item {
+	max-width: 300px;
   width: 100%;
-   max-width: 300px; 
   display: flex;
   flex-direction: column;
   row-gap: 0.4rem;
+  transform: translateY(6px);
+  opacity: 0;
+  transition: all .3s;
+}
+
+.list-item.show {
+	transform: none;
+	opacity: 1;
 }
 
 .list-item .image {
@@ -93,24 +107,82 @@
 
 
 .tabs {
+	width: 100%;
 	display: flex;
 	border-radius: 10px;
 	overflow: hidden;
+	margin-bottom: 2rem;
 }
 
+
 .tabs .tab {
-	min-width: 130px;
-	border: 1px solid black;
-	padding: .4rem .7rem;
+	width: 20%;
+	max-width: 120px;
+	font-size: 15px;
+	border: 1px solid #D9EDBF;
+	padding: .4rem .2rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
 }
 
+.tabs .tab:first-of-type {
+	border-radius: 10px 0 0 10px;
+}
+.tabs .tab:last-of-type {
+	border-radius: 0 10px 10px 0;
+}
+
 .tabs .tab.active {
-	background-color: black;
+	background-color: #D9EDBF;
 	color: white;
 }
 
+input[type="number"]::-webkit-outer-spin-button, 
+input[type="number"]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+} 
 
+input[type="number"] { 
+  -moz-appearance:textfield; 
+} 
+
+@media screen and (max-width: 550px) {
+	.tabs {
+		margin-bottom: 1rem;
+	}
+	.lists {
+		grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+		gap: 10px;
+	}
+  .container {
+   	width: 95%;
+  }
+  
+  .tabs .tab {
+	  font-size: 10px;
+  }
+
+  .nav-items ul.show {
+    display: flex;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 400px) {
+	
+/*	.lists {*/
+/*		display: flex;*/
+/*		flex-direction: column;*/
+/*		row-gap: 1.6rem;*/
+/*	}*/
+/* 	.list-item {*/
+/*		 max-width: 400px;*/
+/*	 }*/
+  
+}

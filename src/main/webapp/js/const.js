@@ -10,10 +10,10 @@
 
 export const TABS = [
   { id: PRODUCT_CATEGORIES.ALL, name: '全て' },
-  { id: PRODUCT_CATEGORIES.LIMITED_TIME, name: '  期間限定商品' },
+  { id: PRODUCT_CATEGORIES.LIMITED_TIME, name: '  期間限定' },
   { id: PRODUCT_CATEGORIES.BENTO, name: '弁当' },
   { id: PRODUCT_CATEGORIES.SIDE_DISH_ONLY, name: 'おかずのみ' },
-  { id: PRODUCT_CATEGORIES.SIDE_MENU, name: 'サイドメニュー' },
+  { id: PRODUCT_CATEGORIES.SIDE_MENU, name: 'サイド' },
 ];
 
 export const RICE_TYPE = {
