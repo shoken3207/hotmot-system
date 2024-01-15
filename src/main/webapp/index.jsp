@@ -10,22 +10,18 @@
 <h1>ログイン</h1>
 
 <form action="/hotmot/Login" method="post">
-  <input type="text" name="name" placeholder="ユーザー名"><br>
+  <input type="text" name="email" placeholder="メールアドレス"><br>
   <input type="password" name="pass" placeholder="パスワード"><br>
   <button type="submit">ログイン</button>
 </form>
 
 <%
 
-// ログイン処理を行う
-boolean loginSuccess = login();
 
 
-// ログイン成功の場合
-if (loginSuccess) {
-    // Home画面にリダイレクトする
-    response.sendRedirect("https://school-hotmot.vercel.app/Home");
-}
+
+
+
 %>
 
 </body>

@@ -4,6 +4,7 @@
 <%
 
 User loginUser = (User) session.getAttribute("loginUser");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -12,13 +13,7 @@ User loginUser = (User) session.getAttribute("loginUser");
 <title>Insert title here</title>
 </head>
 <body>
-<% if(loginUser != null) {  %>
   <p>ログインに成功しました</p>
-  <p>ようこそ<%= loginUser.getName() %>さん</p>
   <a href="https://school-hotmot.vercel.app/Home">メニュー画面へ</a>
-<% } else { %>
-  <p>ログインに失敗しました</p>
-  <a href="/hotmot/index.jsp">TOPへ</a>
-<% } %>
 </body>
 </html>

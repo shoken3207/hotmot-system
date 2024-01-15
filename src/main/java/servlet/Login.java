@@ -8,36 +8,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
-	
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-		    throws ServletException, IOException {
+			throws ServletException, IOException {
 
-		    request.setCharacterEncoding("UTF-8");
-		    String name = request.getParameter("name");
-		    String pass = request.getParameter("pass");
+		request.setCharacterEncoding("UTF-8");
+		// 入力された情報を取得する
+		String email1 = request.getParameter("email");
+		String pass1 = request.getParameter("pass");
+		// データベースからユーザー情報を取得する
+		UserDao dao = new UserDao();
+		boolean user = dao.authenticateUser(email1, pass1);
 
-
-		    boolean isLogin = false;
-			if (isLogin) {
-		        // ログイン成功時
-		        HttpSession session = request.getSession();
-		        Object user = null;
-				session.setAttribute("loginUser", user);
-
-		        // ここにinsertメソッドの呼び出しを追加
-		        UserDao dao = new UserDao();
-		        dao.insert(name, pass); // 引数は必要に応じて調整してください
-		    }
-
-		    RequestDispatcher dispatcher = request.getRequestDispatcher("/hotmot/loginResult.jsp");
-		    dispatcher.forward(request, response);
+		// 入力された情報とデータベースのユーザー情報を照合する
+		if (user == true) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("loginResult.jsp");
+			dispatcher.forward(request, response);
+		}else{
+			RequestDispatcher dispatcher = request.getRequestDispatcher("loginfailure.jsp");
+			dispatcher.forward(request, response);
 		}
-
+	}
 }

@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.catalina.User;
+
 import models.UserBean;
 
 public class UserDao extends CommonDao {
@@ -76,5 +78,15 @@ public class UserDao extends CommonDao {
 	public void insert(String name, String pass) {
 		// TODO 自動生成されたメソッド・スタブ
 		
+	}
+
+	public User findByName(String name1) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	public Object getUser(String email1) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 }
