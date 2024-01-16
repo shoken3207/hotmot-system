@@ -33,31 +33,47 @@ public class UserDao extends CommonDao {
 		return users;
     }
     public int insert (String email,String name,Boolean isAdmin) throws SQLException {
-    	
+    	//System.out.println(email+","+name);
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO users(email,name) " +
-                "VALUES(" +email + "," + name +")";
+    	String sql = "INSERT INTO users(email,name,isAdmin) " +
+                "VALUES('" +email + "','" + name +"','" + 0 + "')";
     	
     	PreparedStatement statement = conn.prepareStatement(sql);
     	ResultSet rs = statement.executeQuery();
-    	rs.next();
+    	System.out.println(rs);
     	
     	rs.close();
     	statement.close();
     	
-    	statement = conn.prepareStatement(sql);
-    	
-    	int updateCount = statement.executeUpdate();
-    	
-    	statement.close();
-    	
-    	conn.commit();
     	conn.close();
     	System.out.print(email);
-    	return updateCount;
+    	return 0;
     	}
     	
     }
+    public int select(String email) throws SQLException{
+    	System.out.println(email);
+    	int userId=0;
+    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+    		String sql = "SELECT id FROM users WHERE email = ?";
+    		PreparedStatement statement = conn.prepareStatement(sql);
+    		statement.setString(1, email);
+    		ResultSet rs = statement.executeQuery();
+    	
+    		if (rs.next()) {
+    			userId = rs.getInt("id");
+    			System.out.print(userId);
+    	    	
+    	    	rs.close();
+    	    	statement.close();
+    	    	
+    	    	conn.close();
+    		}
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return userId;
+    	}
     
     public int update(String email,String name,boolean isAdmin) throws SQLException {
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {

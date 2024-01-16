@@ -7,11 +7,11 @@
 <title>ユーザー登録</title>
 </head>
 <body>
-<form action="/servlet/RegUserContServ" method="post">
-eメール   :<input type="text" id="email" name="email" required><br>
-名前      :<input type="text" id="name" name="name" required><br>
-パスワード:<input type="password" id="pass" name="pass" required><br>
-<input type="submit" value="確認">
+<form action="RegUserContServ" method="post">
+eメール   :<input type="text" name="email" required><br>
+名前      :<input type="text" name="name" required><br>
+<!--パスワード:<input type="password" id="pass" name="pass" required><br>-->
+<input type="submit" value="登録">
 </form>
 </body>
 </html>
