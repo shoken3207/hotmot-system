@@ -45,8 +45,8 @@ window.addEventListener("DOMContentLoaded", async () => {
   createProductList(data);
 });
 
-const func1 = async (option) => {
-  await fetch("/hotmot/AddCartDetailServlet", { method: "POST", body: option });
+const addCartDetail = async (option) => {
+  await fetch("/hotmot/AddCartDetailServlet", { method: "POST", body: JSON.stringify(option) }).catch(err => console.log("err: ", err));
 };
 
 const createProductList = (data) => {
@@ -100,8 +100,8 @@ const createProductList = (data) => {
       console.log("id: ", x.id);
       console.log("riceId: ", riceId);
       console.log("quantity: ", quantity);
-      const option = [{ productId: x.id, riceId, quantity }];
-      await func1(option);
+      const option = [{cartId: 1, productId: x.id, riceId, quantity }];
+      await addCartDetail(option);
     });
     ac(cartButton, actionGroup);
     const bookMarkButton = ce("i");

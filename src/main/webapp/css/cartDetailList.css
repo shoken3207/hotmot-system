@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+
+.cart-detail-list {
+	width: 88%;
+	max-width: 560px;
+	margin: 2rem auto;
+	display: flex;
+	flex-direction: column;
+	row-gap: 6px;
+}
+
+.box {
+	width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.4rem 0.3rem;
+  border-bottom: 3px solid #ccc;
+}
+
+.image {
+	width: 35%;
+  cursor: pointer;
+
+}
+
+.image img {
+	 width: 100%;
+    height: 100%;
+}
+
+.right {
+	width: 60%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.4rem;
+}
+
+.counter {
+  display: flex;
+}
+
+.counter input {
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border: 1px solid #ccc;
+}
+
+.counter button {
+  width: 50px;
+  height: 30px;
+  border: 2px solid #ed1c24;
+  cursor: pointer;
+}
+
+.counter .add {
+  border-radius: 0 7px 7px 0;
+}
+
+.counter .sub {
+  border-radius: 7px 0 0 7px;
+}
+
+.counter .sub.disabled {
+  pointer-events: none;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
