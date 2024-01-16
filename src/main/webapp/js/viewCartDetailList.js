@@ -12,18 +12,88 @@ const addClasses = (el, classNames) =>{
 };
 const removeClass = (el, className) => el.classList.remove(className);
 
-const fetchCartDetails = async () => {
-	const cartDetails = await fetch(`/hotmot/CartDetailListServlet?cartId=${cartId}`).then(res => console.log("res: ", res)).catch(err => console.log("err: ", err));
-	return cartDetails;
-}
+//const fetchCartDetails = async () => {
+//	const cartDetails = await fetch(`/hotmot/CartDetailListServlet?cartId=${cartId}`).then(res => console.log("res: ", res)).catch(err => console.log("err: ", err));
+//	return cartDetails;
+//}
 
-const cartIdEl = gebi("cartId");
-const cartId = cartIdEl.value;
+//const cartIdEl = gebi("cartId");
+//const cartId = cartIdEl.value;
+const updateCartButtonEl = gebi("updateCart");
+const orderButtonEl = gebi("order");
 const cartDetailListEl = gebi("cartDetailList");
 
+orderButtonEl.addEventListener("click", () => {
+	console.log("order");
+	
+})
+
+updateCartButtonEl.addEventListener("click", () => {
+	console.log("update");
+})
+
+const sampleData = [
+	{
+		id: 1,
+		price: 590,
+		productId: 1,
+		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
+		productName: "梅おろし豚しゃぶ弁当",
+		quantity: 3,
+		riceName: "ライス: 小盛",
+	},
+	{
+		id: 1,
+		price: 590,
+		productId: 1,
+		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
+		productName: "梅おろし豚しゃぶ弁当",
+		quantity: 3,
+		riceName: "ライス: 小盛",
+	},
+	{
+		id: 1,
+		price: 590,
+		productId: 1,
+		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
+		productName: "梅おろし豚しゃぶ弁当",
+		quantity: 3,
+		riceName: "ライス: 小盛",
+	},
+	{
+		id: 1,
+		price: 590,
+		productId: 1,
+		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
+		productName: "梅おろし豚しゃぶ弁当",
+		quantity: 3,
+		riceName: "ライス: 小盛",
+	},
+	{
+		id: 1,
+		price: 590,
+		productId: 1,
+		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
+		productName: "梅おろし豚しゃぶ弁当",
+		quantity: 3,
+		riceName: "ライス: 小盛",
+	},
+	{
+		id: 1,
+		price: 590,
+		productId: 1,
+		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
+		productName: "梅おろし豚しゃぶ弁当",
+		quantity: 3,
+		riceName: "ライス: 小盛",
+	},
+]
+
 window.addEventListener("DOMContentLoaded", async () => {
-	let cartDetails = await fetchCartDetails();
-	cartDetails = createCartDetailsResponse(cartDetails);
+	console.log("call");
+//	let cartDetails = await fetchCartDetails();
+//	cartDetails = createCartDetailsResponse(cartDetails);
+	let cartDetails = sampleData;
 	cartDetails.forEach(({id, price, productId, productImage, productName, quantity, riceName,}) => {
 		const boxEl = ce("div");
 		addClasses(boxEl, ["box"]);
@@ -38,13 +108,13 @@ window.addEventListener("DOMContentLoaded", async () => {
 		addClasses(rightEl, ["right"]);
 		const productNameEl = ce("h2");
 		addClasses(productNameEl, ["productName"]);
-		productName.innerText = productNameEl;
+		productNameEl.innerText = productName;
 		const riceNameEl = ce("h3");
 		addClasses(riceNameEl, ["riceName"]);
-		riceName.innerText = riceNameEl;
+		riceNameEl.innerText = riceName;
 		const priceEl = ce("h4");
 		addClasses(priceEl, ["price"]);
-		priceEl.innerText = `${price}円 (税抜 : ${Math.ceil(x.price / 1.08)}円）`;
+		priceEl.innerText = `${price}円 (税抜 : ${Math.ceil(price / 1.08)}円）`;
 		ac(productNameEl, rightEl);
 		ac(riceNameEl, rightEl);
 		ac(priceEl, rightEl);
@@ -52,7 +122,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 		const addQuantityFunc = () => quantity++;
 		const subQuantityFunc = () => quantity--;
 		const changeQuantityFunc = (value) => (quantity = value);
-		createEditQuantity({quantity, rightEl, addQuantityFunc, subQuantityFunc, changeQuantityFunc });
+		createEditQuantity({value: quantity,parentEl: rightEl, addQuantityFunc, subQuantityFunc, changeQuantityFunc });
 		ac(rightEl, boxEl);
 		ac(boxEl, cartDetailListEl);
 	})
@@ -84,7 +154,7 @@ const createEditQuantity = ({
   });
   const addBtnEl = ce("button");
   addBtnEl.innerText = "＋";
-  addClasses(["add"]);
+  addClasses(addBtnEl, ["add"]);
   addBtnEl.addEventListener("click", (e) => {
     value++;
     addQuantityFunc();
@@ -109,5 +179,6 @@ const createEditQuantity = ({
   ac(subBtnEl, divEl);
   ac(inputEl, divEl);
   ac(addBtnEl, divEl);
+  console.log("el: ", divEl, parentEl)
   ac(divEl, parentEl);
 };

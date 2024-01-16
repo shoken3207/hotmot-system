@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="css/test.css" />
+<link rel="stylesheet" href="css/cartDetailList.css" />
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/header.css" />
     <link
@@ -18,9 +18,8 @@
       rel="stylesheet"
     />
     <link rel='icon' href='images/favicon.ico' />
-    <script src="js/test.js" type="module"></script>
     <script src="js/master.js" type="module"></script>
-    <script src="js/viewProductLists.js" type="module"></script>
+    <script src="js/viewCartDetailList.js" type="module"></script>
     <script src="js/drawer.js" type="module"></script>
 <title>カート</title>
 </head>
@@ -33,7 +32,7 @@
         <nav class="nav-items">
           <ul class="menu">
             <li class="top">
-              <a href="#"
+              <a href="/hotmot/ProductListServlet"
                 ><i class="fa-solid fa-house"></i><span>ホーム</span></a
               >
             </li>
@@ -86,6 +85,10 @@
         </ul>
       </nav>
       <div class="black-bg" id="js-black-bg"></div>
+    </div>
+    <div class="action-group">
+    	<button id="updateCart">カート情報を更新</button>
+    	<button id="order">注文を確定</button>
     </div>
     <div class="cart-detail-list" id="cartDetailList" ></div>
 </body>
