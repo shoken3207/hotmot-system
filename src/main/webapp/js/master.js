@@ -61,6 +61,7 @@ const _convertListProducts = (products) => {
 };
 
 const fetchProductsByCategory = (category) => {
+	console.log("bbb")
   const productData = ProductData;
   const filterProducts =
     category === 5

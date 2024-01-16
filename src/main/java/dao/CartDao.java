@@ -10,7 +10,6 @@ import java.util.Date;
 
 import models.CartBean;
 
-
 public class CartDao extends CommonDao{
 
 	public ArrayList<CartBean> findAll() {
@@ -32,7 +31,6 @@ public class CartDao extends CommonDao{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return Carts;
     }
     public int insert (int userId, int shopId) throws SQLException {
@@ -98,5 +96,5 @@ public class CartDao extends CommonDao{
         	
         	return updateCount;
     	}
+    	}
    }
-}
