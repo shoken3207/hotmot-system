@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dao.CartDetailDao;
 import models.AddCartDetailRequestBean;
 
 /**
@@ -32,18 +33,10 @@ public class AddCartDetailServlet extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<AddCartDetailRequestBean> addCartDetailRequestList = new ArrayList<>();
+		ArrayList<AddCartDetailRequestBean> addCartDetailRequestList = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -61,6 +54,8 @@ public class AddCartDetailServlet extends HttpServlet {
     		AddCartDetailRequestBean addCartDetailRequest = new AddCartDetailRequestBean(cartId, productId, riceId, quantity);
 	        addCartDetailRequestList.add(addCartDetailRequest);
     	}
-	}
 
+    	CartDetailDao dao= new CartDetailDao();
+		dao.insert(addCartDetailRequestList);
+	}
 }
