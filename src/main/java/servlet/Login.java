@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
 
@@ -23,15 +24,21 @@ public class Login extends HttpServlet {
 		String pass1 = request.getParameter("pass");
 		// データベースからユーザー情報を取得する
 		UserDao dao = new UserDao();
-		boolean user = dao.authenticateUser(email1, pass1);
-
+		int userId = dao.authenticateUser(email1, pass1);
+	
+		int cartId = dao.getCartId(userId);
+		System.out.println("cartId: " + cartId);
+		
 		// 入力された情報とデータベースのユーザー情報を照合する
-		if (user == true) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("loginResult.jsp");
-			dispatcher.forward(request, response);
+		String forwardPath = "";
+		if (userId != 0) {
+			forwardPath = "loginResult.jsp";
+			HttpSession session = request.getSession();
+			session.setAttribute("userId", userId);
 		}else{
-			RequestDispatcher dispatcher = request.getRequestDispatcher("loginfailure.jsp");
-			dispatcher.forward(request, response);
+			forwardPath = "loginfailure.jsp";
 		}
+		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
+		dispatcher.forward(request, response);
 	}
 }

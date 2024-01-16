@@ -2,8 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ page import="model.User" %>
 <%
-
-User loginUser = (User) session.getAttribute("loginUser");
+	
+	int userId = (int) session.getAttribute("userId");
+	System.out.println("userId: " + userId);
+	
 
 %>
 <!DOCTYPE html>
