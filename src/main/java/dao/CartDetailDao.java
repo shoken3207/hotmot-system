@@ -13,6 +13,8 @@ import models.CartDetailBean;
 import models.UpdateCartDetailRequestBean;
 
 public class CartDetailDao extends CommonDao {
+	private static final Object[] CartDetailReques = null;
+
 	private Connection conn;
 
 	// SELECT文 - cartIDに一致する複数のCartDetailを表示 
@@ -122,6 +124,47 @@ public class CartDetailDao extends CommonDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+
+		
+	}
+	    	
+
+	// UPDATE文
+	public void update(ArrayList<Integer> CartDetailRequest) throws SQLException {
+    	try{
+        	String sql = null;
+			PreparedStatement ps = conn.prepareStatement(sql);
+        	
+        	int quantity = 0;
+			if(quantity != 1) {
+        		for(int i = 0; i < CartDetailReques.length; i++) {
+        			ps.setInt(1, ((CartDetailBean) CartDetailReques[i]).getQuantity());
+            		ps.setInt(2, ((CartDetailBean) CartDetailReques[i]).getId());
+        		}
+        	}else {
+        		int i = 0;
+				ps.setInt(1, ((CartDetailBean) CartDetailReques[i]).getId());
+        	}
+    	}catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+    }
+
+	// DELETE文
+	public int delete(int id) throws SQLException{
+    	try{
+            String sql = "DELETE FROM cartdetails WHERE id = ?" ;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+        	
+    	}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+    	
+
 	}
 
 	// UPDATE文 
