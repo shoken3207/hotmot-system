@@ -34,7 +34,6 @@ public class CartDetailListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String cartId = request.getParameter("cartId");
 		cartId = "2";
 		CartDetailDao cartDetailDao = new CartDetailDao();

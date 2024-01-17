@@ -23,14 +23,7 @@ const updateCartButtonEl = gebi("updateCart");
 const orderButtonEl = gebi("order");
 const cartDetailListEl = gebi("cartDetailList");
 
-orderButtonEl.addEventListener("click", () => {
-	console.log("order");
-	
-})
 
-updateCartButtonEl.addEventListener("click", () => {
-	console.log("update");
-})
 
 const sampleData = [
 	{
@@ -43,7 +36,7 @@ const sampleData = [
 		riceName: "ライス: 小盛",
 	},
 	{
-		id: 1,
+		id: 2,
 		price: 590,
 		productId: 1,
 		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
@@ -52,7 +45,7 @@ const sampleData = [
 		riceName: "ライス: 小盛",
 	},
 	{
-		id: 1,
+		id: 3,
 		price: 590,
 		productId: 1,
 		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
@@ -61,7 +54,7 @@ const sampleData = [
 		riceName: "ライス: 小盛",
 	},
 	{
-		id: 1,
+		id: 4,
 		price: 590,
 		productId: 1,
 		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
@@ -70,7 +63,7 @@ const sampleData = [
 		riceName: "ライス: 小盛",
 	},
 	{
-		id: 1,
+		id: 5,
 		price: 590,
 		productId: 1,
 		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
@@ -79,7 +72,7 @@ const sampleData = [
 		riceName: "ライス: 小盛",
 	},
 	{
-		id: 1,
+		id: 6,
 		price: 590,
 		productId: 1,
 		productImage: "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
@@ -93,6 +86,24 @@ window.addEventListener("DOMContentLoaded", async () => {
 	console.log("call");
 //	let cartDetails = await fetchCartDetails();
 //	cartDetails = createCartDetailsResponse(cartDetails);
+	const changeCartDetails = [];
+	const change = ({id, quantity}) => {
+		if(changeCartDetails.some((x) => id === x.id)) {
+			const index = changeCartDetails.findIndex(x => x.id === id);
+			changeCartDetails[index].quantity = quantity;
+		} else {
+			changeCartDetails.push({id, quantity})
+		}
+	}
+	orderButtonEl.addEventListener("click", () => {
+		console.log("order");
+		
+	})
+
+	updateCartButtonEl.addEventListener("click", () => {
+		console.log("update");
+		console.log("change: ", changeCartDetails)
+	})
 	let cartDetails = sampleData;
 	cartDetails.forEach(({id, price, productId, productImage, productName, quantity, riceName,}) => {
 		const boxEl = ce("div");
@@ -119,9 +130,18 @@ window.addEventListener("DOMContentLoaded", async () => {
 		ac(riceNameEl, rightEl);
 		ac(priceEl, rightEl);
 		
-		const addQuantityFunc = () => quantity++;
-		const subQuantityFunc = () => quantity--;
-		const changeQuantityFunc = (value) => (quantity = value);
+		const addQuantityFunc = () => {
+			quantity++;
+			change({id, quantity});
+		}
+		const subQuantityFunc = () => {
+			quantity--;
+			change({id, quantity});
+		}
+		const changeQuantityFunc = (value) => {
+			quantity = value;
+			change({id, quantity});
+		}
 		createEditQuantity({value: quantity,parentEl: rightEl, addQuantityFunc, subQuantityFunc, changeQuantityFunc });
 		ac(rightEl, boxEl);
 		ac(boxEl, cartDetailListEl);
@@ -165,7 +185,10 @@ const createEditQuantity = ({
     console.log("click", value);
   });
   const subBtnEl = ce("button");
-  addClasses(subBtnEl, ["sub", "disabled"]);
+  addClasses(subBtnEl, ["sub"]);
+  if(value === 0) {
+	  addClasses(subBtnEl, ["disabled"]);
+  }
   subBtnEl.innerText = "ー";
   subBtnEl.addEventListener("click", (e) => {
     value--;
