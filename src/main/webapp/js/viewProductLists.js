@@ -1,67 +1,76 @@
 import { fetchProductsByCategory } from "../js/master.js";
-import { PRODUCT_CATEGORIES, TABS, RICE_TYPE } from "./const.js";
+import { TABS, RICE_TYPE } from "./const.js";
+import {
+  ce,
+  gebi,
+  ac,
+  addClasses,
+  setHref,
+  setSrc,
+  setValue,
+  removeClass,
+} from "../js/utils.js";
 
-const lists = document.getElementById("lists");
-const tabs = document.getElementById("tabs");
-
-const ce = (el) => document.createElement(el);
-const ctn = (el) => document.createTextNode(el);
-const gebi = (id) => document.getElementById(id);
-const qs = (query) => document.querySelector(query);
-const ac = (child, parent) => parent.appendChild(child);
-const addClasses = (el, classNames) =>{
-	classNames.forEach(className => {
-		el.classList.add(className);
-	})
-};
-const removeClass = (el, className) => el.classList.remove(className);
+const lists = gebi("lists");
+const tabs = gebi("tabs");
 
 window.addEventListener("DOMContentLoaded", async () => {
   let selectTab = 5;
   TABS.forEach(({ id, name }) => {
-    const tab = document.createElement("div");
-    tab.classList.add("tab");
+    const tab = ce("div");
+    const tabClasses = ["tab"];
     if (id === selectTab) {
-      tab.classList.add("active");
+      tabClasses.push("active");
     }
+    addClasses(tab, tabClasses);
     tab.innerText = name;
-    tab.setAttribute("value", id);
+    setValue(tab, id);
     tab.addEventListener("click", async () => {
       selectTab = id;
       const tabItems = document.querySelectorAll(".tab");
       tabItems.forEach((tabItem) => {
-        tabItem.classList.remove("active");
+        removeClass(tabItem, "active");
       });
-      tab.classList.add("active");
+      addClasses(tab, ["active"]);
       while (lists.firstChild) {
         lists.removeChild(lists.firstChild);
       }
       const data = await fetchProductsByCategory(selectTab);
       createProductList(data);
     });
-    tabs.appendChild(tab);
+    ac(tab, tabs);
   });
   const data = await fetchProductsByCategory(selectTab);
   createProductList(data);
 });
 
 const addCartDetail = async (option) => {
-  await fetch("/hotmot/AddCartDetailServlet", { method: "POST", body: JSON.stringify(option) }).catch(err => console.log("err: ", err));
+  await fetch("/hotmot/AddCartDetailServlet", {
+    method: "POST",
+    body: JSON.stringify(option),
+  }).catch((err) => console.log("err: ", err));
 };
 
 const createProductList = (data) => {
   data.map((x) => {
-    const listItem = document.createElement("div");
-    listItem.classList.add("list-item");
+    const listItem = ce("div");
+    addClasses(listItem, ["list-item"]);
     setTimeout(() => {
-      listItem.classList.add("show");
+      addClasses(listItem, ["show"]);
     }, 200);
-    createImgEl({ src: x.image, parentEl: listItem, className: "image" });
-    const divEl = document.createElement("div");
-    divEl.classList.add("text-group");
+    const linkEl = ce("a");
+    setHref(linkEl, `/hotmot/ProductDetailServlet?id=${x.id}`);
+    createImgEl({ src: x.image, parentEl: linkEl, className: "image" });
+    ac(linkEl, listItem);
+    const divEl = ce("div");
+    addClasses(divEl, ["text-group"]);
     createH3El({ text: x.name, parentEl: divEl, className: "text" });
-    createH3El({ text: `${x.price}円 (税抜 : ${Math.ceil(x.price / 1.08)}円）`, parentEl: divEl, className: "text" });
-    listItem.appendChild(divEl);
+    createH3El({
+      text: `${x.price}円 (税抜 : ${Math.ceil(x.price / 1.08)}円）`,
+      parentEl: divEl,
+      className: "text",
+    });
+    ac(divEl, listItem);
     let riceId = RICE_TYPE.NONE;
     const changeRiceIdFunc = (value) => (riceId = value);
     if (x.rices.length > 0) {
@@ -87,7 +96,7 @@ const createProductList = (data) => {
     const actionGroup = ce("div");
     addClasses(actionGroup, ["action-group"]);
     const cartButton = ce("div");
-    addClasses(cartButton, ["cart-button"])
+    addClasses(cartButton, ["cart-button"]);
     const cartButtonIcon = ce("i");
     addClasses(cartButtonIcon, ["fa-solid", "fa-cart-shopping"]);
     const cartButtonText = ce("span");
@@ -100,13 +109,18 @@ const createProductList = (data) => {
       console.log("id: ", x.id);
       console.log("riceId: ", riceId);
       console.log("quantity: ", quantity);
-      const option = [{cartId: 1, productId: x.id, riceId, quantity }];
+      const option = [{ cartId: 1, productId: x.id, riceId, quantity }];
       await addCartDetail(option);
     });
     ac(cartButton, actionGroup);
     const bookMarkButton = ce("i");
-    addClasses(bookMarkButton, ["fa-regular", "fa-star", "bookmark-button", "fa-2x"]);
-    bookMarkButton.style.color = "#FFCF81"
+    addClasses(bookMarkButton, [
+      "fa-regular",
+      "fa-star",
+      "bookmark-button",
+      "fa-2x",
+    ]);
+    bookMarkButton.style.color = "#FFCF81";
     ac(bookMarkButton, actionGroup);
     ac(actionGroup, listItem);
     lists.appendChild(listItem);
@@ -114,7 +128,7 @@ const createProductList = (data) => {
 };
 
 const createPEl = ({ text, className, parentEl }) => {
-  const pEl = document.createElement("p");
+  const pEl = ce("p");
   pEl.innerText = text;
   if (className) {
     pEl.classList.add(className);
@@ -123,7 +137,7 @@ const createPEl = ({ text, className, parentEl }) => {
 };
 
 const createH3El = ({ text, className, parentEl }) => {
-  const pEl = document.createElement("h3");
+  const pEl = ce("h3");
   pEl.innerText = text;
   if (className) {
     pEl.classList.add(className);
@@ -132,8 +146,8 @@ const createH3El = ({ text, className, parentEl }) => {
 };
 
 const createImgEl = ({ src, alt, className, parentEl }) => {
-  const imgEl = document.createElement("img");
-  imgEl.setAttribute("src", src);
+  const imgEl = ce("img");
+  setSrc(imgEl, src);
   if (alt) {
     imgEl.setAttribute("alt", alt);
   }
@@ -149,22 +163,22 @@ const createSelecRicetEl = ({
   parentEl,
   changeRiceIdFunc,
 }) => {
-  const selectEl = document.createElement("select");
+  const selectEl = ce("select");
   selectEl.addEventListener("change", (e) => {
     console.log(e.target.value);
     changeRiceIdFunc(Number(e.target.value));
   });
-  selectEl.classList.add(className);
+  addClasses(selectEl, [className]);
   options.forEach(({ id, name, price }) => {
-    const optionEl = document.createElement("option");
+    const optionEl = ce("option");
     optionEl.innerText = `${name} (${price}円)`;
-    optionEl.setAttribute("value", id);
-    selectEl.appendChild(optionEl);
+    setValue(optionEl, id);
+    ac(optionEl, selectEl);
   });
   if (className) {
-    selectEl.classList.add(className);
+    addClasses(selectEl, [className]);
   }
-  parentEl.appendChild(selectEl);
+  ac(selectEl, parentEl);
 };
 
 const createEditQuantity = ({
@@ -174,48 +188,48 @@ const createEditQuantity = ({
   subQuantityFunc,
   changeQuantityFunc,
 }) => {
-  const divEl = document.createElement("div");
-  divEl.classList.add("counter");
-  const inputEl = document.createElement("input");
-  inputEl.value = value;
+  const divEl = ce("div");
+  addClasses(divEl, ["counter"]);
+  const inputEl = ce("input");
+  setValue(inputEl, value);
   inputEl.type = "number";
   inputEl.addEventListener("input", (e) => {
     value = Number(e.target.value);
-    inputEl.value = value;
+    setValue(inputEl, value);
     changeQuantityFunc(value);
     if (value > 0) {
-      subBtnEl.classList.remove("disabled");
-    }else if(value === 0) {
-		subBtnEl.classList.add("disabled");
-	}
+      removeClass(subBtnEl, "disabled");
+    } else if (value === 0) {
+      addClasses(subBtnEl, ["disabled"]);
+    }
   });
-  const addBtnEl = document.createElement("button");
+  const addBtnEl = ce("button");
   addBtnEl.innerText = "＋";
-  addBtnEl.classList.add("add");
+  addClasses(addBtnEl, ["add"]);
   addBtnEl.addEventListener("click", (e) => {
     value++;
     addQuantityFunc();
-    inputEl.value = value;
+    setValue(inputEl, value);
     if (value > 0) {
-      subBtnEl.classList.remove("disabled");
+      removeClass(subBtnEl, "disabled");
     }
     console.log("click", value);
   });
-  const subBtnEl = document.createElement("button");
+  const subBtnEl = ce("button");
   subBtnEl.classList.add("sub");
   subBtnEl.classList.add("disabled");
   subBtnEl.innerText = "ー";
   subBtnEl.addEventListener("click", (e) => {
     value--;
     subQuantityFunc();
-    inputEl.value = value;
+    setValue(inputEl, value);
     if (value === 0) {
-      subBtnEl.classList.add("disabled");
+      addClasses(subBtnEl, ["disabled"]);
     }
     console.log("click", value);
   });
-  divEl.appendChild(subBtnEl);
-  divEl.appendChild(inputEl);
-  divEl.appendChild(addBtnEl);
-  parentEl.appendChild(divEl);
+  ac(subBtnEl, divEl);
+  ac(inputEl, divEl);
+  ac(addBtnEl, divEl);
+  ac(divEl, parentEl);
 };

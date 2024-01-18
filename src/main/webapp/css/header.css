@@ -8,7 +8,6 @@
 
 .header-container {
   height: 100%;
-  /*	padding: 1rem 0;*/
   width: 90%;
   max-width: 1120px;
   margin: 0 auto;
@@ -29,24 +28,28 @@
   height: 100%;
 }
 
-.nav-items ul {
+.header .nav ul {
   list-style: none;
   display: flex;
   gap: 20px;
 }
 
-.nav-items li {
+.header .nav li {
   font-size: 17.5px;
 }
 
-.nav-items li a {
+.header .nav li a {
   display: flex;
   align-items: center;
   column-gap: 0.2rem;
   transition: all 0.3s;
 }
 
-.nav-items li a:hover {
+.header .nav li a.current {
+	color: #ffb996
+}
+
+.header .nav li a:hover {
   color: #ffb996;
 }
 
@@ -90,13 +93,20 @@
   align-items: center;
   justify-content: flex-start;
   column-gap: 1rem;
+}
+
+.sp .nav ul li a {
+  color: #757575;
   font-size: 17px;
   font-weight: normal;
   transition: all 0.3s;
-  color: #757575;
 }
 
-.sp .nav ul li:hover {
+.sp .nav ul li a.current {
+	color: #ffb996
+}
+
+.sp .nav ul li a:hover {
   color: #ffb996;
 }
 .open.sp .nav {
@@ -126,7 +136,7 @@
 
 /* レスポンシブスタイル */
 @media screen and (max-width: 768px) {
-  .nav-items ul {
+  .header .nav ul {
     display: none;
   }
   .hamburger {
@@ -141,7 +151,7 @@
     width: 95%;
   }
 
-  .nav-items li {
+  .sp .nav li {
     font-size: 15px;
   }
 }
