@@ -33,7 +33,7 @@ export const HEADER_INFO = [
 		iconClass: "fa-house"
 	},{
 		label: "ブックマーク",
-		servletName: "ProductListServlet",
+		servletName: "BookMarkServlet",
 		iconClass: "fa-star"
 	},{
 		label: "カート",
