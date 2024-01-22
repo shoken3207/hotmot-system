@@ -153,7 +153,7 @@ public class CartDetailDao extends CommonDao {
     }
 
 	// DELETE文
-	public int delete(int id) throws SQLException{
+	public int delete1(int id) throws SQLException{
     	try{
             String sql = "DELETE FROM cartdetails WHERE id = ?" ;
             PreparedStatement ps = conn.prepareStatement(sql);
