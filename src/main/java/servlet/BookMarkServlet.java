@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import dao.BookMarkDao;
+import models.BookMarkBean;
 
 /**
  * Servlet implementation class BookMarkServlet
@@ -31,6 +37,39 @@ public class BookMarkServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
+		String userId = request.getParameter("userId");
+//		String categoryId = request.getParameter("categoryId");
+		System.out.println("userId: " + userId);
+//		System.out.println("categoryId: " + categoryId);
+		
+		if(userId == "") {
+			session.setAttribute("message", "パラメータに異常があります。");
+			return;
+		}
+		int parseUserId = Integer.parseInt(userId);
+		
+		BookMarkDao bookMarkDao = new BookMarkDao();
+		try {
+//			ArrayList<BookMarkBean> bookMarks = new ArrayList<BookMarkBean>();;
+//			if(categoryId != "" && Integer.parseInt(categoryId) != Const.ProductCategories.ALL.getValue()) {
+//				int parseCategoryId = Integer.parseInt(categoryId);
+//				bookMarks = bookMarkDao.findCategoryBookMarksByUserId(parseUserId, parseCategoryId);
+//			}else {
+//				bookMarks =  bookMarkDao.findBookMarksByUserId(parseUserId);
+//			}
+			ArrayList<BookMarkBean> bookMarks = bookMarkDao.findBookMarksByUserId(parseUserId);
+			ObjectMapper mapper = new ObjectMapper();
+			String json = mapper.writeValueAsString(bookMarks);
+			System.out.println(json);
+			session.setAttribute("bookMarks", json);
+		} catch (NumberFormatException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 		session.setAttribute("message", "商品をカートに追加しました！");
 		RequestDispatcher dispatcher =  request.getRequestDispatcher("WEB-INF/bookMark.jsp");
 		dispatcher.forward(request, response);

@@ -3,12 +3,17 @@
  */
 
 import { gebi } from "../js/utils.js";
+import {createBookMarksResponse} from "../js/convertBookMarks.js";
 
 const messageEl = gebi("message");
+const bookMarksEl = gebi("bookMarks");
 
  window.addEventListener("DOMContentLoaded", () => {
 	 const message = messageEl.value;
-	 console.log("message: ", message, messageEl)
+	 const bookMarks = JSON.parse(bookMarksEl.value);
+	 console.log("bookMarks: ", bookMarksEl, bookMarks);
+	 const convertBookMarks = createBookMarksResponse(bookMarks);
+	 console.log("convertBookMarks: ", convertBookMarks);
 	 if(message) {
 		 console.log(message)
 		 Toastify({
@@ -29,3 +34,5 @@ const messageEl = gebi("message");
 	 
 
  })
+ 
+ 
