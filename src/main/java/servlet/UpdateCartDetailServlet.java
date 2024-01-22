@@ -2,10 +2,12 @@ package servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,42 +16,30 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import models.AddCartDetailRequestBean;
+import dao.CartDetailDao;
+import models.UpdateCartDetailRequestBean;
 
 /**
- * Servlet implementation class test
+ * Servlet implementation class EditCartDetailServlet
  */
-@WebServlet("/test")
-public class test extends HttpServlet {
+@WebServlet("/UpdateCartDetailServlet")
+public class UpdateCartDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public test() {
+    public UpdateCartDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.print("test");
-		 String jsonData = "{\"message\": \"Hello from Servlet!\"}";
-
-        // JSON形式のデータを返す
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(jsonData);
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<AddCartDetailRequestBean> addCartDetailRequestList = new ArrayList<>();
+		System.out.println("post");
+		ArrayList<UpdateCartDetailRequestBean> updateCartDetailRequestList = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -57,17 +47,25 @@ public class test extends HttpServlet {
             sb.append(line);
         }
         String requestBody = sb.toString();
+        System.out.println("request: " + requestBody);
     	ObjectMapper objectMapper = new ObjectMapper();
     	List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
     	for(Map<String, Object> data: dataList) {
-    		int cartId = (int) data.get("cartId");
-    		int productId = (int) data.get("productId");
-    		int riceId = (int) data.get("riceId");
+    		int cartDetailId = (int) data.get("cartDetailId");
     		int quantity = (int) data.get("quantity");
-    		AddCartDetailRequestBean addCartDetailRequest = new AddCartDetailRequestBean(cartId, productId, riceId, quantity);
-	        addCartDetailRequestList.add(addCartDetailRequest);
+    		UpdateCartDetailRequestBean updateCartDetailRequest = new UpdateCartDetailRequestBean(cartDetailId, quantity);
+	        updateCartDetailRequestList.add(updateCartDetailRequest);
     	}
-    	System.out.println(addCartDetailRequestList);
+    	CartDetailDao cartDetailDao = new CartDetailDao(); 
+    	try {
+			cartDetailDao.update(updateCartDetailRequestList);
+			
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/aa.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }

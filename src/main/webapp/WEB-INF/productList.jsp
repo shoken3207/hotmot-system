@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -12,15 +14,19 @@
       rel="stylesheet"
     />
     <link rel='icon' href='images/favicon.ico' />
-    <script src="./js/test.js" type="module"></script>
-    <script src="./js/master.js" type="module"></script>
-    <script src="./js/viewProductLists.js" type="module"></script>
+    <script src="js/test.js" type="module"></script>
+    <script src="js/master.js" type="module"></script>
+    <script src="js/viewProductLists.js" type="module"></script>
     <script src="./js/header.js" type="module"></script>
   </head>
   <body>
-    <header class="header" id="header">
+   <header class="header" id="header">
     </header>
     <div class="sp" id="sp">
+
+    <div class="container">
+      <div class="tabs" id="tabs"></div>
+      <div class="lists" id="lists"></div>
     </div>
   </body>
 </html>

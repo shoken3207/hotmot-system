@@ -1,43 +1,55 @@
 * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 90%;
+  max-width: 1120px;
+  margin: 0 auto;
 }
 
 .lists {
+  margin-bottom: 2rem;
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-	padding: .8rem;
+  row-gap: 22px;
+  column-gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-
-
 .list-item {
+  max-width: 300px;
   width: 100%;
-   max-width: 300px; 
   display: flex;
   flex-direction: column;
   row-gap: 0.4rem;
+  transform: translateY(6px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.list-item.show {
+  transform: none;
+  opacity: 1;
 }
 
 .list-item .image {
-	 width: 100%;
+  width: 100%;
   aspect-ratio: 10 / 9;
   cursor: pointer;
   border-radius: 10px;
   border: 1px solid #ccc;
 }
 
-
 .list-item .image img {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 }
 
 .select {
-	 outline: none;
+  outline: none;
   width: 100%;
   max-width: 360px;
   padding: 0.3rem 0.5rem;
@@ -46,70 +58,136 @@
 }
 
 .text-group {
-	
   display: flex;
   flex-direction: column;
   row-gap: 0.3rem;
 }
 
 .text-group h3.text {
-	font-size: 0.9rem;
-    word-break: break-all;
+  font-size: 0.9rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-
 .counter {
-	display: flex;	
+  display: flex;
 }
 
 .counter input {
-	width: 50px;
-    height: 30px;
-    text-align: center;	
-    line-height: 30px;
-    border: 1px solid #ccc;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border: 1px solid #ccc;
 }
 
 .counter button {
-	  width: 50px;
-    height: 30px;
-    border: 2px solid #ed1c24;
-    cursor: pointer;
+  width: 50px;
+  height: 30px;
+  border: 2px solid #ed1c24;
+  cursor: pointer;
 }
 
 .counter .add {
-/*	transition: all 0.2s;*/
-/*      border: ${({ addCount }: { addCount: number }) =>*/
-/*        addCount === 0 && '1px solid #ccc'};*/
-/*      background-color: ${({ addCount }: { addCount: number }) =>*/
-/*        addCount === 0 && 'white'};*/
-      border-radius: 7px 0 0 7px;
+  border-radius: 0 7px 7px 0;
 }
 
 .counter .sub {
-	 border-radius: 0 7px 7px 0;
+  border-radius: 7px 0 0 7px;
 }
 
-
-.tabs {
-	display: flex;
-	border-radius: 10px;
-	overflow: hidden;
+.counter .sub.disabled {
+  pointer-events: none;
+  border: 1px solid #ccc;
+  background-color: white;
 }
 
-.tabs .tab {
-	min-width: 130px;
-	border: 1px solid black;
-	padding: .4rem .7rem;
+.action-group {
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: space-between;
+}
+
+.cart-button {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	column-gap: .4rem;
+	padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    color: rgb(255, 255, 255);
+    background-color: rgb(211, 47, 47);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.bookmark-button {
 	cursor: pointer;
 }
 
+.cart-button:hover {
+	opacity: .3;
+}
+
+.tabs {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.tabs .tab {
+  width: 20%;
+  max-width: 120px;
+  font-size: 15px;
+  border: 1px solid #d9edbf;
+  padding: 0.4rem 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tabs .tab:first-of-type {
+  border-radius: 10px 0 0 10px;
+}
+.tabs .tab:last-of-type {
+  border-radius: 0 10px 10px 0;
+}
+
 .tabs .tab.active {
-	background-color: black;
-	color: white;
+  background-color: #d9edbf;
+  color: white;
 }
 
 
+@media screen and (max-width: 550px) {
+  .tabs {
+    margin-bottom: 1rem;
+  }
+  .lists {
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+    row-gap: 18px;
+  column-gap: 10px;
+  }
+  .container {
+    width: 95%;
+  }
+
+  .tabs .tab {
+    font-size: 10px;
+  }
+
+  .nav-items ul.show {
+    display: flex;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+}
