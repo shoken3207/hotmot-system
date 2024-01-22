@@ -121,6 +121,12 @@ const createProductList = (data) => {
       "fa-2x",
     ]);
     bookMarkButton.style.color = "#FFCF81";
+    bookMarkButton.addEventListener("click", async () => {
+		console.log("book");
+		await fetch("/hotmot/BookMarkServlet", {
+    method: "GET"
+  }).catch((err) => console.log("err: ", err));
+	})
     ac(bookMarkButton, actionGroup);
     ac(actionGroup, listItem);
     lists.appendChild(listItem);

@@ -23,11 +23,98 @@ window.addEventListener("DOMContentLoaded", async () => {
   setHref(backBtn, backLink);
   backBtn.innerText = backText;
 
-  console.log("referrer: ", referrer);
   const productId = Number(productIdEl.value);
-  console.log("productId: ", productId);
   const product = fetchDetailProduct(productId);
-  const { name, price, image, desc } = product;
+  const { name, price, image, desc, rices } = product;
+
+  const addCartDetails = [];
+  const add = ({ riceId, quantity }) => {
+    if (
+      addCartDetails.some(
+        (x) => productId === x.productId && riceId === x.riceId
+      )
+    ) {
+      const index = addCartDetails.findIndex(
+        (x) => x.productId === productId && x.riceId === riceId
+      );
+      if (quantity === 0) {
+        addCartDetails.splice(index, 1);
+      } else {
+        addCartDetails[index].quantity = quantity;
+      }
+    } else {
+      addCartDetails.push({ productId, riceId, quantity });
+    }
+  };
+  
+  const createEditQuantity = ({ rices, parentEl }) => {
+		console.log("rices: ", rices, parentEl)
+	  rices.forEach(({ id, name, price }) => {
+	    const quantity = 0;
+	    const addQuantityFunc = () => {
+	      quantity++;
+	      add({ riceId: id, quantity });
+	    };
+	    const subQuantityFunc = () => {
+	      quantity--;
+	      add({ riceId: id, quantity });
+	    };
+	    const changeQuantityFunc = (value) => {
+	      quantity = value;
+	      add({ riceId: id, quantity });
+	    };
+	    const counterRowEl = ce("div");
+	    const textEl = ce("p");
+	    textEl.innerText = `${name}: ${price}`;
+	    const counterEl = ce("div");
+	    addClasses(counterEl, ["counter"]);
+	    const inputEl = ce("input");
+	    inputEl.value = quantity;
+	    inputEl.type = "number";
+	    inputEl.addEventListener("input", (e) => {
+	      changeQuantityFunc(Number(e.target.value));
+	      inputEl.value = quantity;
+	      if (quantity > 0) {
+	        subBtnEl.classList.remove("disabled");
+	      } else if (quantity === 0) {
+	        subBtnEl.classList.add("disabled");
+	      }
+	    });
+	    const addBtnEl = ce("button");
+	    addBtnEl.innerText = "＋";
+	    addClasses(addBtnEl, ["add"]);
+	    addBtnEl.addEventListener("click", (e) => {
+	      addQuantityFunc();
+	      inputEl.value = quantity;
+	      if (quantity > 0) {
+	        removeClass(subBtnEl, "disabled");
+	      }
+	      console.log("click", quantity);
+	    });
+	    const subBtnEl = ce("button");
+	    addClasses(subBtnEl, ["sub"]);
+	    if (quantity === 0) {
+	      addClasses(subBtnEl, ["disabled"]);
+	    }
+	    subBtnEl.innerText = "ー";
+	    subBtnEl.addEventListener("click", (e) => {
+	      subQuantityFunc();
+	      inputEl.value = quantity;
+	      if (quantity === 0) {
+	        addClasses(subBtnEl, ["disabled"]);
+	      }
+	      console.log("click", quantity);
+	    });
+	    ac(subBtnEl, counterEl);
+	    ac(inputEl, counterEl);
+	    ac(addBtnEl, counterEl);
+	    console.log("el: ", counterEl, parentEl);
+	    ac(textEl, counterRowEl);
+	    ac(counterEl, counterRowEl);
+	    ac(counterRowEl, parentEl);
+	  });
+	};
+
   const productNameEl = ce("h2");
   productNameEl.innerText = name;
   ac(productNameEl, containerEl);
@@ -45,14 +132,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const counterGroupEl = ce("div");
   addClasses(counterGroupEl, ["counter-group"]);
-  createCounters(product.rices, counterGroupEl);
+  console.log("counterGroupEl", counterGroupEl);
+  createEditQuantity({rices, parentEl: counterGroupEl});
   ac(counterGroupEl, containerEl);
 });
 
-const createCounters = (rices, parentEl) => {
-  rices.forEach((rice) => {
-    console.log("rice: ", rice);
-    const counterArea = ce("div");
-    addClasses(counterArea, ["counter-area"]);
-  });
-};
