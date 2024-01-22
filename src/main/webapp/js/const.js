@@ -41,7 +41,7 @@ export const HEADER_INFO = [
 		iconClass: "fa-cart-shopping"
 	},{
 		label: "注文履歴",
-		servletName: "ProductListServlet",
+		servletName: "OrderHistoryServlet",
 		iconClass: "fa-clock-rotate-left"
 	},
 ]

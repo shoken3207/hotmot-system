@@ -1,0 +1,46 @@
+@charset "UTF-8";
+details {
+  border: 1px solid #ccc;
+}
+details:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+/**
+ * list-style: none; ←デフォルト三角削除（Chrome非対応）
+ * cursor: pointer; ←カーソルをポインターに
+**/
+details summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px;
+  background: #e4e4e4;
+  color: #242323;
+  font-size: 2rem;
+  font-weight: bold;
+}
+/**
+ * Chrome用のデフォルト三角削除
+**/
+details summary::-webkit-details-marker {
+  display: none;
+}
+/**
+ * Font Awesomeのプラスアイコン使用
+**/
+details summary::before {
+  font-family: FontAwesome;
+  content: '\f067';
+  margin-right: 20px;
+}
+/**
+ * アコーディオンがオープン時はマイナスアイコンに変更
+**/
+details[open] summary::before {
+  content: '\f068';
+}
+
+details p {
+  margin: 0;
+  padding: 20px;
+}

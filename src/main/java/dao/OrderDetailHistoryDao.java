@@ -13,13 +13,9 @@ import models.OrderDetailBean;
 public class OrderDetailHistoryDao {
 	private Connection conn;
 
-	public OrderDetailHistoryDao(Connection connection) throws SQLException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "password");
-		this.conn = connection;
-	}
-
 	//SELECT文
 	public ArrayList<OrderDetailBean> getOrderDetailHistory(int args_orderId)throws SQLException{
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		ArrayList<OrderDetailBean> OrderDetailHistory = new ArrayList<OrderDetailBean>();
 		try {
 			String sql = "SELECT * FROM OrderDetail WHERE orderId = ? ORDER_BY createdAt";
