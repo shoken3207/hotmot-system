@@ -91,6 +91,7 @@ const _convertDetailProduct = (product) => {
 };
 
 const fetchDetailProduct = (productId) => {
+	console.log("aa: ", productId)
   const productData = ProductData;
   const product = productData.find((x) => x.id === productId);
   if (product) {
@@ -101,11 +102,6 @@ const fetchDetailProduct = (productId) => {
 };
 
 
-
-console.log("aaa")
-
-fetchProductsByCategory(5)
-fetchDetailProduct(5)
 
 
 export { fetchProductsByCategory, fetchDetailProduct };

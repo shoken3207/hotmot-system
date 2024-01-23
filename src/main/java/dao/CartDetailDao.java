@@ -19,7 +19,7 @@ public class CartDetailDao extends CommonDao {
 
 	// SELECT文 - cartIDに一致する複数のCartDetailを表示 
 	public ArrayList<CartDetailBean> getCartDetails(int args_cartId) throws SQLException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		ArrayList<CartDetailBean> CartDetails = new ArrayList<CartDetailBean>();
 		try {
 			String sql = "SELECT * FROM cartdetail WHERE cartId=? ORDER_BY productId";
@@ -107,7 +107,7 @@ public class CartDetailDao extends CommonDao {
 
 	// INSERT文 
 	public void insert(ArrayList<AddCartDetailRequestBean> addCartDetailsRequest) throws SQLException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
+		conn = DriverManager.getConnection(this.URL, this.USER, this.PASS);
 		try {
 			String sql = "INSERT INTO CartDetails(cartId, productId,riceId,quantity) VALUES(?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -168,20 +168,20 @@ public class CartDetailDao extends CommonDao {
 	}
 
 	// UPDATE文 
-	public void update(ArrayList<UpdateCartDetailRequestBean> updateCartDetailsRequest,ArrayList<CartDetailBean> cartDetails) throws SQLException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
+	public void update(ArrayList<UpdateCartDetailRequestBean> updateCartDetailsRequest) throws SQLException {
+		conn = DriverManager.getConnection(this.URL, this.USER, this.PASS);
 		try {
 			String sql = "UPDATE CartDetails SET quantity = ? WHERE id = ?";
-			PreparedStatement ps = conn.prepareStatement(sql);
+			PreparedStatement ps1 = conn.prepareStatement(sql);
 			String sql2 = "DELETE FROM CartDetails WHERE id = ?";
 			PreparedStatement ps2 = conn.prepareStatement(sql2);
 
 			for (UpdateCartDetailRequestBean updateCartDetailRequest : updateCartDetailsRequest) {
 				if (updateCartDetailRequest.getQuantity() != 0) {
-					ps.setInt(1, updateCartDetailRequest.getQuantity());
-					ps.setInt(2, updateCartDetailRequest.getId());
+					ps1.setInt(1, updateCartDetailRequest.getQuantity());
+					ps1.setInt(2, updateCartDetailRequest.getId());
 					
-					ps.executeUpdate();
+					ps1.executeUpdate();
 				} else {
 					ps2.setInt(1, updateCartDetailRequest.getId());
 					ps2.executeUpdate();
