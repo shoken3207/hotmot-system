@@ -1,21 +1,15 @@
 package servlet;
 
 import java.io.IOException;
-<<<<<<< HEAD
-
-=======
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
->>>>>>> main
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-<<<<<<< HEAD
-=======
 import dao.CartDao;
 import models.CartBean;
 
