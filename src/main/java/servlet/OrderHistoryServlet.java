@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.OrderDetailHistoryDao;
 import dao.OrderHistoryDao;
@@ -20,25 +19,36 @@ import models.OrderDetailBean;
 public class OrderHistoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//ユーザidはどこからもってくるのか聞く
-		String userId = request.getParameter("userId");
-		int orderId = 0;
+//		String userId = request.getParameter("userId");
+		int userId = 1;
+		int orderId=0;
 		
-		OrderHistoryDao orderHistoryDao = new OrderHistoryDao();
-		OrderDetailHistoryDao orderDetailHistoryDao = new OrderDetailHistoryDao();
+		OrderHistoryDao dao = new OrderHistoryDao();
+		OrderDetailHistoryDao detailDao = new OrderDetailHistoryDao();
 		try {
-			ArrayList<OrderBean> orderHistory = orderHistoryDao.getOrderHistory(Integer.parseInt(userId));
-			ArrayList<OrderDetailBean> orderDetailHistory = orderDetailHistoryDao.getOrderDetailHistory(orderId);
-			orderId = orderHistoryDao.getOrderId(Integer.parseInt(userId));
-			HttpSession session = request.getSession();
-			session.setAttribute("userId", userId);
-			session.setAttribute("orderId", orderId);
-		} catch (NumberFormatException | SQLException e) {
+			ArrayList<OrderBean> orderHistory = dao.getOrderHistory(userId);
+			//request.setAttribute("orderHistory", orderHistory);
+			for (OrderBean order : orderHistory) {
+				orderId = order.getId();
+			}
+
+			ArrayList<OrderDetailBean> orderDetailHistory = detailDao.getOrderDetailHistory(orderId);
+			System.out.println("aaa");
+			System.out.println(orderDetailHistory);
+			request.setAttribute("orderId", orderId);
+			request.setAttribute("orderDetailHistory", orderDetailHistory);
+			@SuppressWarnings("unchecked")
+			ArrayList<OrderDetailBean> order = (ArrayList<OrderDetailBean>)request.getAttribute("orderDetailHistory");
+			System.out.println(order);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+//		String orderHistory = "assa";
+//		request.setAttribute("orderHistory", orderHistory);
+		
+		request.getRequestDispatcher("/OrderHistory.jsp").forward(request, response);
 	}
 }
