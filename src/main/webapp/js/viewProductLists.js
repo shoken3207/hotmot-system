@@ -123,8 +123,8 @@ const createProductList = (data) => {
     bookMarkButton.style.color = "#FFCF81";
     bookMarkButton.addEventListener("click", async () => {
 		console.log("book");
-		await fetch("/hotmot/BookMarkServlet", {
-    method: "GET"
+		await fetch("/hotmot/AddBookMarkServlet", {
+    method: "POST",body: JSON.stringify({userId: "1", productId: "1", categoryId: "1"})
   }).catch((err) => console.log("err: ", err));
 	})
     ac(bookMarkButton, actionGroup);

@@ -1,5 +1,6 @@
 package servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.BookMarkDao;
+import models.AddBookMarkRequest;
 import models.BookMarkBean;
 
 /**
@@ -36,12 +38,29 @@ public class AddBookMarkServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		StringBuilder sb = new StringBuilder();
+      BufferedReader reader = request.getReader();
+      String line;
+      while ((line = reader.readLine()) != null) {
+          sb.append(line);
+      }
+      String requestBody = sb.toString();
+      System.out.println("request: " + requestBody);
+  	ObjectMapper objectMapper = new ObjectMapper();
+  	AddBookMarkRequest addBookMarkRequest = objectMapper.readValue(requestBody, AddBookMarkRequest.class);
+  	System.out.println(addBookMarkRequest.getCategoryId());
+  	System.out.println(addBookMarkRequest.getProductId());
+  	System.out.println(addBookMarkRequest.getUserId());
 		String userId = request.getParameter("userId");
 		String productId = request.getParameter("productId");
 		String categoryId = request.getParameter("categoryId");
-		
+		System.out.println(userId);
+		System.out.println(productId);		
+		System.out.println(categoryId);				
 		if(userId == "" || productId == "" || categoryId == "") {
 			session.setAttribute("message", "パラメータに異常があります。");
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("パラメータに異常があります。");
 			return;
 		}
 		
