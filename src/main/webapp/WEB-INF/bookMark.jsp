@@ -29,7 +29,6 @@
 <header class="header" id="header">
     </header>
     <div class="sp" id="sp">
-	<h1>ブックマーク</h1>
 	
 	<div class="container">
       <div class="tabs" id="tabs"></div>

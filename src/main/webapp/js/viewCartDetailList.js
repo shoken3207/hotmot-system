@@ -144,7 +144,7 @@ const createEditQuantity = ({
   if (value === 0) {
     addClasses(subBtnEl, ["disabled"]);
   }
-  subBtnEl.innerText = "ー";
+  subBtnEl.innerText = "－";
   subBtnEl.addEventListener("click", (e) => {
     value--;
     subQuantityFunc();

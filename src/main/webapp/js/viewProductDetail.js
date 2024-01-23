@@ -13,6 +13,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   if (referrer.includes("ProductListServlet")) {
     backLink = "/hotmot/ProductListServlet";
     backText = "＜商品一覧画面に戻る";
+  } else if (referrer.includes("BookMarkServlet")) {
+    backLink = "/hotmot/BookMarkServlet?userId=1";
+    backText = "＜ブックマーク一覧画面に戻る";
   } else if (referrer.includes("CartDetailListServlet")) {
     backLink = "/hotmot/CartDetailListServlet";
     backText = "＜カート詳細一覧画面に戻る";
@@ -96,7 +99,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 	    if (quantity === 0) {
 	      addClasses(subBtnEl, ["disabled"]);
 	    }
-	    subBtnEl.innerText = "ー";
+	    subBtnEl.innerText = "－";
 	    subBtnEl.addEventListener("click", (e) => {
 	      subQuantityFunc();
 	      inputEl.value = quantity;

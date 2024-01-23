@@ -224,7 +224,7 @@ const createEditQuantity = ({
   const subBtnEl = ce("button");
   subBtnEl.classList.add("sub");
   subBtnEl.classList.add("disabled");
-  subBtnEl.innerText = "ー";
+  subBtnEl.innerText = "－";
   subBtnEl.addEventListener("click", (e) => {
     value--;
     subQuantityFunc();

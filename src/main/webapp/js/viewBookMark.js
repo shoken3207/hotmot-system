@@ -1,6 +1,3 @@
-/**
- *
- */
 import {
   ce,
   gebi,
@@ -9,10 +6,11 @@ import {
   removeClass,
   setSrc,
   setHref,
-  setValue
+  setValue,
+  showToast,
 } from "../js/utils.js";
 import { createBookMarksResponse } from "../js/convertBookMarks.js";
-import {TABS, PRODUCT_CATEGORIES} from "../js/const.js"
+import { TABS, PRODUCT_CATEGORIES } from "../js/const.js";
 const messageEl = gebi("message");
 const bookMarksEl = gebi("bookMarks");
 
@@ -24,7 +22,7 @@ const sampleData = [
     productName: "梅おろし豚しゃぶ弁当",
     productImage:
       "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 1,
+    categoryId: 2,
   },
   {
     id: 2,
@@ -33,7 +31,7 @@ const sampleData = [
     productName: "梅おろし豚しゃぶ弁当",
     productImage:
       "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 1,
+    categoryId: 2,
   },
   {
     id: 3,
@@ -120,20 +118,7 @@ window.addEventListener("DOMContentLoaded", () => {
   console.log("convertBookMarks: ", convertBookMarks);
   if (message) {
     console.log(message);
-    Toastify({
-      text: message,
-      duration: 3000,
-      destination: "https://github.com/apvarun/toastify-js",
-      newWindow: true,
-      close: true,
-      gravity: "bottom",
-      position: "right",
-      stopOnFocus: true,
-      style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
-      },
-      onClick: function () {},
-    }).showToast();
+    showToast({ text: message });
   }
 
   let selectTab = 5;
@@ -154,24 +139,34 @@ window.addEventListener("DOMContentLoaded", () => {
         removeClass(tabItem, "active");
       });
       addClasses(tab, ["active"]);
-      let bookMarksByCategoryId = sampleData;
-      
-      if(selectTab !== PRODUCT_CATEGORIES.ALL) {
-	      bookMarksByCategoryId = sampleData.filter(
-		    (x) => x.categoryId === selectTab
-		  );
-	  }
-	  console.log("bookMarksByCategoryId:", bookMarksByCategoryId);
-	  createBookMarkList(bookMarksByCategoryId, lists)
-//      while (lists.firstChild) {
-//        lists.removeChild(lists.firstChild);
-//      }
-//      const data = await fetchProductsByCategory(selectTab);
-//      createProductList(data);
+
+      while (lists.firstChild) {
+        lists.removeChild(lists.firstChild);
+      }
+      const filterBookMarks = filterByCategoryId(convertBookMarks, selectTab);
+      createBookMarkList(filterBookMarks, lists);
     });
     ac(tab, tabs);
   });
+
+  const filterBookMarks = filterByCategoryId(convertBookMarks, selectTab);
+  createBookMarkList(filterBookMarks, lists);
 });
+
+const filterByCategoryId = (bookMarks, selectTab) => {
+  console.log("bookMarks: ", bookMarks);
+  let bookMarksByCategoryId = bookMarks;
+
+  if (selectTab !== PRODUCT_CATEGORIES.ALL) {
+    bookMarksByCategoryId = bookMarks.filter((x) => x.categoryId === selectTab);
+  }
+  console.log("bookMarksByCategoryId: ", bookMarksByCategoryId);
+  if (bookMarksByCategoryId.length == 0) {
+    showToast({ text: "お気に入りに登録している商品はありません。" });
+  }
+  return bookMarksByCategoryId;
+};
+
 const createBookMarkList = (bookMarks, parentEl) => {
   bookMarks.forEach((x) => {
     const listItem = ce("div");
@@ -213,4 +208,3 @@ const createBookMarkList = (bookMarks, parentEl) => {
     parentEl.appendChild(listItem);
   });
 };
-
