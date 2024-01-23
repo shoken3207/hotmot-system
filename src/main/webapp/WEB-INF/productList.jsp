@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/test.css" />
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/tabs.css" />
     <link
       href="https://use.fontawesome.com/releases/v6.2.0/css/all.css"
       rel="stylesheet"

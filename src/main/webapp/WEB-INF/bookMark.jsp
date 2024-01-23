@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="css/bookMark.css" />
 <link rel="stylesheet" href="css/global.css" />
 <link rel="stylesheet" href="css/header.css" />
+<link rel="stylesheet" href="css/tabs.css" />
+
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <link
   href="https://use.fontawesome.com/releases/v6.2.0/css/all.css"
@@ -28,6 +30,11 @@
     </header>
     <div class="sp" id="sp">
 	<h1>ブックマーク</h1>
+	
+	<div class="container">
+      <div class="tabs" id="tabs"></div>
+      <div class="lists" id="lists"></div>
+    </div>
 	
 	<script src="js/viewBookMark.js" type="module"></script>
 	<script src="./js/header.js" type="module"></script>	
