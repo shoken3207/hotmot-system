@@ -21,6 +21,7 @@
     <script src="js/master.js" type="module"></script>
     <script src="js/viewCartDetailList.js" type="module"></script>
     <script src="./js/header.js" type="module"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>カート</title>
 </head>
 <body>

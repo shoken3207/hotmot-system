@@ -47,7 +47,10 @@ public class AddBookMarkServlet extends HttpServlet {
       String requestBody = sb.toString();
       System.out.println("request: " + requestBody);
   	ObjectMapper objectMapper = new ObjectMapper();
+  	System.out.println("bbb");
   	AddBookMarkRequest addBookMarkRequest = objectMapper.readValue(requestBody, AddBookMarkRequest.class);
+  	System.out.println("aaa");
+  	System.out.println(addBookMarkRequest);
   	System.out.println(addBookMarkRequest.getCategoryId());
   	System.out.println(addBookMarkRequest.getProductId());
   	System.out.println(addBookMarkRequest.getUserId());

@@ -215,6 +215,7 @@ const createEditQuantity = ({
   addBtnEl.addEventListener("click", (e) => {
     value++;
     addQuantityFunc();
+    console.log("value: ", value)
     setValue(inputEl, value);
     if (value > 0) {
       removeClass(subBtnEl, "disabled");
