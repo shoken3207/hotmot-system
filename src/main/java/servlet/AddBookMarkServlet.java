@@ -15,8 +15,9 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.BookMarkDao;
-import models.AddBookMarkRequest;
+import models.AddBookMarkRequestBean;
 import models.BookMarkBean;
+import models.ResponseMessage;
 
 /**
  * Servlet implementation class AddBookMarkServlet
@@ -39,31 +40,29 @@ public class AddBookMarkServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		StringBuilder sb = new StringBuilder();
-      BufferedReader reader = request.getReader();
-      String line;
-      while ((line = reader.readLine()) != null) {
-          sb.append(line);
-      }
-      String requestBody = sb.toString();
-      System.out.println("request: " + requestBody);
-  	ObjectMapper objectMapper = new ObjectMapper();
-  	System.out.println("bbb");
-  	AddBookMarkRequest addBookMarkRequest = objectMapper.readValue(requestBody, AddBookMarkRequest.class);
-  	System.out.println("aaa");
-  	System.out.println(addBookMarkRequest);
-  	System.out.println(addBookMarkRequest.getCategoryId());
-  	System.out.println(addBookMarkRequest.getProductId());
-  	System.out.println(addBookMarkRequest.getUserId());
-		String userId = request.getParameter("userId");
-		String productId = request.getParameter("productId");
-		String categoryId = request.getParameter("categoryId");
+		BufferedReader reader = request.getReader();
+		String line;
+		while ((line = reader.readLine()) != null) {
+		    sb.append(line);
+		}
+		String requestBody = sb.toString();
+		System.out.println("request: " + requestBody);
+		
+	  	ObjectMapper objectMapper = new ObjectMapper();
+	  	AddBookMarkRequestBean addBookMarkRequest = objectMapper.readValue(requestBody, AddBookMarkRequestBean.class);
+		String userId = addBookMarkRequest.getUserId();
+		String productId = addBookMarkRequest.getProductId();
+		String categoryId = addBookMarkRequest.getCategoryId();
 		System.out.println(userId);
 		System.out.println(productId);		
 		System.out.println(categoryId);				
 		if(userId == "" || productId == "" || categoryId == "") {
-			session.setAttribute("message", "パラメータに異常があります。");
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("パラメータに異常があります。");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ResponseMessage responseMessage = new ResponseMessage("パラメータに異常があります。", true);
+            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+            System.out.println(jsonResponse);
+            response.getWriter().write(jsonResponse);
 			return;
 		}
 		
@@ -74,18 +73,27 @@ public class AddBookMarkServlet extends HttpServlet {
 		BookMarkDao bookMarkDao = new BookMarkDao();
 		try {
 			BookMarkBean bookMark = bookMarkDao.findBookMark(parseProductId, parseUserId);
+			System.out.println(bookMark);
 			if(bookMark != null) {
 				session.setAttribute("message", "お気に入りに登録済みです");
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+	            ResponseMessage responseMessage = new ResponseMessage("お気に入りに登録済みです。", true);
+	            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+	            response.getWriter().write(jsonResponse);
 				return;
 			}
 			
 			bookMarkDao.insert(parseUserId, parseProductId, parseCategoryId);
-			session.setAttribute("message", "お気に入りに登録しました。");
-			
 			ArrayList<BookMarkBean> bookMarks = bookMarkDao.findBookMarksByUserId(parseUserId);
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writeValueAsString(bookMarks);
 			session.setAttribute("bookMarks", json);
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+            ResponseMessage responseMessage = new ResponseMessage("お気に入りに登録しました。", false);
+            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+            response.getWriter().write(jsonResponse);
 		} catch (NumberFormatException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

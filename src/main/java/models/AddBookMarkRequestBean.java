@@ -1,9 +1,16 @@
 package models;
 
-public class AddBookMarkRequest {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class AddBookMarkRequestBean {
 	String productId, userId, categoryId;
 
-	public AddBookMarkRequest(String productId, String userId, String categoryId) {
+	@JsonCreator
+	public AddBookMarkRequestBean(
+			@JsonProperty("userId") String userId,
+			@JsonProperty("productId") String productId,
+            @JsonProperty("categoryId") String categoryId) {
 		super();
 		this.productId = productId;
 		this.userId = userId;

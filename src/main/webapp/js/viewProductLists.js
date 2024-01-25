@@ -124,8 +124,11 @@ const createProductList = (data) => {
     bookMarkButton.addEventListener("click", async () => {
 		console.log("book");
 		await fetch("/hotmot/AddBookMarkServlet", {
-    method: "POST",body: JSON.stringify({userId: "1", productId: "1", categoryId: "1"})
-  }).catch((err) => console.log("err: ", err));
+    method: "POST",body: JSON.stringify({userId: "1", productId: x.id, categoryId: x.categoryId})
+  }).then((res) => {
+	  console.log("res", res);
+	  
+	  }).catch((err) => console.log("catch"));
 	})
     ac(bookMarkButton, actionGroup);
     ac(actionGroup, listItem);

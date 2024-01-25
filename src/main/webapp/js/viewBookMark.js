@@ -175,7 +175,7 @@ const createBookMarkList = (bookMarks, parentEl) => {
       addClasses(listItem, ["show"]);
     }, 200);
     const linkEl = ce("a");
-    setHref(linkEl, `/hotmot/ProductDetailServlet?id=${x.id}`);
+    setHref(linkEl, `/hotmot/ProductDetailServlet?id=${x.productId}`);
     const imageEl = ce("img");
     setSrc(imageEl, x.productImage);
     addClasses(imageEl, ["image"]);
