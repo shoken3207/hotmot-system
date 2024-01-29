@@ -59,7 +59,7 @@ public class OrderDao extends CommonDao{
 		return Orders;
     }
 	
-    public void insertOrderDetail (int arg_userId, int arg_shopId) throws SQLException {
+    public void insertOrder (int arg_userId, int arg_shopId) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
 	    	String sql = "INSERT INTO Orders(userId, shopId) VALUES(?, ?)";
@@ -74,7 +74,7 @@ public class OrderDao extends CommonDao{
     }
     
     
-    public void deleteOrderDetail(int arg_id) throws SQLException{
+    public void deleteOrder(int arg_id) throws SQLException{
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
             String sql = "DELETE FROM Orders WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);

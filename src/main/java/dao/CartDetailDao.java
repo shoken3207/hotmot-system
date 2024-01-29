@@ -210,12 +210,12 @@ public class CartDetailDao extends CommonDao {
 		}
 	}
 	
-	public void deleteCartDetailsByUserId(int arg_userId) throws SQLException {
+	public void deleteCartDetailsByCartId(int arg_cartId) throws SQLException {
 		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		try {
-			String sql = "DELETE FROM CartDetails WHERE userId = ?";
+			String sql = "DELETE FROM CartDetails WHERE cartId = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, arg_userId);
+			ps.setInt(1, arg_cartId);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
