@@ -1,22 +1,14 @@
 import { HEADER_INFO } from "./const.js";
+import { ce, gebi, ac, addClasses, setHref, setSrc, removeClass } from "../js/utils.js";
 
-const ce = (el) => document.createElement(el);
-const ctn = (el) => document.createTextNode(el);
-const gebi = (id) => document.getElementById(id);
-const qs = (query) => document.querySelector(query);
-const ac = (child, parent) => parent.appendChild(child);
-const addClasses = (el, classNames) => {
-  classNames.forEach((className) => {
-    el.classList.add(className);
-  });
-};
-const removeClass = (el, className) => el.classList.remove(className);
 const addId = (el, id) => el.setAttribute("id", id);
 
 const currentUrl = window.location.href;
 const currentUrlArray = currentUrl.split("/");
 window.addEventListener("DOMContentLoaded", async () => {
   const defaultHeaderEl = gebi("header");
+  const bodyEl = document.body;
+  bodyEl.style.paddingTop = defaultHeaderEl.clientHeight + 20 + "px";
   const spMenuEl = gebi("sp");
 
   createDefaultHeader(defaultHeaderEl, spMenuEl);

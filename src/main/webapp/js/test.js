@@ -2,33 +2,15 @@ import rice from '../jsons/Rice.json' assert {type: 'json'}
 import product from '../jsons/Product.json' assert {type: 'json'}
 import ProductData from '../jsons/Product.json' assert {type: 'json'}
 import {fetchProductsByCategory} from '../js/master.js'
+import { gebi } from '../js/utils.js'
 
 window.addEventListener("DOMContentLoaded", async () => {
-	console.log("called")
-	await fetchProductsByCategory(5)
-	const options = [
-		{
-			cartId: 1,
-			productId: 3,
-			riceId: 4,
-			quantity: 2
-		},
-		{
-			cartId: 10,
-			productId: 32,
-			riceId: 2,
-			quantity: 20
-		},
-		{
-			cartId: 2,
-			productId: 9,
-			riceId: 2,
-			quantity: 7
-		}
-	]
-	await fetch('/hotmot/test', {
+	const buttonEl = gebi("button");
+	buttonEl.addEventListener("click", async () => {
+		console.log("click");
+	await fetch('/hotmot/ResponseTestServlet', {
 		method: "POST",
-		body: JSON.stringify(options)
+		body: JSON.stringify({})
 	})
         .then(response => {
 			console.log("res: ", response)
@@ -43,4 +25,5 @@ window.addEventListener("DOMContentLoaded", async () => {
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
         });
+	})
 })

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="models.BookMarkBean" %>
+<%@ page import="java.util.ArrayList" %>
 <%
+	String bookMarks = (String)session.getAttribute("bookMarks");
 	String productId = (String)session.getAttribute("productId");
 	System.out.println("productId: " + productId);
 %>
@@ -22,6 +25,7 @@
 <script src="./js/header.js" type="module"></script>
 </head>
 <body>
+<input type="hidden" id="bookMarks" value='<%= bookMarks %>'>
 	<header class="header" id="header">
     </header>
     <div class="sp" id="sp">

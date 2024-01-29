@@ -1,7 +1,10 @@
 import { fetchDetailProduct } from "../js/master.js";
 import { RICE_TYPE } from "./const.js";
-import { ce, gebi, ac, addClasses, setHref, setSrc } from "../js/utils.js";
+import { ce, gebi, ac, addClasses, setHref, setSrc, removeClass } from "../js/utils.js";
 
+
+const bookMarksEl = gebi("bookMarks");
+const bookMarks = JSON.parse(bookMarksEl.value);
 window.addEventListener("DOMContentLoaded", async () => {
   const productIdEl = gebi("productId");
   const containerEl = gebi("container");
@@ -28,7 +31,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const productId = Number(productIdEl.value);
   const product = fetchDetailProduct(productId);
-  const { name, price, image, desc, rices } = product;
+  console.log("product: ", product)
+  const { name, price, image, desc, rices, allergys } = product;
 
   const addCartDetails = [];
   const add = ({ riceId, quantity }) => {
@@ -50,10 +54,34 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   };
   
+  const addCartDetailsFunc = async (option, resetQuantityFunc) => {
+  await fetch("/hotmot/AddCartDetailServlet", {
+    method: "POST",
+    body: JSON.stringify(option),
+  }).then(() => {
+	  console.log("success")
+	  }
+	).catch((err) => console.log("err: ", err));
+};
+  
+  const createAllergys = ({allergys, parentEl}) => {
+	  const allergyGroupEl = ce("div");
+	  addClasses(allergyGroupEl, ["allergy-group"]);
+	  allergys.forEach(({id, name}) => {
+		  const allergyEl = ce("div");
+		  addClasses(allergyEl, ["allergy"]);
+		  const allergyTextEl = ce("span");
+		  allergyTextEl.innerText = name;
+		  ac(allergyTextEl, allergyEl);
+		  ac(allergyEl, allergyGroupEl);
+	  })
+	  ac(allergyGroupEl, parentEl);
+  }
+  
   const createEditQuantity = ({ rices, parentEl }) => {
 		console.log("rices: ", rices, parentEl)
 	  rices.forEach(({ id, name, price }) => {
-	    const quantity = 0;
+	    let quantity = 0;
 	    const addQuantityFunc = () => {
 	      quantity++;
 	      add({ riceId: id, quantity });
@@ -88,6 +116,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 	    addClasses(addBtnEl, ["add"]);
 	    addBtnEl.addEventListener("click", (e) => {
 	      addQuantityFunc();
+	      console.log("quantity: ", quantity)
 	      inputEl.value = quantity;
 	      if (quantity > 0) {
 	        removeClass(subBtnEl, "disabled");
@@ -138,5 +167,82 @@ window.addEventListener("DOMContentLoaded", async () => {
   console.log("counterGroupEl", counterGroupEl);
   createEditQuantity({rices, parentEl: counterGroupEl});
   ac(counterGroupEl, containerEl);
+   const cartButton = ce("div");
+    addClasses(cartButton, ["cart-button"]);
+    const cartButtonIcon = ce("i");
+    addClasses(cartButtonIcon, ["fa-solid", "fa-cart-shopping"]);
+    const cartButtonText = ce("span");
+    cartButtonText.innerHTML = "カートに<br />入れる";
+    ac(cartButtonIcon, cartButton);
+    ac(cartButtonText, cartButton);
+    cartButton.addEventListener("click", async () => {
+      if (addCartDetails.length === 0) return;
+      await addCartDetailsFunc(addCartDetails, resetQuantityFunc);
+    });
+    ac(cartButton, containerEl);
+    const addBookMarkButton = ce("i");
+    const deleteBookMarkButton = ce("i");
+    addClasses(addBookMarkButton, [
+      "fa-regular",
+      "fa-bookmark",
+      "bookmark-button",
+      "fa-2x",
+    ]);
+    addClasses(deleteBookMarkButton, [
+      "fa-solid",
+      "fa-bookmark",
+      "bookmark-button",
+      "fa-2x",
+    ]);
+    addBookMarkButton.style.color = "#FFCF81";
+    deleteBookMarkButton.style.color = "#FFCF81";
+    addBookMarkButton.addEventListener("click", async () => {
+      await fetch("/hotmot/AddBookMarkServlet", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: "1",
+          productId: x.id,
+          categoryId: x.categoryId,
+        }),
+      })
+        .then((res) => {
+			console.log("res: ", res);
+          bookMarks.push({
+            userId: "1",
+            productId: x.id,
+            categoryId: x.categoryId,
+          });
+          rlc(actionGroup);
+          ac(deleteBookMarkButton, actionGroup);
+        })
+        .catch((err) => console.log("err", err));
+    });
+    deleteBookMarkButton.addEventListener("click", async () => {
+      const deleteBookMark = bookMarks.find(
+        (bookMark) => bookMark.productId === x.id
+      );
+      await fetch("/hotmot/DeleteBookMarkServlet", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: "1",
+          productId: deleteBookMark.productId,
+        }),
+      })
+        .then((res) => {
+          const deleteBookMarkIndex = bookMarks.findIndex(
+            (bookMark) => bookMark.productId === x.id
+          );
+          bookMarks.splice(deleteBookMarkIndex, 1);
+          rlc(actionGroup);
+          ac(addBookMarkButton, actionGroup);
+        })
+        .catch((err) => console.log("err: ", err));
+    });
+    if (bookMarks.some((bookMark) => bookMark.productId === x.id)) {
+      ac(deleteBookMarkButton, containerEl);
+    } else {
+      ac(addBookMarkButton, containerEl);
+    }
+  createAllergys({allergys, parentEl:containerEl })
 });
 
