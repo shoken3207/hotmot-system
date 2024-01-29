@@ -9,14 +9,6 @@ import {
   setHref,
 } from "../js/utils.js";
 import {SAMPLE_DATA} from "../js/const.js"
-
-//const fetchCartDetails = async () => {
-//	const cartDetails = await fetch(`/hotmot/CartDetailListServlet?cartId=${cartId}`).then(res => console.log("res: ", res)).catch(err => console.log("err: ", err));
-//	return cartDetails;
-//}
-
-//const cartIdEl = gebi("cartId");
-//const cartId = cartIdEl.value;
 const updateCartButtonEl = gebi("updateCart");
 const orderButtonEl = gebi("order");
 const cartDetailListEl = gebi("cartDetailList");
@@ -27,8 +19,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   const cartDetails = JSON.parse(cartDetailsEl.value);
   const convertCartDetails = createCartDetailsResponse(cartDetails);
   console.log("cartDetails: ", convertCartDetails)
-  //	let cartDetails = await fetchCartDetails();
-  //	cartDetails = createCartDetailsResponse(cartDetails);
   const changeCartDetails = [];
   const change = ({ id, quantity }) => {
     if (changeCartDetails.some((x) => id === x.id)) {
@@ -42,9 +32,16 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.log("order");
   });
 
-  updateCartButtonEl.addEventListener("click", () => {
-    console.log("update");
+  updateCartButtonEl.addEventListener("click", async () => {
     console.log("change: ", changeCartDetails);
+    await fetch("/hotmot/UpdateCartDetailServlet", {
+        method: "POST",
+        body: JSON.stringify(changeCartDetails),
+      })
+        .then((res) => {
+			console.log("res: ", res);
+        })
+        .catch((err) => console.log("err", err));
   });
 //  let cartDetails = SAMPLE_DATA;
   convertCartDetails.forEach(
