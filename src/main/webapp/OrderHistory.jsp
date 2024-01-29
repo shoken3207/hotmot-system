@@ -9,23 +9,36 @@
 <meta charset="UTF-8">
 <title>注文履歴</title>
 <link rel="stylesheet" type="text/css" href="css/OrderHistory.css">
-<%
-//リクエストスコープからのデータの取得
-request.getAttribute("orderHitory");
-%>
-
 </head>
 <body>
+<% ArrayList<OrderDetailBean> orderDetailHistory=(ArrayList<OrderDetailBean>)request.getAttribute("orderDetailHistory"); %> 
 	<h1>注文履歴</h1>
-	<!-- 	<!-- アコーディオンメニュー -->
-	<details class="details">
-	<summary class="details-summary"> <%=request.getAttribute("orderId") %></summary>
-	<p class="details-content">
-	<% ArrayList<OrderDetailBean> order = (ArrayList<OrderDetailBean>)request.getAttribute("orderDetailHistory"); %>	
-    <% for(OrderDetailBean zzz: order) { %>
-        <%=zzz %><br>
-    <% } %>
-	</details>
-	<p><%=request.getAttribute("orderHistory") %></p>
+	<!-- アコーディオンメニュー -->
+	<%  
+	int id, orderId, productId, riceId, quantity, status;
+	String createdAt;
+ 	%>
+	<% for(OrderDetailBean history: orderDetailHistory){ %>
+	    id = history.getId();
+ 		orderId = history.getOrderId();
+ 		productId = history.getProductId();
+ 		riceId = history.getRiceId();
+ 		quantity = history.getQuantity(); 
+ 		status = history.getStatus();
+ 		createdAt = new SimpleDateFormat("yyyy/MM/dd").format(history.getCreatedAt());
+
+ 		<details class="details">
+ 	   	<summary class="details-summary">createdAt</summary>
+		 <p class="details-content">
+		    orderId。<br>
+		    productId<br>
+		    riceId<br>
+		    quantity<br>
+		    status<br>
+		  </p>
+		</details>
+		</p>
+		</details>
+	<% } %>
 </body>
 </html>

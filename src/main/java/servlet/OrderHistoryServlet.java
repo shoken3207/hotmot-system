@@ -12,43 +12,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.OrderDetailHistoryDao;
 import dao.OrderHistoryDao;
-import models.OrderBean;
 import models.OrderDetailBean;
 
 @WebServlet("/OrderHistoryServlet")
 public class OrderHistoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//ユーザidはどこからもってくるのか聞く
+		//コードを変えた際にしたのをIntegerにする
 //		String userId = request.getParameter("userId");
-		int userId = 1;
-		int orderId=0;
-		
+		int userId=2;
+		int orderId=1;
 		OrderHistoryDao dao = new OrderHistoryDao();
 		OrderDetailHistoryDao detailDao = new OrderDetailHistoryDao();
 		try {
-			ArrayList<OrderBean> orderHistory = dao.getOrderHistory(userId);
-			//request.setAttribute("orderHistory", orderHistory);
-			for (OrderBean order : orderHistory) {
-				orderId = order.getId();
-			}
-
+			orderId=dao.getOrderId(userId);
+			//userIdから履歴の取得
 			ArrayList<OrderDetailBean> orderDetailHistory = detailDao.getOrderDetailHistory(orderId);
-			System.out.println("aaa");
 			System.out.println(orderDetailHistory);
-			request.setAttribute("orderId", orderId);
 			request.setAttribute("orderDetailHistory", orderDetailHistory);
-			@SuppressWarnings("unchecked")
-			ArrayList<OrderDetailBean> order = (ArrayList<OrderDetailBean>)request.getAttribute("orderDetailHistory");
-			System.out.println(order);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-//		String orderHistory = "assa";
-//		request.setAttribute("orderHistory", orderHistory);
-		
 		request.getRequestDispatcher("/OrderHistory.jsp").forward(request, response);
 	}
 }

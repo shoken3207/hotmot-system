@@ -18,10 +18,11 @@ public class OrderDetailHistoryDao {
 		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		ArrayList<OrderDetailBean> OrderDetailHistory = new ArrayList<OrderDetailBean>();
 		try {
-			String sql = "SELECT * FROM OrderDetail WHERE orderId = ? ORDER_BY createdAt";
+			String sql = "SELECT * FROM OrderDetails WHERE orderId = ? ORDER BY createdAt";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, args_orderId);
 			ResultSet rs = ps.executeQuery();
+			System.out.println(args_orderId);
 
 			while(rs.next()) {
 				int id = rs.getInt("id");

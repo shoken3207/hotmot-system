@@ -47,7 +47,7 @@ public class OrderDetailBean {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public int status() {
+	public int getStatus() {
 		return status;
 	}
 	public void setStatus(int status) {
