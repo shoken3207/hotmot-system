@@ -17,6 +17,6 @@
 </head>
 <body>
   <p>ログインに成功しました</p>
-  <a href="https://school-hotmot.vercel.app/Home">メニュー画面へ</a>
+  <a href="http://localhost:8080/hotmot/ProductListServlet">メニュー画面へ</a>
 </body>
 </html>
