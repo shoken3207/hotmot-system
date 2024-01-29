@@ -1,56 +1,32 @@
-h1{
-	color:red;
-	text-align: center;
-	
-}
-
-input{
-	width: auto;
-	height: auto;
-	border: solid 1px rebeccapurple;
-	text-align: center;
-	position: static;
-}
-
-button{
-	text-align: center;
-    background-color: #000;
-    color: #fff;
-    padding: 20px;
-    border: none;
-    cursor: pointer;
-}
-
+/* 全体のスタイル */
 body {
   background-color: #fff;
   font-family: sans-serif;
 }
 
+/* ログインフォームのスタイル */
 .login-form {
   text-align: center;
-  width: 300px;
+  max-width: 300px; /* 幅を制限し、レスポンシブに対応 */
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
 }
 
 .login-form h1 {
-  text-align: center;
+  color: #f00; /* 赤色を指定 */
+  margin-bottom: 20px; /* 見出しの下に余白を追加 */
 }
 
 .login-form input {
-  text-align: center;
-  width: 100%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
+  text-align: center; /* 入力欄のテキストを中央揃え */
+  display: block; /* 入力欄をブロック要素として扱う */
+  margin: 0 auto; /* 入力欄を左右中央に配置 */
+  width: 250px; /* 入力欄の横幅を指定（任意） */
 }
 
 .login-form button {
-  text-align: center;
-  background-color: #000;
-  color: #fff;
-  padding: 20px;
-  border: none;
-  cursor: pointer;
+  display: block; /* ボタンをブロック要素として扱う */
+  margin: 0 auto; /* ボタンを左右中央に配置 */
+  width: 250px; /* ボタンの横幅を指定（任意） */
 }
