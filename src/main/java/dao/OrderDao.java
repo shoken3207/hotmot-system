@@ -11,18 +11,42 @@ import java.util.Date;
 import models.OrderBean;
 
 public class OrderDao extends CommonDao{
-
-	public ArrayList<OrderBean> findAll() {
-        ArrayList<OrderBean> Orders = new ArrayList<OrderBean>();
+	
+	public OrderBean findOrderById(int arg_id) {
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-			String sql = "SELECT * FROM orders";
+			String sql = "SELECT * FROM Orders WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, arg_id);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				int id = rs.getInt("id");
-				int userId = rs.getInt("orderId");
-				int shopId = rs.getInt("productId");
+				int userId = rs.getInt("userId");
+				int shopId = rs.getInt("shopId");
+				Date createdAt = rs.getDate("createdAt");
+
+				OrderBean Order  = new OrderBean(id, userId, shopId,createdAt);
+				return Order;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+    }
+
+	public ArrayList<OrderBean> findOrdersByUserId(int arg_userId) {
+        ArrayList<OrderBean> Orders = new ArrayList<OrderBean>();
+		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+			String sql = "SELECT * FROM Orders WHERE userId = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, arg_userId);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				int userId = rs.getInt("userId");
+				int shopId = rs.getInt("shopId");
 				Date createdAt = rs.getDate("createdAt");
 
 				OrderBean Order  = new OrderBean(id, userId, shopId,createdAt);
@@ -34,77 +58,30 @@ public class OrderDao extends CommonDao{
 
 		return Orders;
     }
-    public int insert (int id, int userId, int shopId,Date createdAt) throws SQLException {
+	
+    public void insertOrderDetail (int arg_userId, int arg_shopId) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO orders(id, userId, shopId,createdAt) " +
-                "VALUES(" + id + "," + userId + "," + shopId + ","  + createdAt + ")";
-
-    	PreparedStatement statement = conn.prepareStatement(sql);
-    	ResultSet rs = statement.executeQuery();
-    	rs.next();
+	    	String sql = "INSERT INTO Orders(userId, shopId) VALUES(?, ?)";
+	
+	    	PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, arg_userId);
+			ps.setInt(2, arg_shopId);
+			ps.executeUpdate();
     	
-    	rs.close();
-    	statement.close();
-    	
-    	statement = conn.prepareStatement(sql);
-    	
-    	int updateCount = statement.executeUpdate();
-    	
-    	statement.close();
-    	
-    	conn.commit();
-    	conn.close();
-    	
-    	return updateCount;
     	}
+    	return;
     }
     
-    public int update(int id, int userId, int shopId,Date createdAt) throws SQLException {
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    		String sql = "UPDATE SET orders(id,userId,shopId,createdAt) " +
-                    "VALUES(" + id + "," + userId + "," + shopId + "," + createdAt + ")";
-        	PreparedStatement statement = conn.prepareStatement(sql);
-        	ResultSet rs = statement.executeQuery();
-        	rs.next();
-        	
-        	rs.close();
-        	statement.close();
-        	
-        	statement = conn.prepareStatement(sql);
-        	
-        	int updateCount = statement.executeUpdate();
-        	
-        	statement.close();
-        	
-        	conn.commit();
-        	conn.close();
-        	
-        	return updateCount;
-    	}
-    }
     
-    public int delete(int id, int orderId, int productId, int riceId, int quantity,Date createdAt) throws SQLException{
+    public void deleteOrderDetail(int arg_id) throws SQLException{
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-            String sql = "DELETE FROM orders WHERE id = " + id;
+            String sql = "DELETE FROM Orders WHERE id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
-        	ResultSet rs = statement.executeQuery();
-        	rs.next();
-        	
-        	rs.close();
-        	statement.close();
-        	
-        	statement = conn.prepareStatement(sql);
-        	
-        	int updateCount = statement.executeUpdate();
-        	
-        	statement.close();
-        	
-        	conn.commit();
-        	conn.close();
-        	
-        	return updateCount;
+            statement.setInt(1,  arg_id);
+        	statement.executeUpdate();
     	}
+    	return;
    }
     
     public boolean confirmOrder(String userId, String cartId) throws SQLException {

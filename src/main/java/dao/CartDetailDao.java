@@ -13,7 +13,6 @@ import models.CartDetailBean;
 import models.UpdateCartDetailRequestBean;
 
 public class CartDetailDao extends CommonDao {
-	private static final Object[] CartDetailReques = null;
 
 	private Connection conn;
 
@@ -205,6 +204,18 @@ public class CartDetailDao extends CommonDao {
 			String sql = "DELETE FROM cartdetails WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteCartDetailsByUserId(int arg_userId) throws SQLException {
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
+		try {
+			String sql = "DELETE FROM CartDetails WHERE userId = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, arg_userId);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
