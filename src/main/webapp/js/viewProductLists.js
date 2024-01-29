@@ -258,8 +258,8 @@ const createEditQuantity = ({
   setValue(inputEl, value);
   inputEl.type = "number";
   inputEl.addEventListener("input", (e) => {
-    value = Number(e.target.value);
-    setValue(inputEl, value);
+	  value = Number(e.target.value);
+    inputEl.value = value;
     changeQuantityFunc(value);
     if (value > 0) {
       removeClass(subBtnEl, "disabled");
@@ -273,7 +273,7 @@ const createEditQuantity = ({
   addBtnEl.addEventListener("click", (e) => {
     value++;
     addQuantityFunc();
-    setValue(inputEl, value);
+    inputEl.value = value;
     if (value > 0) {
       removeClass(subBtnEl, "disabled");
     }
@@ -285,7 +285,7 @@ const createEditQuantity = ({
   subBtnEl.addEventListener("click", (e) => {
     value--;
     subQuantityFunc();
-    setValue(inputEl, value);
+    inputEl.value = value;
     if (value === 0) {
       addClasses(subBtnEl, ["disabled"]);
     }
