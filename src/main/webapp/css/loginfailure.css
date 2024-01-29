@@ -1,0 +1,20 @@
+@charset "UTF-8";
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  text-align: center;
+  font-size: 2em;
+  color: red;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: underline;
+  font-size: 1.5em;
+  color: blue;
+  font-weight: bold;
+}
