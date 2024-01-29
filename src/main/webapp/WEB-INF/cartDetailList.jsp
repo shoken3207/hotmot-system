@@ -2,9 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="models.CartDetailBean, java.util.Arrays" %>
 <%
-// 	ArrayList<CartDetailBean> cartDetails = (ArrayList<CartDetailBean>) session.getAttribute("cartDetails");
-// 	int num = (int) session.getAttribute("num");
-// 	System.out.println("num: " + num);
+String cartDetails = (String)session.getAttribute("cartDetails");	
+System.out.println(cartDetails);
 %>
 <!DOCTYPE html>
 <html>
@@ -25,6 +24,7 @@
 <title>カート</title>
 </head>
 <body>
+<input type="hidden" id="cartDetails" value='<%= cartDetails %>'>
 	<header class="header" id="header">
     </header>
     <div class="sp" id="sp">

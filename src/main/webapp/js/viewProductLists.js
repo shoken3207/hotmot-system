@@ -9,11 +9,14 @@ import {
   setSrc,
   setValue,
   removeClass,
+  rlc,
 } from "../js/utils.js";
 
 const lists = gebi("lists");
 const tabs = gebi("tabs");
 
+const bookMarksEl = gebi("bookMarks");
+const bookMarks = JSON.parse(bookMarksEl.value);
 window.addEventListener("DOMContentLoaded", async () => {
   let selectTab = 5;
   TABS.forEach(({ id, name }) => {
@@ -44,14 +47,21 @@ window.addEventListener("DOMContentLoaded", async () => {
   createProductList(data);
 });
 
-const addCartDetail = async (option) => {
+const addCartDetail = async (option, resetQuantityFunc) => {
   await fetch("/hotmot/AddCartDetailServlet", {
     method: "POST",
     body: JSON.stringify(option),
-  }).catch((err) => console.log("err: ", err));
+  }).then(() => {
+	  console.log("success")
+	  resetQuantityFunc()
+	  }
+	).catch((err) => console.log("err: ", err));
 };
 
 const createProductList = (data) => {
+  while (lists.firstChild) {
+    lists.removeChild(lists.firstChild);
+  }
   data.map((x) => {
     const listItem = ce("div");
     addClasses(listItem, ["list-item"]);
@@ -83,6 +93,11 @@ const createProductList = (data) => {
       });
     }
     let quantity = 0;
+    const resetQuantityFunc = () => {
+		console.log("quantity: ", quantity);
+		quantity = 0;
+		console.log("quantity: ", quantity);
+	}
     const addQuantityFunc = () => quantity++;
     const subQuantityFunc = () => quantity--;
     const changeQuantityFunc = (value) => (quantity = value);
@@ -105,32 +120,73 @@ const createProductList = (data) => {
     ac(cartButtonText, cartButton);
     cartButton.addEventListener("click", async () => {
       if (quantity === 0) return;
-      console.log("click");
-      console.log("id: ", x.id);
-      console.log("riceId: ", riceId);
-      console.log("quantity: ", quantity);
       const option = [{ cartId: 1, productId: x.id, riceId, quantity }];
-      await addCartDetail(option);
+      await addCartDetail(option, resetQuantityFunc);
     });
     ac(cartButton, actionGroup);
-    const bookMarkButton = ce("i");
-    addClasses(bookMarkButton, [
+    const addBookMarkButton = ce("i");
+    const deleteBookMarkButton = ce("i");
+    addClasses(addBookMarkButton, [
       "fa-regular",
-      "fa-star",
+      "fa-bookmark",
       "bookmark-button",
       "fa-2x",
     ]);
-    bookMarkButton.style.color = "#FFCF81";
-    bookMarkButton.addEventListener("click", async () => {
-		console.log("book");
-		await fetch("/hotmot/AddBookMarkServlet", {
-    method: "POST",body: JSON.stringify({userId: "1", productId: x.id, categoryId: x.categoryId})
-  }).then((res) => {
-	  console.log("res", res);
-	  
-	  }).catch((err) => console.log("catch"));
-	})
-    ac(bookMarkButton, actionGroup);
+    addClasses(deleteBookMarkButton, [
+      "fa-solid",
+      "fa-bookmark",
+      "bookmark-button",
+      "fa-2x",
+    ]);
+    addBookMarkButton.style.color = "#FFCF81";
+    deleteBookMarkButton.style.color = "#FFCF81";
+    addBookMarkButton.addEventListener("click", async () => {
+      await fetch("/hotmot/AddBookMarkServlet", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: "1",
+          productId: x.id,
+          categoryId: x.categoryId,
+        }),
+      })
+        .then((res) => {
+			console.log("res: ", res);
+          bookMarks.push({
+            userId: "1",
+            productId: x.id,
+            categoryId: x.categoryId,
+          });
+          rlc(actionGroup);
+          ac(deleteBookMarkButton, actionGroup);
+        })
+        .catch((err) => console.log("err", err));
+    });
+    deleteBookMarkButton.addEventListener("click", async () => {
+      const deleteBookMark = bookMarks.find(
+        (bookMark) => bookMark.productId === x.id
+      );
+      await fetch("/hotmot/DeleteBookMarkServlet", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: "1",
+          productId: deleteBookMark.productId,
+        }),
+      })
+        .then((res) => {
+          const deleteBookMarkIndex = bookMarks.findIndex(
+            (bookMark) => bookMark.productId === x.id
+          );
+          bookMarks.splice(deleteBookMarkIndex, 1);
+          rlc(actionGroup);
+          ac(addBookMarkButton, actionGroup);
+        })
+        .catch((err) => console.log("err: ", err));
+    });
+    if (bookMarks.some((bookMark) => bookMark.productId === x.id)) {
+      ac(deleteBookMarkButton, actionGroup);
+    } else {
+      ac(addBookMarkButton, actionGroup);
+    }
     ac(actionGroup, listItem);
     lists.appendChild(listItem);
   });
@@ -174,7 +230,6 @@ const createSelecRicetEl = ({
 }) => {
   const selectEl = ce("select");
   selectEl.addEventListener("change", (e) => {
-    console.log(e.target.value);
     changeRiceIdFunc(Number(e.target.value));
   });
   addClasses(selectEl, [className]);
@@ -218,12 +273,10 @@ const createEditQuantity = ({
   addBtnEl.addEventListener("click", (e) => {
     value++;
     addQuantityFunc();
-    console.log("value: ", value)
     setValue(inputEl, value);
     if (value > 0) {
       removeClass(subBtnEl, "disabled");
     }
-    console.log("click", value);
   });
   const subBtnEl = ce("button");
   subBtnEl.classList.add("sub");
@@ -236,7 +289,6 @@ const createEditQuantity = ({
     if (value === 0) {
       addClasses(subBtnEl, ["disabled"]);
     }
-    console.log("click", value);
   });
   ac(subBtnEl, divEl);
   ac(inputEl, divEl);

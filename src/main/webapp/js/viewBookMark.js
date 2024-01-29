@@ -8,6 +8,7 @@ import {
   setHref,
   setValue,
   showToast,
+  rlc,
 } from "../js/utils.js";
 import { createBookMarksResponse } from "../js/convertBookMarks.js";
 import { TABS, PRODUCT_CATEGORIES } from "../js/const.js";
@@ -113,9 +114,7 @@ const tabs = gebi("tabs");
 window.addEventListener("DOMContentLoaded", () => {
   const message = messageEl.value;
   const bookMarks = JSON.parse(bookMarksEl.value);
-  console.log("bookMarks: ", bookMarksEl, bookMarks);
   const convertBookMarks = createBookMarksResponse(bookMarks);
-  console.log("convertBookMarks: ", convertBookMarks);
   if (message) {
     console.log(message);
     showToast({ text: message });
@@ -133,7 +132,6 @@ window.addEventListener("DOMContentLoaded", () => {
     setValue(tab, id);
     tab.addEventListener("click", async () => {
       selectTab = id;
-      console.log("selectTab: ", selectTab);
       const tabItems = document.querySelectorAll(".tab");
       tabItems.forEach((tabItem) => {
         removeClass(tabItem, "active");
@@ -154,13 +152,11 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 const filterByCategoryId = (bookMarks, selectTab) => {
-  console.log("bookMarks: ", bookMarks);
   let bookMarksByCategoryId = bookMarks;
 
   if (selectTab !== PRODUCT_CATEGORIES.ALL) {
     bookMarksByCategoryId = bookMarks.filter((x) => x.categoryId === selectTab);
   }
-  console.log("bookMarksByCategoryId: ", bookMarksByCategoryId);
   if (bookMarksByCategoryId.length == 0) {
     showToast({ text: "お気に入りに登録している商品はありません。" });
   }
@@ -168,7 +164,7 @@ const filterByCategoryId = (bookMarks, selectTab) => {
 };
 
 const createBookMarkList = (bookMarks, parentEl) => {
-  bookMarks.forEach((x) => {
+  bookMarks.forEach((x, index) => {
     const listItem = ce("div");
     addClasses(listItem, ["list-item"]);
     setTimeout(() => {
@@ -188,21 +184,59 @@ const createBookMarkList = (bookMarks, parentEl) => {
     productNameEl.innerText = x.productName;
     ac(productNameEl, divEl);
 
-    const bookMarkButton = ce("i");
-    addClasses(bookMarkButton, [
+    const addBookMarkButton = ce("i");
+    const deleteBookMarkButton = ce("i");
+    addClasses(addBookMarkButton, [
       "fa-regular",
-      "fa-star",
+      "fa-bookmark",
       "bookmark-button",
       "fa-2x",
     ]);
-    bookMarkButton.style.color = "#FFCF81";
-    bookMarkButton.addEventListener("click", async () => {
-      console.log("book");
-      await fetch("/hotmot/BookMarkServlet", {
-        method: "GET",
-      }).catch((err) => console.log("err: ", err));
+    addClasses(deleteBookMarkButton, [
+      "fa-solid",
+      "fa-bookmark",
+      "bookmark-button",
+      "fa-2x",
+    ]);
+    addBookMarkButton.style.color = "#FFCF81";
+    deleteBookMarkButton.style.color = "#FFCF81";
+    addBookMarkButton.addEventListener("click", async () => {
+      await fetch("/hotmot/AddBookMarkServlet", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: "1",
+          productId: x.productId,
+          categoryId: x.categoryId,
+        }),
+      })
+        .then((res) => {
+          bookMarks.push({
+            userId: "1",
+            productId: x.productId,
+            categoryId: x.categoryId,
+          });
+          rlc(divEl);
+          ac(deleteBookMarkButton, divEl);
+        })
+        .catch((err) => console.log("err", err));
     });
-    ac(bookMarkButton, divEl);
+    deleteBookMarkButton.addEventListener("click", async () => {
+      await fetch("/hotmot/DeleteBookMarkServlet", {
+        method: "POST",
+        body: JSON.stringify({ userId: "1", productId: x.productId }),
+      })
+        .then((res) => {
+          bookMarks.splice(index, 1);
+          rlc(divEl);
+          ac(addBookMarkButton, divEl);
+        })
+        .catch((err) => console.log("err", err));
+    });
+    if (bookMarks.some((bookMark) => bookMark.productId === x.productId)) {
+      ac(deleteBookMarkButton, divEl);
+    } else {
+      ac(addBookMarkButton, divEl);
+    }
 
     ac(divEl, listItem);
     parentEl.appendChild(listItem);

@@ -20,9 +20,13 @@ import {SAMPLE_DATA} from "../js/const.js"
 const updateCartButtonEl = gebi("updateCart");
 const orderButtonEl = gebi("order");
 const cartDetailListEl = gebi("cartDetailList");
+const cartDetailsEl = gebi("cartDetails");
 
 window.addEventListener("DOMContentLoaded", async () => {
   console.log("call");
+  const cartDetails = JSON.parse(cartDetailsEl.value);
+  const convertCartDetails = createCartDetailsResponse(cartDetails);
+  console.log("cartDetails: ", convertCartDetails)
   //	let cartDetails = await fetchCartDetails();
   //	cartDetails = createCartDetailsResponse(cartDetails);
   const changeCartDetails = [];
@@ -42,8 +46,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.log("update");
     console.log("change: ", changeCartDetails);
   });
-  let cartDetails = SAMPLE_DATA;
-  cartDetails.forEach(
+//  let cartDetails = SAMPLE_DATA;
+  convertCartDetails.forEach(
     ({
       id,
       price,

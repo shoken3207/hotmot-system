@@ -22,7 +22,7 @@ public class CartDetailDao extends CommonDao {
 		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		ArrayList<CartDetailBean> CartDetails = new ArrayList<CartDetailBean>();
 		try {
-			String sql = "SELECT * FROM cartdetail WHERE cartId=? ORDER_BY productId";
+			String sql = "SELECT * FROM cartdetails WHERE cartId=? ORDER BY createdAt";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, args_cartId);
 			ResultSet rs = ps.executeQuery();
@@ -46,10 +46,10 @@ public class CartDetailDao extends CommonDao {
 
 	// SELECT文 - idに一致するひとつのCartDetailを表示 
 	public ArrayList<CartDetailBean> getCratDetailById(int args_id) throws SQLException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		ArrayList<CartDetailBean> CartDetails = new ArrayList<CartDetailBean>();
 		try {
-			String sql = "SELECT * FROM cartdetail WHERE id=?";
+			String sql = "SELECT * FROM cartdetails WHERE id=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, args_id);
 			ResultSet rs = ps.executeQuery();
@@ -75,15 +75,14 @@ public class CartDetailDao extends CommonDao {
 	}
 
 	// SELECT文 - cartId,ProductId,riceIdに一致するひとつのCartDetailを表示 
-	public ArrayList<CartDetailBean> getCratDetail(int args_cartId, int args_productId, int args_riceId)throws SQLException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
-		ArrayList<CartDetailBean> CartDetails = new ArrayList<CartDetailBean>();
+	public CartDetailBean getCartDetail(int args_cartId, int args_productId, int args_riceId)throws SQLException {
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		try {
-			String sql = "SELECT * FROM cartdetail WHERE cartid=? and productId=? and riceId=?";
+			String sql = "SELECT * FROM CartDetails WHERE cartId=? and productId=? and riceId=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, args_cartId);
-			ps.setInt(1, args_productId);
-			ps.setInt(1, args_riceId);
+			ps.setInt(2, args_productId);
+			ps.setInt(3, args_riceId);
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
@@ -95,19 +94,21 @@ public class CartDetailDao extends CommonDao {
 				Date createdAt = rs.getDate("createdAt");
 
 				CartDetailBean CartDetail = new CartDetailBean(id, cartId, productId, riceId, quantity, createdAt);
-				CartDetails.add(CartDetail);
+				System.out.println("CartDetail");
+				System.out.println(CartDetail);
+				return CartDetail;
 			} else {
 				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return CartDetails;
+		return null;
 	}
 
 	// INSERT文 
 	public void insert(ArrayList<AddCartDetailRequestBean> addCartDetailsRequest) throws SQLException {
-		conn = DriverManager.getConnection(this.URL, this.USER, this.PASS);
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		try {
 			String sql = "INSERT INTO CartDetails(cartId, productId,riceId,quantity) VALUES(?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -124,28 +125,33 @@ public class CartDetailDao extends CommonDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-
-		
+	}
+	
+	public void createCartDetail(int cartId, int productId, int riceId, int quantity) throws SQLException {
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
+		try {
+			String sql = "INSERT INTO CartDetails(cartId, productId,riceId,quantity) VALUES(?,?,?,?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, cartId);
+			ps.setInt(2, productId);
+			ps.setInt(3, riceId);
+			ps.setInt(4, quantity); 
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	    	
 
 	// UPDATE文
-	public void update(ArrayList<Integer> CartDetailRequest) throws SQLException {
+	public void updateCartDetail(int id, int quantity) throws SQLException {
     	try{
-        	String sql = null;
+    		String sql = "UPDATE cartdetails SET quantity = ? WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, quantity);
+			ps.setInt(2, id);
+			int rs = ps.executeUpdate();
         	
-        	int quantity = 0;
-			if(quantity != 1) {
-        		for(int i = 0; i < CartDetailReques.length; i++) {
-        			ps.setInt(1, ((CartDetailBean) CartDetailReques[i]).getQuantity());
-            		ps.setInt(2, ((CartDetailBean) CartDetailReques[i]).getId());
-        		}
-        	}else {
-        		int i = 0;
-				ps.setInt(1, ((CartDetailBean) CartDetailReques[i]).getId());
-        	}
     	}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -169,7 +175,7 @@ public class CartDetailDao extends CommonDao {
 
 	// UPDATE文 
 	public void update(ArrayList<UpdateCartDetailRequestBean> updateCartDetailsRequest) throws SQLException {
-		conn = DriverManager.getConnection(this.URL, this.USER, this.PASS);
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		try {
 			String sql = "UPDATE CartDetails SET quantity = ? WHERE id = ?";
 			PreparedStatement ps1 = conn.prepareStatement(sql);
@@ -194,7 +200,7 @@ public class CartDetailDao extends CommonDao {
 
 	// DELETE文 
 	public void delete(int id) throws SQLException {
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotmot", "root", "mysql");
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		try {
 			String sql = "DELETE FROM cartdetails WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);

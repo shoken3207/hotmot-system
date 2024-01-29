@@ -2,7 +2,7 @@ import ProductData from "../jsons/Product.json" assert { type: "json" };
 import RiceData from "../jsons/Rice.json" assert { type: "json" };
 
 // 引数id, cartId, productId, riceId, quantity, createdAt
-export const createCartDetailsResponse = async (cartDetails) => {
+export const createCartDetailsResponse = (cartDetails) => {
   const productData = ProductData;
   const riceData = RiceData;
   const cartDetailsResponse = cartDetails.map((cartDetail) => {

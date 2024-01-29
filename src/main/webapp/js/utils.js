@@ -4,6 +4,7 @@ const ctn = (el) => document.createTextNode(el);
 const gebi = (id) => document.getElementById(id);
 const qs = (query) => document.querySelector(query);
 const ac = (child, parent) => parent.appendChild(child);
+const rlc = (parentEl) => parentEl.removeChild(parentEl.lastElementChild) 
 const addClasses = (el, classNames) =>{
 	classNames.forEach(className => {
 		el.classList.add(className);
@@ -34,4 +35,4 @@ const showToast = ({text}) => {
 
 
 
-export {ce, ctn, gebi, qs, ac, addClasses, removeClass, setId, setHref, setSrc, setValue, showToast}
+export {ce, ctn, gebi, qs, ac, rlc, addClasses, removeClass, setId, setHref, setSrc, setValue, showToast}

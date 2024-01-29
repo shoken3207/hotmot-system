@@ -37,7 +37,7 @@ export const HEADER_INFO = [
 		iconClass: "fa-star"
 	},{
 		label: "カート",
-		servletName: "CartDetailListServlet",
+		servletName: "CartDetailListServlet?cartId=1",
 		iconClass: "fa-cart-shopping"
 	},{
 		label: "注文履歴",

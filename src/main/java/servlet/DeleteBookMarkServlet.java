@@ -1,5 +1,6 @@
 package servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.BookMarkDao;
 import models.BookMarkBean;
+import models.DeleteBookMarkRequestBean;
+import models.ResponseMessage;
 
 /**
  * Servlet implementation class DeleteBookMarkServlet
@@ -37,28 +40,47 @@ public class DeleteBookMarkServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		String userId = request.getParameter("userId");
-		String id = request.getParameter("id");
-		
-		if(userId == "" || id == "") {
-			session.setAttribute("message", "パラメータに異常があります。");
+		StringBuilder sb = new StringBuilder();
+		BufferedReader reader = request.getReader();
+		String line;
+		while ((line = reader.readLine()) != null) {
+		    sb.append(line);
+		}
+		String requestBody = sb.toString();
+		ObjectMapper objectMapper = new ObjectMapper();
+		DeleteBookMarkRequestBean deleteBookMarkRequest = objectMapper.readValue(requestBody, DeleteBookMarkRequestBean.class);
+		String userId = deleteBookMarkRequest.getUserId();
+		String productId = deleteBookMarkRequest.getProductId();
+		if(userId == "" || productId == "") {
+			response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ResponseMessage responseMessage = new ResponseMessage("パラメータに異常があります。", true);
+            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+            response.getWriter().write(jsonResponse);
 			return;
 		}
 		
 		int parseUserId = Integer.parseInt(userId);
-		int parseId = Integer.parseInt(id);
+		int parseProductId = Integer.parseInt(productId);
 		
 		BookMarkDao bookMarkDao = new BookMarkDao();
 		try {
-			BookMarkBean bookMark = bookMarkDao.findBookMarkById( parseId);
+			BookMarkBean bookMark = bookMarkDao.findBookMark(parseProductId, parseUserId);
 			if(bookMark == null) {
-				session.setAttribute("message", "お気に入りに登録されていません。");
+				response.setContentType("application/json");
+	            response.setCharacterEncoding("UTF-8");
+	            ResponseMessage responseMessage = new ResponseMessage("お気に入りに登録されていません。", true);
+	            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+	            response.getWriter().write(jsonResponse);
 				return;
 			}
 			
-			bookMarkDao.delete(parseId);
-			session.setAttribute("message", "お気に入りを削除しました。");
-			
+			bookMarkDao.delete(bookMark.getId());
+			response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+			ResponseMessage responseMessage = new ResponseMessage("お気に入りを削除しました。", false);
+            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+            response.getWriter().write(jsonResponse);
 			ArrayList<BookMarkBean> bookMarks = bookMarkDao.findBookMarksByUserId(parseUserId);
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writeValueAsString(bookMarks);

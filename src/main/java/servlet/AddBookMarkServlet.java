@@ -46,22 +46,16 @@ public class AddBookMarkServlet extends HttpServlet {
 		    sb.append(line);
 		}
 		String requestBody = sb.toString();
-		System.out.println("request: " + requestBody);
-		
 	  	ObjectMapper objectMapper = new ObjectMapper();
 	  	AddBookMarkRequestBean addBookMarkRequest = objectMapper.readValue(requestBody, AddBookMarkRequestBean.class);
 		String userId = addBookMarkRequest.getUserId();
 		String productId = addBookMarkRequest.getProductId();
 		String categoryId = addBookMarkRequest.getCategoryId();
-		System.out.println(userId);
-		System.out.println(productId);		
-		System.out.println(categoryId);				
 		if(userId == "" || productId == "" || categoryId == "") {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             ResponseMessage responseMessage = new ResponseMessage("パラメータに異常があります。", true);
             String jsonResponse = objectMapper.writeValueAsString(responseMessage);
-            System.out.println(jsonResponse);
             response.getWriter().write(jsonResponse);
 			return;
 		}
@@ -73,7 +67,6 @@ public class AddBookMarkServlet extends HttpServlet {
 		BookMarkDao bookMarkDao = new BookMarkDao();
 		try {
 			BookMarkBean bookMark = bookMarkDao.findBookMark(parseProductId, parseUserId);
-			System.out.println(bookMark);
 			if(bookMark != null) {
 				session.setAttribute("message", "お気に入りに登録済みです");
 				response.setContentType("application/json");
