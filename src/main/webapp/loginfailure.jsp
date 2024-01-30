@@ -9,6 +9,7 @@
 </head>
 <body>
 <p>ログインに失敗しました</p>
-  <a href="index.jsp">メニューへ</a>
+  <a href="index.jsp">メニューへ</a><br>
+  <a href="administrator.jsp">管理者メニューへ</a>
 </body>
 </html>

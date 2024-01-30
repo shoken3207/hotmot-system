@@ -56,42 +56,297 @@
   },
   {
     "id": 12,
-    "productId": 5,
+    "productId": 1,
     "allergyId": 1
   },
   {
     "id": 13,
-    "productId": 5,
-    "allergyId": 2
+    "productId": 1,
+    "allergyId": 1
   },
   {
     "id": 14,
-    "productId": 5,
-    "allergyId": 3
+    "productId": 1,
+    "allergyId": 1
   },
   {
     "id": 15,
-    "productId": 6,
+    "productId": 1,
     "allergyId": 1
   },
   {
     "id": 16,
-    "productId": 6,
-    "allergyId": 2
+    "productId": 1,
+    "allergyId": 1
   },
   {
     "id": 17,
-    "productId": 6,
-    "allergyId": 3
+    "productId": 1,
+    "allergyId": 1
   },
   {
     "id": 18,
-    "productId": 8,
+    "productId": 1,
     "allergyId": 1
   },
   {
     "id": 19,
-    "productId": 8,
-    "allergyId": 2
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 20,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 21,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 22,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 23,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 24,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 25,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 26,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 27,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 28,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 29,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 30,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 31,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 32,
+    "productId": 1,
+    "allergyId": 1
+  },
+  {
+    "id": 33,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 34,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 35,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 36,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 37,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 38,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 39,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 40,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 41,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 42,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 43,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 44,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 45,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 46,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 47,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 48,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 49,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 50,
+    "productId": 2,
+    "allergyId": 1
+  },
+  {
+    "id": 51,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 52,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 53,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 54,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 55,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 56,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 57,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 58,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 59,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 60,
+    "productId": 3,
+    "allergyId": 1
+  },
+  {
+    "id": 61,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 62,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 63,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 64,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 65,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 66,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 67,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 68,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 69,
+    "productId": 4,
+    "allergyId": 1
+  },
+  {
+    "id": 70,
+    "productId": 4,
+    "allergyId": 1
   }
 ]
