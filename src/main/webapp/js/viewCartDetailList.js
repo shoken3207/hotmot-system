@@ -16,7 +16,7 @@ const cartDetailListEl = gebi("cartDetailList");
 const cartDetailsEl = gebi("cartDetails");
 
 window.addEventListener("DOMContentLoaded", async () => {
-  const cartDetails = JSON.parse(cartDetailsEl.value);
+  let cartDetails = JSON.parse(cartDetailsEl.value);
   if (cartDetails.length === 0) {
     showToast({ text: "カートに商品がありません。" });
   }
@@ -46,6 +46,10 @@ window.addEventListener("DOMContentLoaded", async () => {
           return response.json();
         })
         .then((res) => {
+			cartDetails = [];
+			while( cartDetailListEl.firstChild ){
+			  cartDetailListEl.removeChild( cartDetailListEl.firstChild );
+			}
           if (res.message) {
             console.log(res.message);
             showToast({ text: res.message });
