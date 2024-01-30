@@ -37,16 +37,20 @@ public class OrderDetailDao extends CommonDao{
 
 		return OrderDetails;
     }
-    public int insert (int userId, int shopId) throws SQLException {
+    public int insert (int userId, int shopId,int orderId,int productId,int riceId,int quantity) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO orderdetail(userId,shopId) " +
-                "VALUES(?,?)";
+    	String sql = "INSERT INTO orderdetail(userId,shopId,orderId, productId,riceId,quantity) " +
+                "VALUES(?,?,?,?,?,?)";
 
     	try (PreparedStatement statement = conn.prepareStatement(sql)) {
             // プリペアードステートメントのパラメータに値をセット
             statement.setInt(1, userId);
             statement.setInt(2, shopId);
+            statement.setInt(3, orderId);
+            statement.setInt(4, productId);
+            statement.setInt(5, riceId);
+            statement.setInt(6, quantity);
 
             // アップデートを実行
             int updateCount = statement.executeUpdate();
