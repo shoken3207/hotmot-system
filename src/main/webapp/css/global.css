@@ -20,6 +20,7 @@ li {
 
 html {
   font-size: 16px;
+	scroll-behavior: smooth;
 }
 
 input[type="number"] {

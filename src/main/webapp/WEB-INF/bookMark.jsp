@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="css/global.css" />
 <link rel="stylesheet" href="css/header.css" />
 <link rel="stylesheet" href="css/tabs.css" />
+    <link rel="stylesheet" href="css/topScrollButton.css" />
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <link
@@ -38,6 +39,7 @@
 	
 	<script src="js/viewBookMark.js" type="module"></script>
 	<script src="./js/header.js" type="module"></script>	
+    <script src="./js/topScrollButton.js" type="module"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>

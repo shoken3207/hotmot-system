@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/tabs.css" />
+    <link rel="stylesheet" href="css/topScrollButton.css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link
       href="https://use.fontawesome.com/releases/v6.2.0/css/all.css"
@@ -24,6 +25,7 @@
     <script src="js/master.js" type="module"></script>
     <script src="js/viewProductLists.js" type="module"></script>
     <script src="./js/header.js" type="module"></script>
+    <script src="./js/topScrollButton.js" type="module"></script>
   </head>
   <body>
   
