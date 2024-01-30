@@ -5,9 +5,6 @@ public class UserBean {
 	private String email, name;
 	private Boolean isAdmin;
 	
-	public int getId() {
-		return id;
-	}
 	public UserBean(int id, String email, String name, Boolean isAdmin) {
 		super();
 		this.id = id;
@@ -15,6 +12,10 @@ public class UserBean {
 		this.name = name;
 		this.isAdmin = isAdmin;
 	}
+	public int getId() {
+		return id;
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
