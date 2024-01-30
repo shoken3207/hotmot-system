@@ -28,11 +28,10 @@ public class OrderHistoryServlet extends HttpServlet {
 			orderId=dao.getOrderId(userId);
 			//userIdから履歴の取得
 			ArrayList<OrderDetailBean> orderDetailHistory = detailDao.getOrderDetailHistory(orderId);
-			System.out.println(orderDetailHistory);
 			request.setAttribute("orderDetailHistory", orderDetailHistory);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("/OrderHistory.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/OrderHistory.jsp").forward(request, response);
 	}
 }
