@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CartDetailDao;
+import models.ResponseMessage;
 import models.UpdateCartDetailRequestBean;
 
 /**
@@ -51,11 +51,20 @@ public class UpdateCartDetailServlet extends HttpServlet {
     	ObjectMapper objectMapper = new ObjectMapper();
     	List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
     	for(Map<String, Object> data: dataList) {
-    		int cartDetailId = (int) data.get("cartDetailId");
+    		int cartDetailId = (int) data.get("id");
     		int quantity = (int) data.get("quantity");
     		UpdateCartDetailRequestBean updateCartDetailRequest = new UpdateCartDetailRequestBean(cartDetailId, quantity);
 	        updateCartDetailRequestList.add(updateCartDetailRequest);
     	}
+    	if(updateCartDetailRequestList.size() == 0) {
+			response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ResponseMessage responseMessage = new ResponseMessage("更新された商品はありません。", true);
+            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+            response.getWriter().write(jsonResponse);
+			return;
+		}
+    	System.out.println(updateCartDetailRequestList);
     	CartDetailDao cartDetailDao = new CartDetailDao(); 
     	try {
 			cartDetailDao.update(updateCartDetailRequestList);
@@ -64,8 +73,12 @@ public class UpdateCartDetailServlet extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/aa.jsp");
-		dispatcher.forward(request, response);
+    	response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        ResponseMessage responseMessage = new ResponseMessage("カートの内容を更新しました。", true);
+        String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+        response.getWriter().write(jsonResponse);
+		return;
 	}
 
 }

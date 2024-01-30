@@ -1,0 +1,42 @@
+.tabs {
+  width: 100%;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.tabs .tab {
+  width: 20%;
+  max-width: 120px;
+  font-size: 15px;
+  border: 1px solid #d9edbf;
+  padding: 0.4rem 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tabs .tab:first-of-type {
+  border-radius: 10px 0 0 10px;
+}
+.tabs .tab:last-of-type {
+  border-radius: 0 10px 10px 0;
+}
+
+.tabs .tab.active {
+  background-color: #d9edbf;
+  color: white;
+}
+
+
+@media screen and (max-width: 550px) {
+  .tabs {
+    margin-bottom: 1rem;
+  }
+  
+  .tabs .tab {
+    font-size: 10px;
+  }
+}

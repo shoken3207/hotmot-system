@@ -7,24 +7,21 @@ import {
   removeClass,
   setSrc,
   setHref,
+  showToast
 } from "../js/utils.js";
 import {SAMPLE_DATA} from "../js/const.js"
-
-//const fetchCartDetails = async () => {
-//	const cartDetails = await fetch(`/hotmot/CartDetailListServlet?cartId=${cartId}`).then(res => console.log("res: ", res)).catch(err => console.log("err: ", err));
-//	return cartDetails;
-//}
-
-//const cartIdEl = gebi("cartId");
-//const cartId = cartIdEl.value;
 const updateCartButtonEl = gebi("updateCart");
 const orderButtonEl = gebi("order");
 const cartDetailListEl = gebi("cartDetailList");
+const cartDetailsEl = gebi("cartDetails");
 
 window.addEventListener("DOMContentLoaded", async () => {
-  console.log("call");
-  //	let cartDetails = await fetchCartDetails();
-  //	cartDetails = createCartDetailsResponse(cartDetails);
+  const cartDetails = JSON.parse(cartDetailsEl.value);
+  if (cartDetails.length === 0) {
+    showToast({ text: "カートに商品がありません。" });
+  }
+  const convertCartDetails = createCartDetailsResponse(cartDetails);
+  console.log("cartDetails: ", convertCartDetails)
   const changeCartDetails = [];
   const change = ({ id, quantity }) => {
     if (changeCartDetails.some((x) => id === x.id)) {
@@ -34,16 +31,42 @@ window.addEventListener("DOMContentLoaded", async () => {
       changeCartDetails.push({ id, quantity });
     }
   };
-  orderButtonEl.addEventListener("click", () => {
+  orderButtonEl.addEventListener("click", async () => {
     console.log("order");
+    await fetch("/hotmot/OrderServlet", {
+        method: "POST",
+        body: JSON.stringify({
+          cartId: 1
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((res) => {
+          if (res.message) {
+            console.log(res.message);
+            showToast({ text: res.message });
+          }
+        })
+        .catch((err) => console.log("err", err));
   });
 
-  updateCartButtonEl.addEventListener("click", () => {
-    console.log("update");
+  updateCartButtonEl.addEventListener("click", async () => {
     console.log("change: ", changeCartDetails);
+    await fetch("/hotmot/UpdateCartDetailServlet", {
+        method: "POST",
+        body: JSON.stringify(changeCartDetails),
+      })
+        .then((res) => {
+			console.log("res: ", res);
+        })
+        .catch((err) => console.log("err", err));
   });
-  let cartDetails = SAMPLE_DATA;
-  cartDetails.forEach(
+//  let cartDetails = SAMPLE_DATA;
+  convertCartDetails.forEach(
     ({
       id,
       price,
@@ -144,7 +167,7 @@ const createEditQuantity = ({
   if (value === 0) {
     addClasses(subBtnEl, ["disabled"]);
   }
-  subBtnEl.innerText = "ー";
+  subBtnEl.innerText = "－";
   subBtnEl.addEventListener("click", (e) => {
     value--;
     subQuantityFunc();

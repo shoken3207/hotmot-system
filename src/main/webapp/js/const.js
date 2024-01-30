@@ -33,11 +33,11 @@ export const HEADER_INFO = [
 		iconClass: "fa-house"
 	},{
 		label: "ブックマーク",
-		servletName: "BookMarkServlet",
+		servletName: "BookMarkServlet?userId=1",
 		iconClass: "fa-star"
 	},{
 		label: "カート",
-		servletName: "CartDetailListServlet",
+		servletName: "CartDetailListServlet?cartId=1",
 		iconClass: "fa-cart-shopping"
 	},{
 		label: "注文履歴",
