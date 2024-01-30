@@ -7,12 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import models.OrderDetailBean;
 
 public class OrderDetailDao extends CommonDao{
-			
-			
+
+
 	public OrderDetailBean findOrderDetailById(int arg_id) {
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
 			String sql = "SELECT * FROM OrderDetails WHERE id=?";
@@ -63,10 +64,10 @@ public class OrderDetailDao extends CommonDao{
 
 		return OrderDetails;
     }
-	
-	
+
+
     public void insert (int orderId, int productId, int riceId, int quantity) throws SQLException {
-    	
+
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
     	String sql = "INSERT INTO OrderDetails(orderId, productId, riceId, quantity, status) " +
                 "VALUES(?, ?, ?, ?, ?)";
@@ -85,21 +86,50 @@ public class OrderDetailDao extends CommonDao{
         }
     }
 }
-    
-    
+
+
     public void delete(int id) throws SQLException{
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
             String sql = "DELETE FROM OrderDetails WHERE id = ?";
-            
+
             try(PreparedStatement statement = conn.prepareStatement(sql)) {
             	statement.setInt(1, id);
-            	
+
             	int updateCount = statement.executeUpdate();
             	return;
-            	
+
             }
-        	
-        	
+
+
     	}
    }
+
+    public List<OrderDetailBean> getAllOrderDetails() {
+        List<OrderDetailBean> orderDetails = new ArrayList<>();
+
+        String query = "SELECT * FROM orderdetails";
+
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement statement = con.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                OrderDetailBean orderDetail = new OrderDetailBean(0, 0, 0, 0, 0, null);
+                orderDetail.setId(resultSet.getInt("id"));
+                orderDetail.setOrderId(resultSet.getInt("orderId"));
+                //orderDetail.setStatus(resultSet.getInt("status"));
+                orderDetail.setCreatedAt(resultSet.getDate("createdAt"));
+                orderDetail.setProductId(resultSet.getInt("productId"));
+                orderDetail.setRiceId(resultSet.getInt("riceId"));
+                orderDetail.setQuantity(resultSet.getInt("quantity"));
+
+                orderDetails.add(orderDetail);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // エラーハンドリングを適切に行う
+        }
+
+        return orderDetails;
+    }
 }

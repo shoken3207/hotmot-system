@@ -15,7 +15,7 @@ public class OrderDetailBean {
 		this.quantity = quantity;
 		this.createdAt = createdAt;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
