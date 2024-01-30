@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import dao.CartDetailDao;
 import models.CartDetailBean;
 
@@ -35,13 +37,13 @@ public class CartDetailListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String cartId = request.getParameter("cartId");
-		cartId = "2";
 		CartDetailDao cartDetailDao = new CartDetailDao();
 		try {
-			ArrayList<CartDetailBean> cartDetails = cartDetailDao.getCratDetailById(Integer.parseInt(cartId));
+			ArrayList<CartDetailBean> cartDetails = cartDetailDao.getCartDetails(Integer.parseInt(cartId));
+			ObjectMapper mapper = new ObjectMapper();
+			String json = mapper.writeValueAsString(cartDetails);
 			HttpSession session = request.getSession();
-			session.setAttribute("cartDetails", cartDetails);
-			session.setAttribute("num", 3);
+			session.setAttribute("cartDetails", json);
 		} catch (NumberFormatException | SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

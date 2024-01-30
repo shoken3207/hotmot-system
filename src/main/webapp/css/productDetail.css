@@ -13,3 +13,84 @@
 .back-btn:hover {
 	opacity: .3;
 }
+
+.counter {
+  display: flex;
+}
+
+.counter input {
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border: 1px solid #ccc;
+}
+
+.counter button {
+  width: 50px;
+  height: 30px;
+  border: 2px solid #ed1c24;
+  cursor: pointer;
+}
+
+.counter .add {
+  border-radius: 0 7px 7px 0;
+}
+
+.counter .sub {
+  border-radius: 7px 0 0 7px;
+}
+
+.counter .sub.disabled {
+  pointer-events: none;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.allergy-group {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	column-gap: .5rem;
+}
+
+.allergy {
+	padding: .2rem .5rem;
+	color: white;
+	background-color: #BCA79D;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 50px;
+}
+
+.allergy span {
+	font-size: .95rem;
+}
+
+
+.cart-button {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	column-gap: .4rem;
+	padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.7rem;
+    color: rgb(255, 255, 255);
+    background-color: rgb(211, 47, 47);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.bookmark-button {
+	cursor: pointer;
+}
+
+.cart-button:hover {
+	opacity: .3;
+}
+

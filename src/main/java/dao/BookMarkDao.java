@@ -12,11 +12,43 @@ import models.BookMarkBean;
 
 public class BookMarkDao extends CommonDao{
 		
-	    public ArrayList<BookMarkBean> findAll() {
+	    public ArrayList<BookMarkBean> findBookMarksByUserId(int arg_userId) {
 	        ArrayList<BookMarkBean> BookMarks = new ArrayList<BookMarkBean>();
 			try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-				String sql = "SELECT * FROM bookmark";
+				String sql = "SELECT * FROM bookmarks WHERE userId = ?";
 				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setInt(1, arg_userId);
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					int userId = rs.getInt("userId");
+					int productId = rs.getInt("productId");
+					int categoryId = rs.getInt("categoryId");
+					Date createdAt = rs.getDate("createdAt");
+
+					System.out.println(id);
+					System.out.println(userId);
+					System.out.println(productId);
+					System.out.println(categoryId);
+					System.out.println(createdAt);
+					BookMarkBean BookMark  = new BookMarkBean(id, userId, productId,categoryId,createdAt);
+					BookMarks.add(BookMark);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			return BookMarks;
+	    }
+	    
+	    public ArrayList<BookMarkBean> findCategoryBookMarksByUserId(int arg_userId, int arg_categoryId) {
+	        ArrayList<BookMarkBean> BookMarks = new ArrayList<BookMarkBean>();
+			try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+				String sql = "SELECT * FROM bookmarks WHERE userId = ? AND categoryId = ?";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setInt(1, arg_userId);
+				ps.setInt(1, arg_categoryId);
 				ResultSet rs = ps.executeQuery();
 
 				while (rs.next()) {
@@ -35,76 +67,80 @@ public class BookMarkDao extends CommonDao{
 
 			return BookMarks;
 	    }
-	    public int insert (int id, int userId, int productId, int categoryId, Date createdAt) throws SQLException {
-	    	
+	    
+	    public BookMarkBean findBookMarkById(int arg_id) {
+//	    	BookMarkBean bookMark;
 	    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-	    	String sql = "INSERT INTO bookmark(id,userId,productId,categoryId,createdAt) " +
-	                "VALUES(" + id + "," + userId + "," + productId + "," + categoryId + "," + createdAt + ")";
-
-	    	PreparedStatement statement = conn.prepareStatement(sql);
-	    	ResultSet rs = statement.executeQuery();
-	    	rs.next();
-	    	
-	    	rs.close();
-	    	statement.close();
-	    	
-	    	statement = conn.prepareStatement(sql);
-	    	
-	    	int updateCount = statement.executeUpdate();
-	    	
-	    	statement.close();
-	    	
-	    	conn.commit();
-	    	conn.close();
-	    	
-	    	return updateCount;
-	    	}
+				String sql = "SELECT * FROM bookmarks WHERE id = ?";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setInt(1, arg_id);
+				ResultSet rs = ps.executeQuery();
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					int userId = rs.getInt("userId");
+					int productId = rs.getInt("productId");
+					int categoryId = rs.getInt("categoryId");
+					Date createdAt = rs.getDate("createdAt");
+					
+					BookMarkBean bookMark  = new BookMarkBean(id, userId, productId,categoryId,createdAt);
+					return bookMark;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    	return null;
 	    }
 	    
-	    public int update(int id, int userId, int productId, int categoryId, Date createdAt) throws SQLException {
+	    public BookMarkBean findBookMark(int arg_productId, int arg_userId) {
+//	    	BookMarkBean bookMark;
 	    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-	    		String sql = "UPDATE SET bookmark(id,userId,productId,categoryId,createdAt) " +
-	                    "VALUES(" + id + "," + userId + "," + productId + "," + categoryId + "," + createdAt + ")";
-	        	PreparedStatement statement = conn.prepareStatement(sql);
-	        	ResultSet rs = statement.executeQuery();
-	        	rs.next();
-	        	
-	        	rs.close();
-	        	statement.close();
-	        	
-	        	statement = conn.prepareStatement(sql);
-	        	
-	        	int updateCount = statement.executeUpdate();
-	        	
-	        	statement.close();
-	        	
-	        	conn.commit();
-	        	conn.close();
-	        	
-	        	return updateCount;
-	    	}
+				String sql = "SELECT * FROM bookmarks WHERE productId = ? AND userId = ?";
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setInt(1, arg_productId);
+				ps.setInt(2, arg_userId);
+				ResultSet rs = ps.executeQuery();
+				while (rs.next()) {
+					int id = rs.getInt("id");
+					int userId = rs.getInt("userId");
+					int productId = rs.getInt("productId");
+					int categoryId = rs.getInt("categoryId");
+					Date createdAt = rs.getDate("createdAt");
+					
+					BookMarkBean bookMark  = new BookMarkBean(id, userId, productId,categoryId,createdAt);
+					return bookMark;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    	return null;
 	    }
 	    
-	    public int delete(int id, int userId, int productId, int categoryId, Date createdAt) throws SQLException{
+	    public void insert (int userId, int productId, int categoryId) throws SQLException {
+	    	
 	    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-	            String sql = "DELETE FROM bookmark WHERE id = " + id;
-	            PreparedStatement statement = conn.prepareStatement(sql);
-	        	ResultSet rs = statement.executeQuery();
-	        	rs.next();
-	        	
-	        	rs.close();
-	        	statement.close();
-	        	
-	        	statement = conn.prepareStatement(sql);
-	        	
-	        	int updateCount = statement.executeUpdate();
-	        	
-	        	statement.close();
-	        	
-	        	conn.commit();
-	        	conn.close();
-	        	
-	        	return updateCount;
-	    	}
-	   }
+		    	String sql = "INSERT INTO bookmarks(userId,productId,categoryId) " +
+		                "VALUES(?, ?, ?)";
+		    	PreparedStatement statement = conn.prepareStatement(sql);
+		    	statement.setInt(1, userId);
+		    	statement.setInt(2, productId);
+		    	statement.setInt(3, categoryId);
+		    	
+		    	statement.executeUpdate();
+	    	} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    }
+	    
+	    public void delete (int id) throws SQLException {
+	    	
+	    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+		    	String sql = "DELETE FROM bookmarks WHERE id = ?";
+		    	PreparedStatement statement = conn.prepareStatement(sql);
+		    	statement.setInt(1, id);
+		    	
+		    	statement.executeUpdate();
+	    	} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	    }
 }

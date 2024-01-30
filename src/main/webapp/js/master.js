@@ -1,9 +1,9 @@
 //import { PRODUCT_CATEGORIES } from '../const';
-import AllergyData from '../jsons/Allergy.json' assert {type: 'json'};
-import ProductData from '../jsons/Product.json' assert {type: 'json'};
-import ProductAllergyData from '../jsons/ProductAllergy.json' assert {type: 'json'};
-import RiceData from '../jsons/Rice.json' assert {type: 'json'};
-import RiceGroupDetailData from '../jsons/RiceGroupDetail.json' assert {type: 'json'};
+import AllergyData from "../jsons/Allergy.json" assert { type: "json" };
+import ProductData from "../jsons/Product.json" assert { type: "json" };
+import ProductAllergyData from "../jsons/ProductAllergy.json" assert { type: "json" };
+import RiceData from "../jsons/Rice.json" assert { type: "json" };
+import RiceGroupDetailData from "../jsons/RiceGroupDetail.json" assert { type: "json" };
 
 // ライス変換
 const _fetchConvertRices = (riceGroupId) => {
@@ -18,7 +18,7 @@ const _fetchConvertRices = (riceGroupId) => {
   });
   const filterRices = currentRices.filter((x) => {
     return x !== undefined;
-  })
+  });
   return filterRices;
 };
 
@@ -36,9 +36,7 @@ const _fetchConvertAllergys = (productId) => {
     return allergy;
   });
 
-  const filterAllergys = currentAllergys.filter(
-    (x) => x !== undefined
-  )
+  const filterAllergys = currentAllergys.filter((x) => x !== undefined);
 
   return filterAllergys;
 };
@@ -61,18 +59,15 @@ const _convertListProducts = (products) => {
 };
 
 const fetchProductsByCategory = (category) => {
-	console.log("bbb")
   const productData = ProductData;
   const filterProducts =
     category === 5
       ? productData
       : productData.filter((x) => x.productCategoryId === category);
-      
+
   const convertProducts = _convertListProducts(filterProducts);
-  	console.log("aa: ", convertProducts)
   return convertProducts;
 };
-
 
 // 商品詳細変換
 const _convertDetailProduct = (product) => {
@@ -91,17 +86,12 @@ const _convertDetailProduct = (product) => {
 };
 
 const fetchDetailProduct = (productId) => {
-	console.log("aa: ", productId)
   const productData = ProductData;
   const product = productData.find((x) => x.id === productId);
   if (product) {
     const convertProduct = _convertDetailProduct(product);
-    console.log("detail: ", convertProduct)
     return convertProduct;
   }
 };
-
-
-
 
 export { fetchProductsByCategory, fetchDetailProduct };

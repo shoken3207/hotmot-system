@@ -4,6 +4,10 @@
   border-top: 3px solid rgb(255, 185, 150);
   max-height: 86px;
   height: 16vw;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
 }
 
 .header-container {
