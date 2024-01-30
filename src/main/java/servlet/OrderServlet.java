@@ -98,6 +98,13 @@ public class OrderServlet extends HttpServlet {
 				orderDetailDao.insert(1, cartDetail.getProductId(), cartDetail.getRiceId(), cartDetail.getQuantity());
 			}
 			cartDetailDao.deleteCartDetailsByCartId(parseCartId);
+			
+			response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ResponseMessage responseMessage = new ResponseMessage("カートの商品を注文しました。", true);
+            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+            response.getWriter().write(jsonResponse);
+			return;
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CartDetailDao;
+import models.ResponseMessage;
 import models.UpdateCartDetailRequestBean;
 
 /**
@@ -55,6 +56,14 @@ public class UpdateCartDetailServlet extends HttpServlet {
     		UpdateCartDetailRequestBean updateCartDetailRequest = new UpdateCartDetailRequestBean(cartDetailId, quantity);
 	        updateCartDetailRequestList.add(updateCartDetailRequest);
     	}
+    	if(updateCartDetailRequestList.size() == 0) {
+			response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            ResponseMessage responseMessage = new ResponseMessage("更新された商品はありません。", true);
+            String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+            response.getWriter().write(jsonResponse);
+			return;
+		}
     	System.out.println(updateCartDetailRequestList);
     	CartDetailDao cartDetailDao = new CartDetailDao(); 
     	try {
@@ -64,6 +73,12 @@ public class UpdateCartDetailServlet extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
+    	response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        ResponseMessage responseMessage = new ResponseMessage("カートの内容を更新しました。", true);
+        String jsonResponse = objectMapper.writeValueAsString(responseMessage);
+        response.getWriter().write(jsonResponse);
+		return;
 	}
 
 }

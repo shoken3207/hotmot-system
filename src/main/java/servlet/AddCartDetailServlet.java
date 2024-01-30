@@ -88,7 +88,7 @@ public class AddCartDetailServlet extends HttpServlet {
 		}
     	response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        ResponseMessage responseMessage = new ResponseMessage("商品をカートについかしました。", false);
+        ResponseMessage responseMessage = new ResponseMessage("商品をカートに追加しました。", false);
         String jsonResponse = objectMapper.writeValueAsString(responseMessage);
         response.getWriter().write(jsonResponse);
     	return;

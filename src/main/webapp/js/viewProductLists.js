@@ -10,6 +10,8 @@ import {
   setValue,
   removeClass,
   rlc,
+  setId,
+  showToast,
 } from "../js/utils.js";
 
 const lists = gebi("lists");
@@ -51,11 +53,26 @@ const addCartDetail = async (option, resetQuantityFunc) => {
   await fetch("/hotmot/AddCartDetailServlet", {
     method: "POST",
     body: JSON.stringify(option),
-  }).then(() => {
-	  console.log("success")
-	  resetQuantityFunc()
-	  }
-	).catch((err) => console.log("err: ", err));
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((res) => {
+      console.log("success", option);
+      const inputCountEl = gebi(`input-${option[0].productId}`);
+      inputCountEl.value = 0;
+      const subBtnEl = gebi(`sub-${option[0].productId}`);
+      addClasses(subBtnEl, ["disabled"]);
+      resetQuantityFunc();
+      if (res.message) {
+        console.log(res.message);
+        showToast({ text: res.message });
+      }
+    })
+    .catch((err) => console.log("err: ", err));
 };
 
 const createProductList = (data) => {
@@ -93,15 +110,63 @@ const createProductList = (data) => {
       });
     }
     let quantity = 0;
+    const createEditQuantity = ({
+      id,
+      parentEl,
+      addQuantityFunc,
+      subQuantityFunc,
+      changeQuantityFunc,
+    }) => {
+      const divEl = ce("div");
+      addClasses(divEl, ["counter"]);
+      const inputEl = ce("input");
+      setId(inputEl, `input-${id}`);
+      inputEl.value = quantity;
+      inputEl.type = "number";
+      inputEl.addEventListener("input", (e) => {
+        changeQuantityFunc(Number(e.target.value));
+        inputEl.value = quantity;
+        if (quantity > 0) {
+          removeClass(subBtnEl, "disabled");
+        } else if (quantity === 0) {
+          addClasses(subBtnEl, ["disabled"]);
+        }
+      });
+      const addBtnEl = ce("button");
+      addBtnEl.innerText = "＋";
+      addClasses(addBtnEl, ["add"]);
+      addBtnEl.addEventListener("click", (e) => {
+        addQuantityFunc();
+        inputEl.value = quantity;
+        if (quantity > 0) {
+          removeClass(subBtnEl, "disabled");
+        }
+      });
+      const subBtnEl = ce("button");
+      setId(subBtnEl, `sub-${id}`);
+      subBtnEl.classList.add("sub");
+      subBtnEl.classList.add("disabled");
+      subBtnEl.innerText = "－";
+      subBtnEl.addEventListener("click", (e) => {
+        subQuantityFunc();
+        inputEl.value = quantity;
+        if (quantity === 0) {
+          addClasses(subBtnEl, ["disabled"]);
+        }
+      });
+      ac(subBtnEl, divEl);
+      ac(inputEl, divEl);
+      ac(addBtnEl, divEl);
+      ac(divEl, parentEl);
+    };
     const resetQuantityFunc = () => {
-		console.log("quantity: ", quantity);
-		quantity = 0;
-		console.log("quantity: ", quantity);
-	}
+      quantity = 0;
+    };
     const addQuantityFunc = () => quantity++;
     const subQuantityFunc = () => quantity--;
     const changeQuantityFunc = (value) => (quantity = value);
     createEditQuantity({
+      id: x.id,
       parentEl: divEl,
       value: quantity,
       addQuantityFunc,
@@ -149,8 +214,14 @@ const createProductList = (data) => {
           categoryId: x.categoryId,
         }),
       })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
         .then((res) => {
-			console.log("res: ", res);
+          console.log("res: ", res);
           bookMarks.push({
             userId: "1",
             productId: x.id,
@@ -158,6 +229,10 @@ const createProductList = (data) => {
           });
           rlc(actionGroup);
           ac(deleteBookMarkButton, actionGroup);
+          if (res.message) {
+            console.log(res.message);
+            showToast({ text: res.message });
+          }
         })
         .catch((err) => console.log("err", err));
     });
@@ -172,6 +247,12 @@ const createProductList = (data) => {
           productId: deleteBookMark.productId,
         }),
       })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
         .then((res) => {
           const deleteBookMarkIndex = bookMarks.findIndex(
             (bookMark) => bookMark.productId === x.id
@@ -179,6 +260,10 @@ const createProductList = (data) => {
           bookMarks.splice(deleteBookMarkIndex, 1);
           rlc(actionGroup);
           ac(addBookMarkButton, actionGroup);
+          if (res.message) {
+            console.log(res.message);
+            showToast({ text: res.message });
+          }
         })
         .catch((err) => console.log("err: ", err));
     });
@@ -243,55 +328,4 @@ const createSelecRicetEl = ({
     addClasses(selectEl, [className]);
   }
   ac(selectEl, parentEl);
-};
-
-const createEditQuantity = ({
-  value,
-  parentEl,
-  addQuantityFunc,
-  subQuantityFunc,
-  changeQuantityFunc,
-}) => {
-  const divEl = ce("div");
-  addClasses(divEl, ["counter"]);
-  const inputEl = ce("input");
-  setValue(inputEl, value);
-  inputEl.type = "number";
-  inputEl.addEventListener("input", (e) => {
-	  value = Number(e.target.value);
-    inputEl.value = value;
-    changeQuantityFunc(value);
-    if (value > 0) {
-      removeClass(subBtnEl, "disabled");
-    } else if (value === 0) {
-      addClasses(subBtnEl, ["disabled"]);
-    }
-  });
-  const addBtnEl = ce("button");
-  addBtnEl.innerText = "＋";
-  addClasses(addBtnEl, ["add"]);
-  addBtnEl.addEventListener("click", (e) => {
-    value++;
-    addQuantityFunc();
-    inputEl.value = value;
-    if (value > 0) {
-      removeClass(subBtnEl, "disabled");
-    }
-  });
-  const subBtnEl = ce("button");
-  subBtnEl.classList.add("sub");
-  subBtnEl.classList.add("disabled");
-  subBtnEl.innerText = "－";
-  subBtnEl.addEventListener("click", (e) => {
-    value--;
-    subQuantityFunc();
-    inputEl.value = value;
-    if (value === 0) {
-      addClasses(subBtnEl, ["disabled"]);
-    }
-  });
-  ac(subBtnEl, divEl);
-  ac(inputEl, divEl);
-  ac(addBtnEl, divEl);
-  ac(divEl, parentEl);
 };

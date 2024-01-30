@@ -7,6 +7,7 @@ import {
   removeClass,
   setSrc,
   setHref,
+  showToast
 } from "../js/utils.js";
 import {SAMPLE_DATA} from "../js/const.js"
 const updateCartButtonEl = gebi("updateCart");
@@ -15,8 +16,10 @@ const cartDetailListEl = gebi("cartDetailList");
 const cartDetailsEl = gebi("cartDetails");
 
 window.addEventListener("DOMContentLoaded", async () => {
-  console.log("call");
   const cartDetails = JSON.parse(cartDetailsEl.value);
+  if (cartDetails.length === 0) {
+    showToast({ text: "カートに商品がありません。" });
+  }
   const convertCartDetails = createCartDetailsResponse(cartDetails);
   console.log("cartDetails: ", convertCartDetails)
   const changeCartDetails = [];
@@ -28,8 +31,27 @@ window.addEventListener("DOMContentLoaded", async () => {
       changeCartDetails.push({ id, quantity });
     }
   };
-  orderButtonEl.addEventListener("click", () => {
+  orderButtonEl.addEventListener("click", async () => {
     console.log("order");
+    await fetch("/hotmot/OrderServlet", {
+        method: "POST",
+        body: JSON.stringify({
+          cartId: 1
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((res) => {
+          if (res.message) {
+            console.log(res.message);
+            showToast({ text: res.message });
+          }
+        })
+        .catch((err) => console.log("err", err));
   });
 
   updateCartButtonEl.addEventListener("click", async () => {

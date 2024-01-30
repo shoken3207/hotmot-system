@@ -12,7 +12,6 @@ import {
 } from "../js/utils.js";
 import { createBookMarksResponse } from "../js/convertBookMarks.js";
 import { TABS, PRODUCT_CATEGORIES } from "../js/const.js";
-const messageEl = gebi("message");
 const bookMarksEl = gebi("bookMarks");
 
 const sampleData = [
@@ -112,13 +111,8 @@ const lists = gebi("lists");
 const tabs = gebi("tabs");
 
 window.addEventListener("DOMContentLoaded", () => {
-  const message = messageEl.value;
   const bookMarks = JSON.parse(bookMarksEl.value);
   const convertBookMarks = createBookMarksResponse(bookMarks);
-  if (message) {
-    console.log(message);
-    showToast({ text: message });
-  }
 
   let selectTab = 5;
   TABS.forEach(({ id, name }) => {

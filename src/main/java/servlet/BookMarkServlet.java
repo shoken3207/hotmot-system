@@ -58,9 +58,6 @@ public class BookMarkServlet extends HttpServlet {
 		}
 		
 		
-		
-		
-		session.setAttribute("message", "商品をカートに追加しました！");
 		RequestDispatcher dispatcher =  request.getRequestDispatcher("WEB-INF/bookMark.jsp");
 		dispatcher.forward(request, response);
 	}

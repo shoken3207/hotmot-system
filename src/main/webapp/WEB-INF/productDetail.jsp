@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="css/productDetail.css" />
 <link rel="stylesheet" href="css/global.css" />
 <link rel="stylesheet" href="css/header.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <link
   href="https://use.fontawesome.com/releases/v6.2.0/css/all.css"
   rel="stylesheet"
@@ -33,5 +34,6 @@
 <div class="container" id="container">
 	<a class="back-btn" id="backBtn" href="/hotmot/ProductListServlet"></a>
 </div>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>
