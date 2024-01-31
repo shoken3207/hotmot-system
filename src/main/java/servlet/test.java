@@ -67,6 +67,7 @@ public class test extends HttpServlet {
     		AddCartDetailRequestBean addCartDetailRequest = new AddCartDetailRequestBean(cartId, productId, riceId, quantity);
 	        addCartDetailRequestList.add(addCartDetailRequest);
     	}
+    	System.out.println(addCartDetailRequestList);
 	}
 
 }
