@@ -13,16 +13,21 @@
   rel="stylesheet"
 />
 <link rel='icon' href='images/favicon.ico' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 	<div class="container">
-    <form id="form" action="" class="form">
+    <form id="form" action="" class="form register">
     <div class="head register">
       <div class="lock-icon">
       <i class="fa-solid fa-lock" style="color: white"></i>
       </div>
       <h3>新規登録</h3>
     </div>
+      <div class="input-area">
+        <label for="email" class="label">メールアドレス</label>
+        <input id="email" required type="email" placeholder="xxx@gmail.com" />
+      </div>
       <div class="input-area">
         <label for="email" class="label">メールアドレス</label>
         <input id="email" required type="email" placeholder="xxx@gmail.com" />

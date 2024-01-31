@@ -1,4 +1,4 @@
-/const ce = (el) => document.createElement(el);
+const ce = (el) => document.createElement(el);
 const ctn = (el) => document.createTextNode(el);
 const gebi = (id) => document.getElementById(id);
 const qs = (query) => document.querySelector(query);
@@ -21,7 +21,7 @@ const inputEmailEl = gebi("email");
 const inputPasswordEl = gebi("password");
 const inputConfirmPasswordEl = gebi("confirmPassword");
 
-formEl.addEventListener("submit", (e) => {
+formEl.addEventListener("submit", async (e) => {
   e.preventDefault();
   console.log("submit", e.target);
   const email = inputEmailEl.value;

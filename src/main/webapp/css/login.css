@@ -13,9 +13,16 @@
   flex-direction: column;
   row-gap: .8rem;
   width: 90%;
-  max-width: 400px;
   box-shadow: 7px 7px 19px 0px #777777;
 border-radius: 10px;
+}
+
+.form.login {
+  max-width: 400px;
+}
+
+.form.register {
+	max-width: 560px;
 }
 
 .head {

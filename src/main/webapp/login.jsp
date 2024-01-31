@@ -13,10 +13,11 @@
   rel="stylesheet"
 />
 <link rel='icon' href='images/favicon.ico' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 	<div class="container">
-    <form id="form" action="" class="form">
+    <form id="form" action="" class="form login">
     <div class="head login">
       <div class="lock-icon">
       <i class="fa-solid fa-lock-open" style="color: white"></i>
