@@ -34,6 +34,29 @@ public class CartDao extends CommonDao{
 
 		return null;
     }
+	
+	public CartBean findCartByUserId(int arg_userId) {
+		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+			String sql = "SELECT * FROM Carts WHERE userId = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, arg_userId);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				int userId = rs.getInt("userId");
+				int shopId = rs.getInt("shopId");
+				Date createdAt = rs.getDate("createdAt");
+
+				CartBean Cart  = new CartBean(id, userId, shopId,createdAt);
+				return Cart;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+    }
 
 	public ArrayList<CartBean> findAll() {
         ArrayList<CartBean> Carts = new ArrayList<CartBean>();

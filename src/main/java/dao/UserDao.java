@@ -12,28 +12,31 @@ import models.UserBean;
 
 public class UserDao extends CommonDao {
 	
-	public int authenticateUser(String email,String pass) {
+	public UserBean findUserById(String arg_email,String arg_password) {
         String query = "SELECT * FROM users WHERE email = ? AND pass = ?"; 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement statement = con.prepareStatement(query)) {
 
-            statement.setString(1, email);
-            statement.setString(2, pass);
-            ResultSet resultSet = statement.executeQuery();
-            int userId = 0;
-            if(resultSet.next()) {
-            	System.out.print("true");
-            	userId = resultSet.getInt("id");
-            }
-//            System.out.print("userId: " + resultSet);
-//            int userID = resultSet.getInt("id");
-            return userId; // ユーザーが存在すればtrueを返す
+            statement.setString(1, arg_email);
+            statement.setString(2, arg_password);
+            ResultSet rs = statement.executeQuery();
+           
+            while (rs.next()) {
+				int id = rs.getInt("id");
+				String email = rs.getString("email");
+				String pass = rs.getString("password");
+				String name = rs.getString("name");
+				boolean isAdmin = rs.getBoolean("isAdmin");
+
+				UserBean user  = new UserBean(id, email, name, pass, isAdmin);
+				return user;
+			}
 
         } catch (SQLException e) {
             e.printStackTrace();
             // エラーハンドリングを適切に行う
         }
-        return 0;
+        return null;
     }
     
     public int insert(UserBean users) throws ClassNotFoundException, SQLException{

@@ -1,5 +1,6 @@
 package servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -10,35 +11,66 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import dao.CartDao;
 import dao.UserDao;
+import models.CartBean;
+import models.LoginRequestBean;
+import models.UserBean;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		request.setCharacterEncoding("UTF-8");
-		// 入力された情報を取得する
-		String email1 = request.getParameter("email");
-		String pass1 = request.getParameter("pass");
-		// データベースからユーザー情報を取得する
-		UserDao dao = new UserDao();
-		int userId = dao.authenticateUser(email1, pass1);
-	
-		int cartId = dao.getCartId(userId);
-		System.out.println("cartId: " + cartId);
-		
-		// 入力された情報とデータベースのユーザー情報を照合する
-		String forwardPath = "";
-		if (userId != 0) {
-			forwardPath = "loginResult.jsp";
-			HttpSession session = request.getSession();
-			session.setAttribute("userId", userId);
-		}else{
-			forwardPath = "loginfailure.jsp";
+		HttpSession session = request.getSession();
+		StringBuilder sb = new StringBuilder();
+		BufferedReader reader = request.getReader();
+		String line;
+		while ((line = reader.readLine()) != null) {
+		    sb.append(line);
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher(forwardPath);
-		dispatcher.forward(request, response);
+		String requestBody = sb.toString();
+	  	ObjectMapper objectMapper = new ObjectMapper();
+	  	LoginRequestBean loginRequest = objectMapper.readValue(requestBody, LoginRequestBean.class);
+		String email = loginRequest.getEmail();
+		String password = loginRequest.getPassword();
+		if(email == "" || password == "") {
+			session.setAttribute("message", "パラメータに異常があります。");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(request, response);
+		}
+		
+		UserDao userDao = new UserDao();
+		CartDao cartDao = new CartDao();
+		UserBean user = userDao.findUserById(email, password);
+		
+		
+		if(user == null) {
+            session.setAttribute("message", "emailかpasswordのいずれかが間違っています。");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(request, response);
+		}
+		session.setAttribute("userId", user.getId());
+		
+		if(user.getIsAdmin()) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
+			dispatcher.forward(request, response);
+		} else {
+			
+			CartBean cart = cartDao.findCartByUserId(user.getId());
+			
+			if(cart == null) {
+				session.setAttribute("message", "カートが作成されていません。");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+	    		dispatcher.forward(request, response);
+			}
+			session.setAttribute("cartId", cart.getId());
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
+			dispatcher.forward(request, response);
+		}
+		
 	}
 }
