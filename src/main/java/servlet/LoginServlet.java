@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		session.setAttribute("message", "emailかpasswordのいずれかが間違っています。");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		if(email == "" || password == "") {
@@ -33,11 +34,14 @@ public class LoginServlet extends HttpServlet {
 		CartDao cartDao = new CartDao();
 		UserBean user = userDao.findUser(email, password);
 		
-		
+		System.out.println(user);
+		System.out.println(user == null);
 		if(user == null) {
             session.setAttribute("message", "emailかpasswordのいずれかが間違っています。");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/hotmot/login.jsp");
-    		dispatcher.forward(request, response);
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("http://localhost:8080/hotmot/login.jsp");
+//    		dispatcher.forward(request, response);
+    		response.sendRedirect("http://localhost:8080/hotmot/login.jsp");
+    		return;
 		}
 		session.setAttribute("userId", user.getId());
 		
@@ -54,7 +58,6 @@ public class LoginServlet extends HttpServlet {
 	    		dispatcher.forward(request, response);
 			}
 			session.setAttribute("cartId", cart.getId());
-			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
 			dispatcher.forward(request, response);
 		}

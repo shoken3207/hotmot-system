@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
 	String message = (String)session.getAttribute("message");
+	System.out.println(message);
 %>
 <!DOCTYPE html>
 <html>
@@ -42,6 +43,7 @@
       </div>
     </form>
   </div>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 	
 	<script src="js/login.js" type="module"></script>
 </body>
