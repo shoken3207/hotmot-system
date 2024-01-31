@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String message = (String)session.getAttribute("message");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +19,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+	<input type="hidden" id="message" value=<%= message %> />
 	<div class="container">
     <form id="form" action="" class="form register">
     <div class="head register">
@@ -25,20 +29,20 @@
       <h3>新規登録</h3>
     </div>
       <div class="input-area">
-        <label for="email" class="label">メールアドレス</label>
-        <input id="email" required type="email" placeholder="xxx@gmail.com" />
+        <label for="name" class="label">名前</label>
+        <input id="name" name="name" required type="text" placeholder="田中 太郎" />
       </div>
       <div class="input-area">
         <label for="email" class="label">メールアドレス</label>
-        <input id="email" required type="email" placeholder="xxx@gmail.com" />
+        <input id="email" name="email" required type="email" placeholder="xxx@gmail.com" />
       </div>
       <div class="input-area">
         <label for="password" class="label">パスワード</label>
-        <input id="password" required type="password" placeholder="********" minlength="8" />
+        <input id="password" name="password" required type="password" placeholder="********" minlength="8" />
       </div>
       <div class="input-area">
         <label for="confirmPassword" class="label">確認用パスワード</label>
-        <input id="confirmPassword" required type="password" placeholder="********" minlength="8" />
+        <input id="confirmPassword" name="confirmPassword" required type="password" placeholder="********" minlength="8" />
       </div>
       <div class="btn-group">
       	<a href="login.jsp" class="btn login">ログイン</a>
