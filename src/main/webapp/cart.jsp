@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/cart.css">
 <title>Insert title here</title>
-</style>
 <header class="header">
 		<div class="navtext-container">
 			<div class="navtext">弁当</div>
