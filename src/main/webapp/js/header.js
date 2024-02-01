@@ -42,7 +42,8 @@ const HEADER_INFO = [
 ];
 
 const currentUrl = window.location.href;
-const currentUrlArray = currentUrl.split("/");
+const currentUrlArray = currentUrl.split(/[?#\/]/);
+console.log("currentUrlArray ", currentUrlArray);
 window.addEventListener("DOMContentLoaded", async () => {
   const defaultHeaderEl = gebi("header");
   const bodyEl = document.body;
