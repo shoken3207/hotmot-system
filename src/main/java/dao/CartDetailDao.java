@@ -107,7 +107,7 @@ public class CartDetailDao extends CommonDao {
 
 	// INSERT文 
 	public void insert(ArrayList<AddCartDetailRequestBean> addCartDetailsRequest) throws SQLException {
-		conn = DriverManager.getConnection(this.URL, this.USER, this.PASS);
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		try {
 			String sql = "INSERT INTO CartDetails(cartId, productId,riceId,quantity) VALUES(?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -131,7 +131,7 @@ public class CartDetailDao extends CommonDao {
 	    	
 
 	// UPDATE文
-	public void update(ArrayList<Integer> CartDetailRequest) throws SQLException {
+	public void update1(ArrayList<UpdateCartDetailRequestBean> updateCartDetailRequestList) throws SQLException {
     	try{
         	String sql = null;
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -169,7 +169,7 @@ public class CartDetailDao extends CommonDao {
 
 	// UPDATE文 
 	public void update(ArrayList<UpdateCartDetailRequestBean> updateCartDetailsRequest) throws SQLException {
-		conn = DriverManager.getConnection(this.URL, this.USER, this.PASS);
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
 		try {
 			String sql = "UPDATE CartDetails SET quantity = ? WHERE id = ?";
 			PreparedStatement ps1 = conn.prepareStatement(sql);

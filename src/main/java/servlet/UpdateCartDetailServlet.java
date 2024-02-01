@@ -49,7 +49,8 @@ public class UpdateCartDetailServlet extends HttpServlet {
         String requestBody = sb.toString();
         System.out.println("request: " + requestBody);
     	ObjectMapper objectMapper = new ObjectMapper();
-    	List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
+    	@SuppressWarnings("unchecked")
+		List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
     	for(Map<String, Object> data: dataList) {
     		int cartDetailId = (int) data.get("cartDetailId");
     		int quantity = (int) data.get("quantity");
