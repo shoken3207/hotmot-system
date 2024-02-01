@@ -79,7 +79,7 @@ public class RegisterServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		response.sendRedirect("/hotmot/login.jsp");
+		response.sendRedirect("/hotmot/index.jsp");
 		return;
 	}
 

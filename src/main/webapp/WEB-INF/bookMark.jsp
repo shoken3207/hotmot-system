@@ -3,6 +3,12 @@
 <%@ page import="models.BookMarkBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%
+	String userId = (String)session.getAttribute("userId");
+	String cartId = (String)session.getAttribute("cartId");
+	if(userId == null || cartId == null) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
 	String message = (String)session.getAttribute("message");
 	String bookMarks = (String)session.getAttribute("bookMarks");
 %>
@@ -26,6 +32,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+<input type="hidden" id="userId" value='<%= userId %>'>
+  <input type="hidden" id="cartId" value='<%= cartId %>'>
 <input type="hidden" id="message" value="<%= message %>">
 <input type="hidden" id="bookMarks" value='<%= bookMarks %>'>
 <header class="header" id="header">

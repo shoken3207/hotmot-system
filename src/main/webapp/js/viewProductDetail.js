@@ -1,10 +1,19 @@
 import { fetchDetailProduct } from "../js/master.js";
 import { RICE_TYPE } from "./const.js";
-import { ce, gebi, ac, addClasses, setHref, setSrc, removeClass } from "../js/utils.js";
-
+import {
+  ce,
+  gebi,
+  ac,
+  addClasses,
+  setHref,
+  setSrc,
+  removeClass,
+} from "../js/utils.js";
 
 const bookMarksEl = gebi("bookMarks");
 const bookMarks = JSON.parse(bookMarksEl.value);
+const userIdEl = gebi("userId");
+const cartIdEl = gebi("cartId");
 window.addEventListener("DOMContentLoaded", async () => {
   const productIdEl = gebi("productId");
   const containerEl = gebi("container");
@@ -31,7 +40,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const productId = Number(productIdEl.value);
   const product = fetchDetailProduct(productId);
-  console.log("product: ", product)
+  console.log("product: ", product);
   const { name, price, image, desc, rices, allergys } = product;
 
   const addCartDetails = [];
@@ -53,99 +62,100 @@ window.addEventListener("DOMContentLoaded", async () => {
       addCartDetails.push({ productId, riceId, quantity });
     }
   };
-  
+
   const addCartDetailsFunc = async (option, resetQuantityFunc) => {
-  await fetch("/hotmot/AddCartDetailServlet", {
-    method: "POST",
-    body: JSON.stringify(option),
-  }).then(() => {
-	  console.log("success")
-	  }
-	).catch((err) => console.log("err: ", err));
-};
-  
-  const createAllergys = ({allergys, parentEl}) => {
-	  const allergyGroupEl = ce("div");
-	  addClasses(allergyGroupEl, ["allergy-group"]);
-	  allergys.forEach(({id, name}) => {
-		  const allergyEl = ce("div");
-		  addClasses(allergyEl, ["allergy"]);
-		  const allergyTextEl = ce("span");
-		  allergyTextEl.innerText = name;
-		  ac(allergyTextEl, allergyEl);
-		  ac(allergyEl, allergyGroupEl);
-	  })
-	  ac(allergyGroupEl, parentEl);
-  }
-  
+    await fetch("/hotmot/AddCartDetailServlet", {
+      method: "POST",
+      body: JSON.stringify(option),
+    })
+      .then(() => {
+        console.log("success");
+      })
+      .catch((err) => console.log("err: ", err));
+  };
+
+  const createAllergys = ({ allergys, parentEl }) => {
+    const allergyGroupEl = ce("div");
+    addClasses(allergyGroupEl, ["allergy-group"]);
+    allergys.forEach(({ id, name }) => {
+      const allergyEl = ce("div");
+      addClasses(allergyEl, ["allergy"]);
+      const allergyTextEl = ce("span");
+      allergyTextEl.innerText = name;
+      ac(allergyTextEl, allergyEl);
+      ac(allergyEl, allergyGroupEl);
+    });
+    ac(allergyGroupEl, parentEl);
+  };
+
   const createEditQuantity = ({ rices, parentEl }) => {
-		console.log("rices: ", rices, parentEl)
-	  rices.forEach(({ id, name, price }) => {
-	    let quantity = 0;
-	    const addQuantityFunc = () => {
-	      quantity++;
-	      add({ riceId: id, quantity });
-	    };
-	    const subQuantityFunc = () => {
-	      quantity--;
-	      add({ riceId: id, quantity });
-	    };
-	    const changeQuantityFunc = (value) => {
-	      quantity = value;
-	      add({ riceId: id, quantity });
-	    };
-	    const counterRowEl = ce("div");
-	    const textEl = ce("p");
-	    textEl.innerText = `${name}: ${price}`;
-	    const counterEl = ce("div");
-	    addClasses(counterEl, ["counter"]);
-	    const inputEl = ce("input");
-	    inputEl.value = quantity;
-	    inputEl.type = "number";
-	    inputEl.addEventListener("input", (e) => {
-	      changeQuantityFunc(Number(e.target.value));
-	      inputEl.value = quantity;
-	      if (quantity > 0) {
-	        subBtnEl.classList.remove("disabled");
-	      } else if (quantity === 0) {
-	        subBtnEl.classList.add("disabled");
-	      }
-	    });
-	    const addBtnEl = ce("button");
-	    addBtnEl.innerText = "＋";
-	    addClasses(addBtnEl, ["add"]);
-	    addBtnEl.addEventListener("click", (e) => {
-	      addQuantityFunc();
-	      console.log("quantity: ", quantity)
-	      inputEl.value = quantity;
-	      if (quantity > 0) {
-	        removeClass(subBtnEl, "disabled");
-	      }
-	      console.log("click", quantity);
-	    });
-	    const subBtnEl = ce("button");
-	    addClasses(subBtnEl, ["sub"]);
-	    if (quantity === 0) {
-	      addClasses(subBtnEl, ["disabled"]);
-	    }
-	    subBtnEl.innerText = "－";
-	    subBtnEl.addEventListener("click", (e) => {
-	      subQuantityFunc();
-	      inputEl.value = quantity;
-	      if (quantity === 0) {
-	        addClasses(subBtnEl, ["disabled"]);
-	      }
-	      console.log("click", quantity);
-	    });
-	    ac(subBtnEl, counterEl);
-	    ac(inputEl, counterEl);
-	    ac(addBtnEl, counterEl);
-	    console.log("el: ", counterEl, parentEl);
-	    ac(textEl, counterRowEl);
-	    ac(counterEl, counterRowEl);
-	    ac(counterRowEl, parentEl);
-	  });
-	};
+    console.log("rices: ", rices, parentEl);
+    rices.forEach(({ id, name, price }) => {
+      let quantity = 0;
+      const addQuantityFunc = () => {
+        quantity++;
+        add({ riceId: id, quantity });
+      };
+      const subQuantityFunc = () => {
+        quantity--;
+        add({ riceId: id, quantity });
+      };
+      const changeQuantityFunc = (value) => {
+        quantity = value;
+        add({ riceId: id, quantity });
+      };
+      const counterRowEl = ce("div");
+      const textEl = ce("p");
+      textEl.innerText = `${name}: ${price}`;
+      const counterEl = ce("div");
+      addClasses(counterEl, ["counter"]);
+      const inputEl = ce("input");
+      inputEl.value = quantity;
+      inputEl.type = "number";
+      inputEl.addEventListener("input", (e) => {
+        changeQuantityFunc(Number(e.target.value));
+        inputEl.value = quantity;
+        if (quantity > 0) {
+          subBtnEl.classList.remove("disabled");
+        } else if (quantity === 0) {
+          subBtnEl.classList.add("disabled");
+        }
+      });
+      const addBtnEl = ce("button");
+      addBtnEl.innerText = "＋";
+      addClasses(addBtnEl, ["add"]);
+      addBtnEl.addEventListener("click", (e) => {
+        addQuantityFunc();
+        console.log("quantity: ", quantity);
+        inputEl.value = quantity;
+        if (quantity > 0) {
+          removeClass(subBtnEl, "disabled");
+        }
+        console.log("click", quantity);
+      });
+      const subBtnEl = ce("button");
+      addClasses(subBtnEl, ["sub"]);
+      if (quantity === 0) {
+        addClasses(subBtnEl, ["disabled"]);
+      }
+      subBtnEl.innerText = "－";
+      subBtnEl.addEventListener("click", (e) => {
+        subQuantityFunc();
+        inputEl.value = quantity;
+        if (quantity === 0) {
+          addClasses(subBtnEl, ["disabled"]);
+        }
+        console.log("click", quantity);
+      });
+      ac(subBtnEl, counterEl);
+      ac(inputEl, counterEl);
+      ac(addBtnEl, counterEl);
+      console.log("el: ", counterEl, parentEl);
+      ac(textEl, counterRowEl);
+      ac(counterEl, counterRowEl);
+      ac(counterRowEl, parentEl);
+    });
+  };
 
   const productNameEl = ce("h2");
   productNameEl.innerText = name;
@@ -165,84 +175,83 @@ window.addEventListener("DOMContentLoaded", async () => {
   const counterGroupEl = ce("div");
   addClasses(counterGroupEl, ["counter-group"]);
   console.log("counterGroupEl", counterGroupEl);
-  createEditQuantity({rices, parentEl: counterGroupEl});
+  createEditQuantity({ rices, parentEl: counterGroupEl });
   ac(counterGroupEl, containerEl);
-   const cartButton = ce("div");
-    addClasses(cartButton, ["cart-button"]);
-    const cartButtonIcon = ce("i");
-    addClasses(cartButtonIcon, ["fa-solid", "fa-cart-shopping"]);
-    const cartButtonText = ce("span");
-    cartButtonText.innerHTML = "カートに<br />入れる";
-    ac(cartButtonIcon, cartButton);
-    ac(cartButtonText, cartButton);
-    cartButton.addEventListener("click", async () => {
-      if (addCartDetails.length === 0) return;
-      await addCartDetailsFunc(addCartDetails, resetQuantityFunc);
-    });
-    ac(cartButton, containerEl);
-    const addBookMarkButton = ce("i");
-    const deleteBookMarkButton = ce("i");
-    addClasses(addBookMarkButton, [
-      "fa-regular",
-      "fa-bookmark",
-      "bookmark-button",
-      "fa-2x",
-    ]);
-    addClasses(deleteBookMarkButton, [
-      "fa-solid",
-      "fa-bookmark",
-      "bookmark-button",
-      "fa-2x",
-    ]);
-    addBookMarkButton.style.color = "#FFCF81";
-    deleteBookMarkButton.style.color = "#FFCF81";
-    addBookMarkButton.addEventListener("click", async () => {
-      await fetch("/hotmot/AddBookMarkServlet", {
-        method: "POST",
-        body: JSON.stringify({
-          userId: "1",
+  const cartButton = ce("div");
+  addClasses(cartButton, ["cart-button"]);
+  const cartButtonIcon = ce("i");
+  addClasses(cartButtonIcon, ["fa-solid", "fa-cart-shopping"]);
+  const cartButtonText = ce("span");
+  cartButtonText.innerHTML = "カートに<br />入れる";
+  ac(cartButtonIcon, cartButton);
+  ac(cartButtonText, cartButton);
+  cartButton.addEventListener("click", async () => {
+    if (addCartDetails.length === 0) return;
+    await addCartDetailsFunc(addCartDetails, resetQuantityFunc);
+  });
+  ac(cartButton, containerEl);
+  const addBookMarkButton = ce("i");
+  const deleteBookMarkButton = ce("i");
+  addClasses(addBookMarkButton, [
+    "fa-regular",
+    "fa-bookmark",
+    "bookmark-button",
+    "fa-2x",
+  ]);
+  addClasses(deleteBookMarkButton, [
+    "fa-solid",
+    "fa-bookmark",
+    "bookmark-button",
+    "fa-2x",
+  ]);
+  addBookMarkButton.style.color = "#FFCF81";
+  deleteBookMarkButton.style.color = "#FFCF81";
+  addBookMarkButton.addEventListener("click", async () => {
+    await fetch("/hotmot/AddBookMarkServlet", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: Number(userIdEl.value),
+        productId: x.id,
+        categoryId: x.categoryId,
+      }),
+    })
+      .then((res) => {
+        console.log("res: ", res);
+        bookMarks.push({
+          userId: Number(userIdEl.value),
           productId: x.id,
           categoryId: x.categoryId,
-        }),
+        });
+        rlc(actionGroup);
+        ac(deleteBookMarkButton, actionGroup);
       })
-        .then((res) => {
-			console.log("res: ", res);
-          bookMarks.push({
-            userId: "1",
-            productId: x.id,
-            categoryId: x.categoryId,
-          });
-          rlc(actionGroup);
-          ac(deleteBookMarkButton, actionGroup);
-        })
-        .catch((err) => console.log("err", err));
-    });
-    deleteBookMarkButton.addEventListener("click", async () => {
-      const deleteBookMark = bookMarks.find(
-        (bookMark) => bookMark.productId === x.id
-      );
-      await fetch("/hotmot/DeleteBookMarkServlet", {
-        method: "POST",
-        body: JSON.stringify({
-          userId: "1",
-          productId: deleteBookMark.productId,
-        }),
+      .catch((err) => console.log("err", err));
+  });
+  deleteBookMarkButton.addEventListener("click", async () => {
+    const deleteBookMark = bookMarks.find(
+      (bookMark) => bookMark.productId === x.id
+    );
+    await fetch("/hotmot/DeleteBookMarkServlet", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: Number(userIdEl.value),
+        productId: deleteBookMark.productId,
+      }),
+    })
+      .then((res) => {
+        const deleteBookMarkIndex = bookMarks.findIndex(
+          (bookMark) => bookMark.productId === x.id
+        );
+        bookMarks.splice(deleteBookMarkIndex, 1);
+        rlc(actionGroup);
+        ac(addBookMarkButton, actionGroup);
       })
-        .then((res) => {
-          const deleteBookMarkIndex = bookMarks.findIndex(
-            (bookMark) => bookMark.productId === x.id
-          );
-          bookMarks.splice(deleteBookMarkIndex, 1);
-          rlc(actionGroup);
-          ac(addBookMarkButton, actionGroup);
-        })
-        .catch((err) => console.log("err: ", err));
-    });
-    if (bookMarks.some((bookMark) => bookMark.productId === x.id)) {
-      ac(deleteBookMarkButton, containerEl);
-    } else {
-      ac(addBookMarkButton, containerEl);
-    }
-  createAllergys({allergys, parentEl:containerEl })
+      .catch((err) => console.log("err: ", err));
+  });
+  if (bookMarks.some((bookMark) => bookMark.productId === x.id)) {
+    ac(deleteBookMarkButton, containerEl);
+  } else {
+    ac(addBookMarkButton, containerEl);
+  }
+  createAllergys({ allergys, parentEl: containerEl });
 });
-

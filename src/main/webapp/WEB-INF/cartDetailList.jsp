@@ -2,8 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ page import="models.CartDetailBean, java.util.Arrays" %>
 <%
+String userId = (String)session.getAttribute("userId");
+String cartId = (String)session.getAttribute("cartId");
+if(userId == null || cartId == null) {
+	response.sendRedirect("index.jsp");
+	return;
+}
 String cartDetails = (String)session.getAttribute("cartDetails");	
-System.out.println(cartDetails);
 %>
 <!DOCTYPE html>
 <html>
@@ -27,6 +32,8 @@ System.out.println(cartDetails);
 <title>カート</title>
 </head>
 <body>
+<input type="hidden" id="userId" value='<%= userId %>'>
+  <input type="hidden" id="cartId" value='<%= cartId %>'>
 <input type="hidden" id="cartDetails" value='<%= cartDetails %>'>
 	<header class="header" id="header">
     </header>

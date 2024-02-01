@@ -3,10 +3,12 @@
 <%@ page import="models.BookMarkBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%
-	int userId = (int)session.getAttribute("userId");
-	int cartId = (int)session.getAttribute("cartId");
-// 	System.out.println(userId);
-// 	System.out.println(cartId);
+	String userId = (String)session.getAttribute("userId");
+	String cartId = (String)session.getAttribute("cartId");
+	if(userId == null || cartId == null) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
 	String bookMarks = (String)session.getAttribute("bookMarks");
 %>
 <!DOCTYPE html>
@@ -32,7 +34,8 @@
     <script src="./js/topScrollButton.js" type="module"></script>
   </head>
   <body>
-  
+  <input type="hidden" id="userId" value='<%= userId %>'>
+  <input type="hidden" id="cartId" value='<%= cartId %>'>
 <input type="hidden" id="bookMarks" value='<%= bookMarks %>'>
    <header class="header" id="header">
     </header>

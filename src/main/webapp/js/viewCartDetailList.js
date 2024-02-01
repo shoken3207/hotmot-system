@@ -7,13 +7,14 @@ import {
   removeClass,
   setSrc,
   setHref,
-  showToast
+  showToast,
 } from "../js/utils.js";
-import {SAMPLE_DATA} from "../js/const.js"
 const updateCartButtonEl = gebi("updateCart");
 const orderButtonEl = gebi("order");
 const cartDetailListEl = gebi("cartDetailList");
 const cartDetailsEl = gebi("cartDetails");
+const userIdEl = gebi("userId");
+const cartIdEl = gebi("cartId");
 
 window.addEventListener("DOMContentLoaded", async () => {
   let cartDetails = JSON.parse(cartDetailsEl.value);
@@ -21,8 +22,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     showToast({ text: "カートに商品がありません。" });
   }
   const convertCartDetails = createCartDetailsResponse(cartDetails);
-  console.log("cartDetails: ", convertCartDetails)
-  const changeCartDetails = [];
+  console.log("cartDetails: ", convertCartDetails);
+  let changeCartDetails = [];
   const change = ({ id, quantity }) => {
     if (changeCartDetails.some((x) => id === x.id)) {
       const index = changeCartDetails.findIndex((x) => x.id === id);
@@ -34,42 +35,51 @@ window.addEventListener("DOMContentLoaded", async () => {
   orderButtonEl.addEventListener("click", async () => {
     console.log("order");
     await fetch("/hotmot/OrderServlet", {
-        method: "POST",
-        body: JSON.stringify({
-          cartId: 1
-        }),
+      method: "POST",
+      body: JSON.stringify({
+        cartId: Number(cartIdEl.value),
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((res) => {
-			cartDetails = [];
-			while( cartDetailListEl.firstChild ){
-			  cartDetailListEl.removeChild( cartDetailListEl.firstChild );
-			}
-          if (res.message) {
-            console.log(res.message);
-            showToast({ text: res.message });
-          }
-        })
-        .catch((err) => console.log("err", err));
+      .then((res) => {
+        cartDetails = [];
+        while (cartDetailListEl.firstChild) {
+          cartDetailListEl.removeChild(cartDetailListEl.firstChild);
+        }
+        if (res.message) {
+          console.log(res.message);
+          showToast({ text: res.message });
+        }
+      })
+      .catch((err) => console.log("err", err));
   });
 
   updateCartButtonEl.addEventListener("click", async () => {
     console.log("change: ", changeCartDetails);
     await fetch("/hotmot/UpdateCartDetailServlet", {
-        method: "POST",
-        body: JSON.stringify(changeCartDetails),
+      method: "POST",
+      body: JSON.stringify(changeCartDetails),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
-        .then((res) => {
-			console.log("res: ", res);
-        })
-        .catch((err) => console.log("err", err));
+      .then((res) => {
+        changeCartDetails = [];
+        if (res.message) {
+          console.log(res.message);
+          showToast({ text: res.message });
+        }
+      })
+      .catch((err) => console.log("err", err));
   });
-//  let cartDetails = SAMPLE_DATA;
   convertCartDetails.forEach(
     ({
       id,

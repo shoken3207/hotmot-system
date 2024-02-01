@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		if(email == "" || password == "") {
 			session.setAttribute("message", "パラメータに異常があります。");
-			response.sendRedirect("/hotmot/login.jsp");
+			response.sendRedirect("/hotmot/index.jsp");
     		return;
 		}
 		
@@ -39,10 +39,10 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(user == null);
 		if(user == null) {
             session.setAttribute("message", "emailかpasswordのいずれかが間違っています。");
-    		response.sendRedirect("/hotmot/login.jsp");
+    		response.sendRedirect("/hotmot/index.jsp");
     		return;
 		}
-		session.setAttribute("userId", user.getId());
+		session.setAttribute("userId", String.valueOf(user.getId()));
 		
 		if(user.getIsAdmin()) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
@@ -53,10 +53,10 @@ public class LoginServlet extends HttpServlet {
 			
 			if(cart == null) {
 				session.setAttribute("message", "カートが作成されていません。");
-				response.sendRedirect("/hotmot/login.jsp");
+				response.sendRedirect("/hotmot/index.jsp");
 	    		return;
 			}
-			session.setAttribute("cartId", cart.getId());
+			session.setAttribute("cartId", String.valueOf(cart.getId()));
 			response.sendRedirect("/hotmot/ProductListServlet");
 		}
 		

@@ -31,7 +31,7 @@ public class LogoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.removeAttribute("userId");
 		session.removeAttribute("cartId");
-		response.sendRedirect("/hotmot/login.jsp");
+		response.sendRedirect("/hotmot/index.jsp");
 	}
 
 }
