@@ -23,7 +23,8 @@ export const RICE_TYPE = {
 	MEDIUM_STICKY_BARLEY: 4,
   	LARGE_STICKY_BARLEY: 5,
   	SMALL_STICKY_BARLEY: 6,
-  	NONE: 7,
+  	SALAD: 7,
+  	NONE: 8
 }
 
 export const HEADER_INFO = [
@@ -41,7 +42,7 @@ export const HEADER_INFO = [
 		iconClass: "fa-cart-shopping"
 	},{
 		label: "注文履歴",
-		servletName: "ProductListServlet",
+		servletName: "OrderHistoryServlet",
 		iconClass: "fa-clock-rotate-left"
 	},{
 		label: "ログアウト",

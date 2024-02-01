@@ -40,5 +40,4 @@ public class ProductListServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }
