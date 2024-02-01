@@ -21,12 +21,10 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-//		session.setAttribute("message", "");
-		session.removeAttribute("message");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		if(email == "" || password == "") {
-			session.setAttribute("message", "パラメータに異常があります。");
+			request.setAttribute("message", "パラメータに異常があります。");
 			response.sendRedirect("/hotmot/index.jsp");
     		return;
 		}
@@ -35,10 +33,8 @@ public class LoginServlet extends HttpServlet {
 		CartDao cartDao = new CartDao();
 		UserBean user = userDao.findUser(email, password);
 		
-		System.out.println(user);
-		System.out.println(user == null);
 		if(user == null) {
-            session.setAttribute("message", "emailかpasswordのいずれかが間違っています。");
+            request.setAttribute("message", "emailかpasswordのいずれかが間違っています。");
     		response.sendRedirect("/hotmot/index.jsp");
     		return;
 		}
@@ -52,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 			CartBean cart = cartDao.findCartByUserId(user.getId());
 			
 			if(cart == null) {
-				session.setAttribute("message", "カートが作成されていません。");
+				request.setAttribute("message", "カートが作成されていません。");
 				response.sendRedirect("/hotmot/index.jsp");
 	    		return;
 			}
