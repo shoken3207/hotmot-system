@@ -1,0 +1,57 @@
+import ProductData from "../jsons/Product.json" assert { type: "json" };
+import RiceData from "../jsons/Rice.json" assert { type: "json" };
+
+const createOrderDetailHistoriesResponse = (orderDetails) => {
+  const productData = ProductData;
+  const riceData = RiceData;
+  const orderDetailHistories = orderDetails.map((orderDetail) => {
+    const product = productData.find(({ id }) => id === orderDetail.productId);
+    const rice = riceData.find(({ id }) => id === orderDetail.riceId);
+    if (product && rice) {
+      const {
+        id: productId,
+        name: productName,
+        listImage: productImage,
+        price,
+      } = product;
+      const { name: riceName } = rice;
+      const { quantity, createdAt, id } = orderDetail;
+      return {
+        id,
+        productName,
+        productId,
+        productImage,
+        price: price + rice.price,
+        riceName,
+        quantity,
+        createdAt,
+      };
+    }
+  });
+  const filterOrderDetailHistories = orderDetailHistories.filter(
+    (x) => x !== undefined
+  );
+
+  return filterOrderDetailHistories;
+};
+
+
+export const createOrderHistoriesResponse = (
+  orders
+) => {
+  const orderHistories = 
+    orders.map( (order) => {
+      const { id, shopId, userId, details, createdAt } = order;
+      const orderDetailHistories = createOrderDetailHistoriesResponse(details);
+
+      return {
+        id,
+        shopId,
+        userId,
+        createdAt,
+        details: orderDetailHistories,
+      };
+    })
+
+  return orderHistories;
+};

@@ -3,16 +3,17 @@ package models;
 import java.util.Date;
 
 public class OrderDetailBean {
-	private int id, orderId, productId, riceId, quantity;
+	private int id, orderId, productId, riceId, quantity, status;
 	private Date createdAt;
 
-	public OrderDetailBean(int id, int orderId, int productId, int riceId, int quantity, Date createdAt) {
+	public OrderDetailBean(int id, int orderId, int productId, int riceId, int quantity, int status, Date createdAt) {
 		super();
 		this.id = id;
 		this.orderId = orderId;
 		this.productId = productId;
 		this.riceId = riceId;
 		this.quantity = quantity;
+		this.status = status;
 		this.createdAt = createdAt;
 	}
 	
@@ -45,6 +46,12 @@ public class OrderDetailBean {
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
