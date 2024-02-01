@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%> <% String message =
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <input type="hidden" id="message" value="<%" ="message" % /> />
+    <input type="hidden" id="message" value=<%= message %> />
     <div class="container">
       <form
         id="form"
