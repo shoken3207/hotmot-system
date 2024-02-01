@@ -3,6 +3,10 @@
 <%@ page import="models.BookMarkBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%
+	int userId = (int)session.getAttribute("userId");
+	int cartId = (int)session.getAttribute("cartId");
+// 	System.out.println(userId);
+// 	System.out.println(cartId);
 	String bookMarks = (String)session.getAttribute("bookMarks");
 %>
 <!DOCTYPE html>

@@ -35,7 +35,7 @@
       </div>
       <div class="input-area">
         <label for="password" class="label">パスワード</label>
-        <input id="password" name="password required type="password" placeholder="password" minlength="8" />
+        <input id="password" name="password" required type="password" placeholder="password" minlength="8" />
       </div>
       <div class="btn-group">
       	<a href="register.jsp" class="btn register">新規登録</a>

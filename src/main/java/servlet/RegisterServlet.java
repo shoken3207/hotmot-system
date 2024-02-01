@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import dao.CartDao;
 import dao.UserDao;
-import models.CartBean;
 import models.UserBean;
 
 /**
@@ -36,25 +34,35 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+//		session.setAttribute("message", "");
+		session.removeAttribute("message");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String confirmPassword = request.getParameter("confirmPassword");
+		System.out.println(password);
+		System.out.println(confirmPassword);
 		if(name == "" || email == "" || password == "" || confirmPassword == "") {
 			session.setAttribute("message", "パラメータに異常があります。");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/hotmot/register.jsp");
-    		dispatcher.forward(request, response);
+			response.sendRedirect("/hotmot/register.jsp");
+    		return;
+		}
+		
+		if(!password.equals(confirmPassword)) {
+			session.setAttribute("message", "パスワードと確認用パスワードが異なります。");
+            response.sendRedirect("/hotmot/register.jsp");
+    		return;
 		}
 		
 		UserDao userDao = new UserDao();
 		CartDao cartDao = new CartDao();
 		UserBean user = userDao.findUserByEmail(email);
+		System.out.println(user);
 		
-		
-		if(user == null) {
+		if(user != null) {
             session.setAttribute("message", "登録済みのメールアドレスです。");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/hotmot/register.jsp");
-    		dispatcher.forward(request, response);
+            response.sendRedirect("/hotmot/register.jsp");
+    		return;
 		}
 		
 		try {
@@ -63,27 +71,16 @@ public class RegisterServlet extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-		
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/hotmot/login.jsp");
-		dispatcher.forward(request, response);
-		if(user.getIsAdmin()) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
-			dispatcher.forward(request, response);
-		} else {
-			
-			CartBean cart = cartDao.findCartByUserId(user.getId());
-			
-			if(cart == null) {
-				session.setAttribute("message", "カートが作成されていません。");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/hotmot/login.jsp");
-	    		dispatcher.forward(request, response);
-			}
-			session.setAttribute("cartId", cart.getId());
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
-			dispatcher.forward(request, response);
+		UserBean newUser = userDao.findUserByEmail(email);
+		try {
+			cartDao.insert(newUser.getId(), 1);
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
 		}
+		
+		response.sendRedirect("/hotmot/login.jsp");
+		return;
 	}
 
 }

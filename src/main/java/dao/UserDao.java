@@ -13,7 +13,7 @@ import models.UserBean;
 public class UserDao extends CommonDao {
 	
 	public UserBean findUser(String arg_email,String arg_password) {
-        String query = "SELECT * FROM users WHERE email = ? AND pass = ?"; 
+        String query = "SELECT * FROM users WHERE email = ? AND password = ?"; 
         try (Connection con = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement statement = con.prepareStatement(query)) {
 

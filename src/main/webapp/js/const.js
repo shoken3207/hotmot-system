@@ -43,6 +43,10 @@ export const HEADER_INFO = [
 		label: "注文履歴",
 		servletName: "ProductListServlet",
 		iconClass: "fa-clock-rotate-left"
+	},{
+		label: "ログアウト",
+		servletName: "LogoutServlet",
+		iconClass: "fa-right-from-bracket"
 	},
 ]
 

@@ -3,6 +3,9 @@ import { ce, gebi, ac, addClasses, setHref, setSrc, removeClass } from "../js/ut
 
 const addId = (el, id) => el.setAttribute("id", id);
 
+const userIdEl = gebi("userId");
+const cartIdEl = gebi("cartId");
+
 const currentUrl = window.location.href;
 const currentUrlArray = currentUrl.split("/");
 window.addEventListener("DOMContentLoaded", async () => {

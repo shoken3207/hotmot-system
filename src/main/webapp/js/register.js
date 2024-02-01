@@ -7,7 +7,8 @@ const messageEl = gebi("message");
 
 window.addEventListener("DOMContentLoaded", () => {
 	const message = messageEl.value;
-	if(message) {
+	console.log(message)
+	if(message !== "null") {
 		showToast({text: message});
 	}
 })

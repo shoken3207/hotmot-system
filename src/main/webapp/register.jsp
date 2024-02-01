@@ -21,7 +21,7 @@
 <body>
 	<input type="hidden" id="message" value=<%= message %> />
 	<div class="container">
-    <form id="form" action="" class="form register">
+    <form id="form" action="RegisterServlet" method="POST" class="form register">
     <div class="head register">
       <div class="lock-icon">
       <i class="fa-solid fa-lock" style="color: white"></i>
