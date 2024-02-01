@@ -23,7 +23,8 @@ export const RICE_TYPE = {
 	MEDIUM_STICKY_BARLEY: 4,
   	LARGE_STICKY_BARLEY: 5,
   	SMALL_STICKY_BARLEY: 6,
-  	NONE: 7,
+  	SALAD: 7,
+  	NONE: 8
 }
 
 export const HEADER_INFO = [

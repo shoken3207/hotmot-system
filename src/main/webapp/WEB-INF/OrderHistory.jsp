@@ -3,7 +3,10 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="models.OrderDetailBean" %>
 <%@ page import="java.util.Date" %>
-
+<%
+	String message = (String)session.getAttribute("message");
+	String orderDetailHistory = (String)session.getAttribute("orderHistories");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -17,42 +20,14 @@
 	<link rel='icon' href='images/favicon.ico' />
 </head>
 <body>
+	 	<input id="orderHistory" type="hidden" value=<%=orderDetailHistory %> />
 	<header class="header" id="header">
 	    </header>
 	    <div class="sp" id="sp">
-	<% ArrayList<OrderDetailBean> orderDetailHistory=(ArrayList<OrderDetailBean>)request.getAttribute("orderDetailHistory"); %> 
-		<!-- アコーディオンメニュー -->
-		<%  
-		int id, orderId, productId, riceId, quantity, status;
-		Date currentDate = (Date) request.getAttribute("currentDate");
-        System.out.println(currentDate);
-	 	%>
+	    <div id="orderHistoryList">
+	    </div>
 
-		<% for(OrderDetailBean history: orderDetailHistory){ %>
-		<%
-		id = history.getId();
-	 	orderId = history.getOrderId();
-	 	productId = history.getProductId();
-	 	riceId = history.getRiceId();
-	 	quantity = history.getQuantity(); 
-	 	status = history.getStatus();
-        System.out.println(history.getCreatedAt());
-// 	 	createdAt = history.getCreatedAt();
-	 	%>
-	 	<input id="orderHistory" type="hidden" value=<%=orderDetailHistory %> />
-	 	<details class="details">
-	 	<summary class="details-summary"><%=id %></summary>
-	 	<p class="details-content">
-	 	<%=orderId %><br>
-	 	<%=productId %><br>
-		<%=riceId %><br>
-		<%=quantity %><br>
-		<%=status %>
-		</p>
-		</details>
-		</p>
-		</details>
-		<% } %>
 		<script src="./js/header.js" type="module"></script>
+		<script src="./js/viewOrderHistory.js" type="module"></script>
 </body>
 </html>

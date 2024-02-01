@@ -9,10 +9,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import dao.OrderDao;
 import dao.OrderDetailHistoryDao;
-import dao.OrderHistoryDao;
+import models.OrderBean;
 import models.OrderDetailBean;
+import models.OrderHistoryBean;
 
 @WebServlet("/OrderHistoryServlet")
 public class OrderHistoryServlet extends HttpServlet {
@@ -20,15 +25,29 @@ public class OrderHistoryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//コードを変えた際にしたのをIntegerにする
 //		String userId = request.getParameter("userId");
-		int userId=2;
-		int orderId=1;
-		OrderHistoryDao dao = new OrderHistoryDao();
+		HttpSession session = request.getSession();
+		int userId=1;
+		ArrayList<OrderHistoryBean> orderHistories = new ArrayList<OrderHistoryBean>();
 		OrderDetailHistoryDao detailDao = new OrderDetailHistoryDao();
+		OrderDao orderDao = new OrderDao();
 		try {
-			orderId=dao.getOrderId(userId);
-			//userIdから履歴の取得
-			ArrayList<OrderDetailBean> orderDetailHistory = detailDao.getOrderDetailHistory(orderId);
-			request.setAttribute("orderDetailHistory", orderDetailHistory);
+			ArrayList<OrderBean> orders = orderDao.findOrdersByUserId(userId);
+			if(orders.size() == 0) {
+				session.setAttribute("message", "注文がありません。");
+				request.getRequestDispatcher("WEB-INF/OrderHistory.jsp").forward(request, response);
+				return;
+			}
+			
+			for (OrderBean order : orders) {
+    			ArrayList<OrderDetailBean> orderDetails = detailDao.getOrderDetailHistory(order.getId());
+    			OrderHistoryBean orderHistory = new OrderHistoryBean(order.getId(), order.getShopId(), order.getUserId(), order.getCreatedAt(), orderDetails);
+    			orderHistories.add(orderHistory);
+			}
+			System.out.println(orderHistories);
+			ObjectMapper mapper = new ObjectMapper();
+			String json = mapper.writeValueAsString(orderHistories);
+			System.out.println(json);
+			session.setAttribute("orderHistories", json);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
