@@ -14,101 +14,10 @@ import { createBookMarksResponse } from "../js/convertBookMarks.js";
 import { TABS, PRODUCT_CATEGORIES } from "../js/const.js";
 const bookMarksEl = gebi("bookMarks");
 
-const sampleData = [
-  {
-    id: 1,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 2,
-  },
-  {
-    id: 2,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 2,
-  },
-  {
-    id: 3,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 2,
-  },
-  {
-    id: 4,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 2,
-  },
-  {
-    id: 5,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 3,
-  },
-  {
-    id: 6,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 3,
-  },
-  {
-    id: 7,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 3,
-  },
-  {
-    id: 8,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 4,
-  },
-  {
-    id: 9,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 4,
-  },
-  {
-    id: 10,
-    userId: 1,
-    productId: 1,
-    productName: "梅おろし豚しゃぶ弁当",
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    categoryId: 4,
-  },
-];
-
 const lists = gebi("lists");
 const tabs = gebi("tabs");
+const userIdEl = gebi("userId");
+const cartIdEl = gebi("cartId");
 
 window.addEventListener("DOMContentLoaded", () => {
   const bookMarks = JSON.parse(bookMarksEl.value);
@@ -198,14 +107,14 @@ const createBookMarkList = (bookMarks, parentEl) => {
       await fetch("/hotmot/AddBookMarkServlet", {
         method: "POST",
         body: JSON.stringify({
-          userId: "1",
+          userId: Number(userIdEl.value),
           productId: x.productId,
           categoryId: x.categoryId,
         }),
       })
         .then((res) => {
           bookMarks.push({
-            userId: "1",
+            userId: Number(userIdEl.value),
             productId: x.productId,
             categoryId: x.categoryId,
           });
@@ -217,7 +126,10 @@ const createBookMarkList = (bookMarks, parentEl) => {
     deleteBookMarkButton.addEventListener("click", async () => {
       await fetch("/hotmot/DeleteBookMarkServlet", {
         method: "POST",
-        body: JSON.stringify({ userId: "1", productId: x.productId }),
+        body: JSON.stringify({
+          userId: Number(userIdEl.value),
+          productId: x.productId,
+        }),
       })
         .then((res) => {
           bookMarks.splice(index, 1);

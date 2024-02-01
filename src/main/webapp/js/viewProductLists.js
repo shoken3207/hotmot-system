@@ -19,7 +19,29 @@ const tabs = gebi("tabs");
 
 const bookMarksEl = gebi("bookMarks");
 const bookMarks = JSON.parse(bookMarksEl.value);
+const userIdEl = gebi("userId");
+const cartIdEl = gebi("cartId");
 window.addEventListener("DOMContentLoaded", async () => {
+  //	const topScrollButtonEl = ce("a");
+  //	setHref(topScrollButtonEl, "#")
+  //	addClasses(topScrollButtonEl, ["top-scroll-button"]);
+  //	const arrowIconEl = ce("i");
+  //	arrowIconEl.style="color: white";
+  //	addClasses(arrowIconEl, ["fa-solid", "fa-chevron-up", "fa-2x"])
+  //	ac(arrowIconEl, topScrollButtonEl);
+  //	ac(topScrollButtonEl, document.body);
+  //	window.addEventListener("scroll", () => {
+  //		console.log("scroll", window.scrollY)
+  //		if(window.scrollY > 300) {
+  //			if(!topScrollButtonEl.classList.contains('disp')) {
+  //				addClasses(topScrollButtonEl, ["disp"])
+  //			}
+  //		}else {
+  //			if(topScrollButtonEl.classList.contains('disp')) {
+  //				removeClass(topScrollButtonEl, "disp")
+  //			}
+  //		}
+  //	})
   let selectTab = 5;
   TABS.forEach(({ id, name }) => {
     const tab = ce("div");
@@ -185,7 +207,9 @@ const createProductList = (data) => {
     ac(cartButtonText, cartButton);
     cartButton.addEventListener("click", async () => {
       if (quantity === 0) return;
-      const option = [{ cartId: 1, productId: x.id, riceId, quantity }];
+      const option = [
+        { cartId: Number(cartIdEl.value), productId: x.id, riceId, quantity },
+      ];
       await addCartDetail(option, resetQuantityFunc);
     });
     ac(cartButton, actionGroup);
@@ -209,7 +233,7 @@ const createProductList = (data) => {
       await fetch("/hotmot/AddBookMarkServlet", {
         method: "POST",
         body: JSON.stringify({
-          userId: "1",
+          userId: Number(userIdEl.value),
           productId: x.id,
           categoryId: x.categoryId,
         }),
@@ -223,7 +247,7 @@ const createProductList = (data) => {
         .then((res) => {
           console.log("res: ", res);
           bookMarks.push({
-            userId: "1",
+            userId: Number(userIdEl.value),
             productId: x.id,
             categoryId: x.categoryId,
           });
@@ -243,7 +267,7 @@ const createProductList = (data) => {
       await fetch("/hotmot/DeleteBookMarkServlet", {
         method: "POST",
         body: JSON.stringify({
-          userId: "1",
+          userId: Number(userIdEl.value),
           productId: deleteBookMark.productId,
         }),
       })

@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert date</title>
-<meta charset="UTF-8">
 </head>
 <body>
     <form action="SampleServlet" method="post">

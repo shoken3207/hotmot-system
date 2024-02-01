@@ -1,0 +1,149 @@
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  padding: 1.4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: .8rem;
+  width: 90%;
+  box-shadow: 7px 7px 19px 0px #777777;
+border-radius: 10px;
+}
+
+.form.login {
+  max-width: 400px;
+}
+
+.form.register {
+	max-width: 560px;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  row-gap: .5rem;
+}
+
+
+.head h3 {
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+
+.lock-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.head.login .lock-icon {
+  background-color: #9ED49E;
+}
+
+.head.register .lock-icon {
+  background-color: #E192DD;
+}
+
+
+.input-area {
+  display: flex;
+  flex-direction: column;
+  row-gap: .1rem;
+}
+
+.input-area label {
+  font-size: .85rem;
+}
+
+.input-area input {
+  padding: .7rem .6rem;
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid #ccc;
+}
+
+.input-area input:focus {
+  border: 2px solid skyblue;
+}
+
+.btn-group {
+	width: 100%;
+  display: flex;
+  margin-top: .8rem;
+   align-items: flex-start; 
+  justify-content: space-between;
+}
+
+.btn-group .btn {
+  width: 120px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 10px;
+  transition: all 0.3s;
+  background-color: #fff;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.btn-group .btn::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translatex(-100%);
+  transition: all 0.3s;
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.btn-group .btn.register {
+  border: 1px solid #E192DD;
+  color: #E192DD;
+}
+.btn-group .btn.login {
+	position: relative;
+  border: 1px solid #9ED49E;
+  color: #9ED49E;
+}
+
+.btn-group .btn.login input, .btn-group .btn.register input {
+	 width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+}
+
+.btn-group .btn.register::before {
+  background-color: #E192DD;
+}
+.btn-group .btn.login::before {
+  background-color: #9ED49E;
+}
+
+.btn-group .btn:hover::before {
+  transform: none;
+}
+
+.btn-group .btn:hover {
+  color: white;
+}

@@ -34,6 +34,29 @@ public class CartDao extends CommonDao{
 
 		return null;
     }
+	
+	public CartBean findCartByUserId(int arg_userId) {
+		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+			String sql = "SELECT * FROM Carts WHERE userId = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, arg_userId);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				int userId = rs.getInt("userId");
+				int shopId = rs.getInt("shopId");
+				Date createdAt = rs.getDate("createdAt");
+
+				CartBean Cart  = new CartBean(id, userId, shopId,createdAt);
+				return Cart;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+    }
 
 	public ArrayList<CartBean> findAll() {
         ArrayList<CartBean> Carts = new ArrayList<CartBean>();
@@ -56,26 +79,18 @@ public class CartDao extends CommonDao{
 		}
 		return Carts;
     }
-    public int insert (int id, int userId, int shopId,Date createdAt) throws SQLException {
+    public int insert (int userId, int shopId) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO cart(id, userId, shopId,createdAt) " +
-                "VALUES(" + id + "," + userId + "," + shopId + ","  + createdAt + ")";
+    	String sql = "INSERT INTO carts(userId, shopId) " +
+                "VALUES(" + userId + "," + shopId + ")";
+    	System.out.print(userId+","+shopId);
+    	System.out.print(sql);
 
     	PreparedStatement statement = conn.prepareStatement(sql);
-    	ResultSet rs = statement.executeQuery();
-    	rs.next();
-    	
-    	rs.close();
-    	statement.close();
-    	
-    	statement = conn.prepareStatement(sql);
     	
     	int updateCount = statement.executeUpdate();
-    	
     	statement.close();
-    	
-    	conn.commit();
     	conn.close();
     	
     	return updateCount;

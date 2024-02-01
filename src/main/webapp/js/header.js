@@ -1,10 +1,49 @@
-import { HEADER_INFO } from "./const.js";
-import { ce, gebi, ac, addClasses, setHref, setSrc, removeClass } from "../js/utils.js";
+import {
+  ce,
+  gebi,
+  ac,
+  addClasses,
+  setHref,
+  setSrc,
+  removeClass,
+} from "../js/utils.js";
 
 const addId = (el, id) => el.setAttribute("id", id);
 
+const userIdEl = gebi("userId");
+const cartIdEl = gebi("cartId");
+
+const HEADER_INFO = [
+  {
+    label: "ホーム",
+    servletName: "ProductListServlet",
+    iconClass: "fa-house",
+  },
+  {
+    label: "ブックマーク",
+    servletName: `BookMarkServlet?userId=${userIdEl.value}`,
+    iconClass: "fa-star",
+  },
+  {
+    label: "カート",
+    servletName: `CartDetailListServlet?cartId=${cartIdEl.value}`,
+    iconClass: "fa-cart-shopping",
+  },
+  {
+    label: "注文履歴",
+    servletName: `OrderHistoryServlet?usreId=${userIdEl.value}`,
+    iconClass: "fa-clock-rotate-left",
+  },
+  {
+    label: "ログアウト",
+    servletName: "LogoutServlet",
+    iconClass: "fa-right-from-bracket",
+  },
+];
+
 const currentUrl = window.location.href;
-const currentUrlArray = currentUrl.split("/");
+const currentUrlArray = currentUrl.split(/[?#\/]/);
+console.log("currentUrlArray ", currentUrlArray);
 window.addEventListener("DOMContentLoaded", async () => {
   const defaultHeaderEl = gebi("header");
   const bodyEl = document.body;
