@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String message = (String)session.getAttribute("message");
-	System.out.println(message);
+	String message = (String)request.getAttribute("message");
+	String userId = (String)session.getAttribute("userId");
+	String cartId = (String)session.getAttribute("cartId");
+	if(userId != null && cartId != null) {
+		String url = "ProductListServlet?userId=" + userId;
+		response.sendRedirect(url);
+		return;
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +37,7 @@
     </div>
       <div class="input-area">
         <label for="email" class="label">メールアドレス</label>
-        <input id="email" name="email" required type="email" placeholder="xxx@gmail.com" />
+        <input autofocus id="email" name="email" required type="email" placeholder="xxx@gmail.com" />
       </div>
       <div class="input-area">
         <label for="password" class="label">パスワード</label>

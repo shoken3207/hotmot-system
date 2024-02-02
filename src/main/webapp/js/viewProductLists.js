@@ -1,5 +1,5 @@
 import { fetchProductsByCategory } from "../js/master.js";
-import { TABS, RICE_TYPE } from "./const.js";
+import { TABS, RICE_TYPE, DEFAULT_SELECT_TAB } from "./const.js";
 import {
   ce,
   gebi,
@@ -42,7 +42,10 @@ window.addEventListener("DOMContentLoaded", async () => {
   //			}
   //		}
   //	})
-  let selectTab = 5;
+  const sessionSelectTab = Number(
+    sessionStorage.getItem("productListSelectTab")
+  );
+  let selectTab = sessionSelectTab || DEFAULT_SELECT_TAB;
   TABS.forEach(({ id, name }) => {
     const tab = ce("div");
     const tabClasses = ["tab"];
@@ -54,6 +57,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     setValue(tab, id);
     tab.addEventListener("click", async () => {
       selectTab = id;
+      sessionStorage.setItem("productListSelectTab", id);
       const tabItems = document.querySelectorAll(".tab");
       tabItems.forEach((tabItem) => {
         removeClass(tabItem, "active");

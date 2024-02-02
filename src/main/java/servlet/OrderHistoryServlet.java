@@ -24,19 +24,16 @@ public class OrderHistoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//コードを変えた際にしたのをIntegerにする
-//		String userId = request.getParameter("userId");
+		String userId = request.getParameter("userId");
 		HttpSession session = request.getSession();
-		int userId=1;
 		ArrayList<OrderHistoryBean> orderHistories = new ArrayList<OrderHistoryBean>();
 		OrderDetailHistoryDao detailDao = new OrderDetailHistoryDao();
 		OrderDao orderDao = new OrderDao();
+		int parseUserId = Integer.parseInt(userId);
 		try {
-			ArrayList<OrderBean> orders = orderDao.findOrdersByUserId(userId);
-			if(orders.size() == 0) {
-				session.setAttribute("message", "注文がありません。");
-				request.getRequestDispatcher("WEB-INF/OrderHistory.jsp").forward(request, response);
-				return;
-			}
+			ArrayList<OrderBean> orders = orderDao.findOrdersByUserId(parseUserId);
+			System.out.println("orders");
+			System.out.println(orders);
 			
 			for (OrderBean order : orders) {
     			ArrayList<OrderDetailBean> orderDetails = detailDao.getOrderDetailHistory(order.getId());
