@@ -36,6 +36,9 @@ public class RegisterServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 //		session.setAttribute("message", "");
 		session.removeAttribute("message");
+		session.removeAttribute("name");
+		session.removeAttribute("email");
+		session.removeAttribute("password");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -44,12 +47,18 @@ public class RegisterServlet extends HttpServlet {
 		System.out.println(confirmPassword);
 		if(name == "" || email == "" || password == "" || confirmPassword == "") {
 			session.setAttribute("message", "パラメータに異常があります。");
+			session.setAttribute("name", name);
+			session.setAttribute("email", email);
+			session.setAttribute("password", password);
 			response.sendRedirect("/hotmot/register.jsp");
     		return;
 		}
 		
 		if(!password.equals(confirmPassword)) {
 			session.setAttribute("message", "パスワードと確認用パスワードが異なります。");
+			session.setAttribute("name", name);
+			session.setAttribute("email", email);
+			session.setAttribute("password", password);
             response.sendRedirect("/hotmot/register.jsp");
     		return;
 		}
@@ -61,10 +70,12 @@ public class RegisterServlet extends HttpServlet {
 		
 		if(user != null) {
             session.setAttribute("message", "登録済みのメールアドレスです。");
+            session.setAttribute("name", name);
+			session.setAttribute("email", email);
+			session.setAttribute("password", password);
             response.sendRedirect("/hotmot/register.jsp");
     		return;
 		}
-		
 		try {
 			userDao.insertUser(name, email, password, false);
 		} catch (SQLException e) {

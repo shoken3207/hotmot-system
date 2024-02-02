@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <% String message =
-(String)session.getAttribute("message"); %>
+pageEncoding="UTF-8"%>
+<%@ page import="java.util.Date" %>
+<%
+	String message =(String)session.getAttribute("message");
+	String name = (String)session.getAttribute("name");
+	String email = (String)session.getAttribute("email");
+	String password = (String)session.getAttribute("password");
+%>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -43,7 +50,10 @@ pageEncoding="UTF-8"%> <% String message =
             required
             type="text"
             placeholder="田中 太郎"
-          />
+            <% if(name != null) {%>
+            value = <%=session.getAttribute("name") %>
+            <%}%>
+             />
         </div>
         <div class="input-area">
           <label for="email" class="label">メールアドレス</label>
@@ -53,6 +63,9 @@ pageEncoding="UTF-8"%> <% String message =
             required
             type="email"
             placeholder="xxx@gmail.com"
+            <% if(email != null) {%>
+            value = <%=session.getAttribute("email") %>
+            <%}%>
           />
         </div>
         <div class="input-area">
@@ -64,6 +77,9 @@ pageEncoding="UTF-8"%> <% String message =
             type="password"
             placeholder="********"
             minlength="8"
+            <% if(password != null) {%>
+            value = <%=session.getAttribute("password") %>
+            <%}%>
           />
         </div>
         <div class="input-area">
