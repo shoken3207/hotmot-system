@@ -19,8 +19,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     showToast({ text: "注文していません。" });
   }
   const convertOrderHistories = createOrderHistoriesResponse(orderHistories);
+  console.log(convertOrderHistories);
   const detailsEl = ce("div");
-  convertOrderHistories.forEach((orderHistory) => {
+    convertOrderHistories.forEach((orderHistory) => {
     const { createdAt, details } = orderHistory;
     const detailEl = ce("details");
     addClasses(detailEl, ["details"]);

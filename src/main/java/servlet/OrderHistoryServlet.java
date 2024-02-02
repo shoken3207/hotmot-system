@@ -40,9 +40,11 @@ public class OrderHistoryServlet extends HttpServlet {
 			
 			for (OrderBean order : orders) {
     			ArrayList<OrderDetailBean> orderDetails = detailDao.getOrderDetailHistory(order.getId());
+    			System.out.println(orderDetails);
     			OrderHistoryBean orderHistory = new OrderHistoryBean(order.getId(), order.getShopId(), order.getUserId(), order.getCreatedAt(), orderDetails);
     			orderHistories.add(orderHistory);
 			}
+			System.out.println("aaa");
 			System.out.println(orderHistories);
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writeValueAsString(orderHistories);
