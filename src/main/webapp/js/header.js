@@ -12,7 +12,7 @@ const addId = (el, id) => el.setAttribute("id", id);
 
 const userIdEl = gebi("userId");
 const cartIdEl = gebi("cartId");
-
+console.log("userId: ", userIdEl.value);
 const HEADER_INFO = [
   {
     label: "ホーム",
@@ -31,7 +31,7 @@ const HEADER_INFO = [
   },
   {
     label: "注文履歴",
-    servletName: `OrderHistoryServlet?usreId=${userIdEl.value}`,
+    servletName: `OrderHistoryServlet?userId=${userIdEl.value}`,
     iconClass: "fa-clock-rotate-left",
   },
   {

@@ -38,7 +38,9 @@
 	<header class="header" id="header">
 	    </header>
 	    <div class="sp" id="sp">
-	    <div id="orderHistoryList">
+	    <div id="container">
+      		<h1>注文履歴</h1>
+	    	
 	    </div>
 
 		<script src="./js/header.js" type="module"></script>
