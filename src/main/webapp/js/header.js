@@ -16,7 +16,7 @@ const cartIdEl = gebi("cartId");
 const HEADER_INFO = [
   {
     label: "ホーム",
-    servletName: "ProductListServlet",
+    servletName: `ProductListServlet?userId=${userIdEl.value}`,
     iconClass: "fa-house",
   },
   {
@@ -42,7 +42,7 @@ const HEADER_INFO = [
 ];
 
 const currentUrl = window.location.href;
-const currentUrlArray = currentUrl.split(/[?#\/]/);
+const currentUrlArray = currentUrl.split(/[?,/#]/);
 console.log("currentUrlArray ", currentUrlArray);
 window.addEventListener("DOMContentLoaded", async () => {
   const defaultHeaderEl = gebi("header");
@@ -76,7 +76,7 @@ const createSpMenu = (parentEl) => {
 
 const createLogo = (parentEl) => {
   const logoLinkEl = ce("a");
-  logoLinkEl.setAttribute("href", "/hotmot/ProductListServlet");
+  logoLinkEl.setAttribute("href", `/hotmot/ProductListServlet?userId=${userIdEl.value}`);
   addClasses(logoLinkEl, ["logo"]);
   const logoEl = ce("h1");
   const logoImageEl = ce("img");

@@ -11,7 +11,7 @@ import {
   rlc,
 } from "../js/utils.js";
 import { createBookMarksResponse } from "../js/convertBookMarks.js";
-import { TABS, PRODUCT_CATEGORIES } from "../js/const.js";
+import { TABS, PRODUCT_CATEGORIES, DEFAULT_SELECT_TAB } from "../js/const.js";
 const bookMarksEl = gebi("bookMarks");
 
 const lists = gebi("lists");

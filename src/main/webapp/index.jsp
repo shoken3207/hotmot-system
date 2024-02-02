@@ -2,6 +2,13 @@
     pageEncoding="UTF-8"%>
 <%
 	String message = (String)request.getAttribute("message");
+	String userId = (String)session.getAttribute("userId");
+	String cartId = (String)session.getAttribute("cartId");
+	if(userId != null && cartId != null) {
+		String url = "ProductListServlet?userId=" + userId;
+		response.sendRedirect(url);
+		return;
+	}
 %>
 <!DOCTYPE html>
 <html>

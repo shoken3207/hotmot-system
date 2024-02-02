@@ -9,7 +9,6 @@ import {
   setHref,
   showToast,
 } from "../js/utils.js";
-import { SAMPLE_DATA } from "../js/const.js";
 
 const orderHistoriesEl = gebi("orderHistory");
 const orderHistoryListEl = gebi("orderHistoryList");

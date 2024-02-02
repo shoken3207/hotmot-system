@@ -32,11 +32,8 @@ public class OrderHistoryServlet extends HttpServlet {
 		OrderDao orderDao = new OrderDao();
 		try {
 			ArrayList<OrderBean> orders = orderDao.findOrdersByUserId(userId);
-			if(orders.size() == 0) {
-				session.setAttribute("message", "注文がありません。");
-				request.getRequestDispatcher("WEB-INF/OrderHistory.jsp").forward(request, response);
-				return;
-			}
+			System.out.println("orders");
+			System.out.println(orders);
 			
 			for (OrderBean order : orders) {
     			ArrayList<OrderDetailBean> orderDetails = detailDao.getOrderDetailHistory(order.getId());

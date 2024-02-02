@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
 	    		return;
 			}
 			session.setAttribute("cartId", String.valueOf(cart.getId()));
-			response.sendRedirect("/hotmot/ProductListServlet");
+			response.sendRedirect("/hotmot/ProductListServlet?userId=" + user.getId());
 		}
 		
 	}
