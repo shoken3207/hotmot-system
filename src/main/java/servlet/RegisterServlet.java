@@ -41,12 +41,22 @@ public class RegisterServlet extends HttpServlet {
 		RequestDispatcher loginDispatcher = request.getRequestDispatcher("index.jsp");
 		if(name == "" || email == "" || password == "" || confirmPassword == "") {
 			request.setAttribute("message", "パラメータに異常があります。");
+            request.setAttribute("name",name);
+            request.setAttribute("email",email);
+            request.setAttribute("password",password);
+            request.setAttribute("confirmPassword",confirmPassword);
 			registerDispatcher.forward(request, response);
     		return;
 		}
 		
 		if(!password.equals(confirmPassword)) {
+			System.out.println("name");
+			System.out.println(name);
 			request.setAttribute("message", "パスワードと確認用パスワードが異なります。");
+            request.setAttribute("name",name);
+            request.setAttribute("email",email);
+            request.setAttribute("password",password);
+            request.setAttribute("confirmPassword",confirmPassword);
 			registerDispatcher.forward(request, response);
     		return;
 		}
@@ -58,6 +68,10 @@ public class RegisterServlet extends HttpServlet {
 		
 		if(user != null) {
             request.setAttribute("message", "登録済みのメールアドレスです。");
+            request.setAttribute("name",name);
+            request.setAttribute("email",email);
+            request.setAttribute("password",password);
+            request.setAttribute("confirmPassword",confirmPassword);
     		registerDispatcher.forward(request, response);
     		return;
 		}

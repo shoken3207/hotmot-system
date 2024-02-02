@@ -21,10 +21,14 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		RequestDispatcher productListDispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
+		RequestDispatcher loginDispatcher = request.getRequestDispatcher("index.jsp");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		if(email == "" || password == "") {
 			request.setAttribute("message", "パラメータに異常があります。");
+			request.setAttribute("email",email);
+			request.setAttribute("password",password);
 			response.sendRedirect("/hotmot/index.jsp");
     		return;
 		}
@@ -35,21 +39,22 @@ public class LoginServlet extends HttpServlet {
 		
 		if(user == null) {
             request.setAttribute("message", "emailかpasswordのいずれかが間違っています。");
-    		response.sendRedirect("/hotmot/index.jsp");
+            request.setAttribute("email",email);
+			request.setAttribute("password",password);
+            loginDispatcher.forward(request, response);
     		return;
 		}
 		session.setAttribute("userId", String.valueOf(user.getId()));
 		
 		if(user.getIsAdmin()) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
-			dispatcher.forward(request, response);
+			productListDispatcher.forward(request, response);
 		} else {
 			
 			CartBean cart = cartDao.findCartByUserId(user.getId());
 			
 			if(cart == null) {
 				request.setAttribute("message", "カートが作成されていません。");
-				response.sendRedirect("/hotmot/index.jsp");
+				loginDispatcher.forward(request, response);
 	    		return;
 			}
 			session.setAttribute("cartId", String.valueOf(cart.getId()));
