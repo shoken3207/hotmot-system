@@ -9,7 +9,6 @@ import {
   setHref,
   showToast,
 } from "../js/utils.js";
-import { SAMPLE_DATA } from "../js/const.js";
 
 const orderHistoriesEl = gebi("orderHistory");
 const orderHistoryListEl = gebi("orderHistoryList");
@@ -18,6 +17,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   if (orderHistories.length === 0) {
     showToast({ text: "注文していません。" });
   }
+  console.log("orderHistories: ",orderHistories )
   const convertOrderHistories = createOrderHistoriesResponse(orderHistories);
   console.log(convertOrderHistories);
   const detailsEl = ce("div");
@@ -26,12 +26,20 @@ window.addEventListener("DOMContentLoaded", async () => {
     const detailEl = ce("details");
     addClasses(detailEl, ["details"]);
     const summaryEl = ce("summary");
-    summaryEl.innerText = convertDate(createdAt);
     addClasses(summaryEl, ["details-summary"]);
+    const dateEl = ce("span");
+    dateEl.innerText = convertDate(createdAt);
+    const totalAmountEl = ce("span");
+    totalAmountEl.innerText = "合計金額: 1,080円（税抜: 1,000円）";
+    ac(dateEl, summaryEl);
+    ac(totalAmountEl, summaryEl);
     ac(summaryEl, detailEl);
+    const orderDetailListEl = ce("div");
+    addClasses(orderDetailListEl, ["orderDetailList"]);
     details.forEach((detail) => {
-      createOrderDetailHistory(detail, detailEl);
+      createOrderDetailHistory(detail, orderDetailListEl);
     });
+    ac(orderDetailListEl, detailEl);
 	  ac(detailEl, detailsEl);
   });
   ac(detailsEl, orderHistoryListEl);

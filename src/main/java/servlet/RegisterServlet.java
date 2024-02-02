@@ -3,12 +3,12 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.CartDao;
 import dao.UserDao;
@@ -33,24 +33,21 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-//		session.setAttribute("message", "");
-		session.removeAttribute("message");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String confirmPassword = request.getParameter("confirmPassword");
-		System.out.println(password);
-		System.out.println(confirmPassword);
+		RequestDispatcher registerDispatcher = request.getRequestDispatcher("register.jsp");
+		RequestDispatcher loginDispatcher = request.getRequestDispatcher("index.jsp");
 		if(name == "" || email == "" || password == "" || confirmPassword == "") {
-			session.setAttribute("message", "パラメータに異常があります。");
-			response.sendRedirect("/hotmot/register.jsp");
+			request.setAttribute("message", "パラメータに異常があります。");
+			registerDispatcher.forward(request, response);
     		return;
 		}
 		
 		if(!password.equals(confirmPassword)) {
-			session.setAttribute("message", "パスワードと確認用パスワードが異なります。");
-            response.sendRedirect("/hotmot/register.jsp");
+			request.setAttribute("message", "パスワードと確認用パスワードが異なります。");
+			registerDispatcher.forward(request, response);
     		return;
 		}
 		
@@ -60,8 +57,8 @@ public class RegisterServlet extends HttpServlet {
 		System.out.println(user);
 		
 		if(user != null) {
-            session.setAttribute("message", "登録済みのメールアドレスです。");
-            response.sendRedirect("/hotmot/register.jsp");
+            request.setAttribute("message", "登録済みのメールアドレスです。");
+    		registerDispatcher.forward(request, response);
     		return;
 		}
 		
@@ -78,8 +75,8 @@ public class RegisterServlet extends HttpServlet {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-		
-		response.sendRedirect("/hotmot/index.jsp");
+
+		loginDispatcher.forward(request, response);
 		return;
 	}
 
