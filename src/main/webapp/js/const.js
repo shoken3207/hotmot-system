@@ -44,68 +44,10 @@ export const HEADER_INFO = [
 		label: "注文履歴",
 		servletName: "OrderHistoryServlet",
 		iconClass: "fa-clock-rotate-left"
+	},{
+		label: "ログアウト",
+		servletName: "LogoutServlet",
+		iconClass: "fa-right-from-bracket"
 	},
 ]
 
-export const SAMPLE_DATA = [
-  {
-    id: 1,
-    price: 590,
-    productId: 1,
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    productName: "梅おろし豚しゃぶ弁当",
-    quantity: 3,
-    riceName: "ライス: 小盛",
-  },
-  {
-    id: 2,
-    price: 590,
-    productId: 1,
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    productName: "梅おろし豚しゃぶ弁当",
-    quantity: 3,
-    riceName: "ライス: 小盛",
-  },
-  {
-    id: 3,
-    price: 590,
-    productId: 1,
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    productName: "梅おろし豚しゃぶ弁当",
-    quantity: 3,
-    riceName: "ライス: 小盛",
-  },
-  {
-    id: 4,
-    price: 590,
-    productId: 1,
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    productName: "梅おろし豚しゃぶ弁当",
-    quantity: 3,
-    riceName: "ライス: 小盛",
-  },
-  {
-    id: 5,
-    price: 590,
-    productId: 1,
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    productName: "梅おろし豚しゃぶ弁当",
-    quantity: 3,
-    riceName: "ライス: 小盛",
-  },
-  {
-    id: 6,
-    price: 590,
-    productId: 1,
-    productImage:
-      "https://netorder.hottomotto.com/pc/images/products/13154/13154_pc_list.jpg",
-    productName: "梅おろし豚しゃぶ弁当",
-    quantity: 3,
-    riceName: "ライス: 小盛",
-  },
-];

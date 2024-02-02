@@ -56,6 +56,7 @@ public class AddCartDetailServlet extends HttpServlet {
             sb.append(line);
         }
         String requestBody = sb.toString();
+        System.out.println(requestBody);
     	ObjectMapper objectMapper = new ObjectMapper();
     	List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
     	for(Map<String, Object> data: dataList) {
