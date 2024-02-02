@@ -22,8 +22,8 @@ const cartIdEl = gebi("cartId");
 window.addEventListener("DOMContentLoaded", () => {
   const bookMarks = JSON.parse(bookMarksEl.value);
   const convertBookMarks = createBookMarksResponse(bookMarks);
-
-  let selectTab = 5;
+  const sessionSelectTab = Number(sessionStorage.getItem("bookMarkSelectTab"));
+  let selectTab = sessionSelectTab || DEFAULT_SELECT_TAB;
   TABS.forEach(({ id, name }) => {
     const tab = ce("div");
     const tabClasses = ["tab"];
@@ -35,6 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
     setValue(tab, id);
     tab.addEventListener("click", async () => {
       selectTab = id;
+      sessionStorage.setItem("bookMarkSelectTab", id);
       const tabItems = document.querySelectorAll(".tab");
       tabItems.forEach((tabItem) => {
         removeClass(tabItem, "active");
