@@ -4,6 +4,10 @@ pageEncoding="UTF-8"%>
 String message = (String)request.getAttribute("message");
 String userId = (String)session.getAttribute("userId");
 String cartId = (String)session.getAttribute("cartId");
+String name =(String)request.getAttribute("name"); 
+String email =(String)request.getAttribute("email"); 
+String password =(String)request.getAttribute("password"); 
+String confirmPassword =(String)request.getAttribute("confirmPassword");
 if(userId != null && cartId != null) {
 	String url = "ProductListServlet?userId=" + userId;
 	response.sendRedirect(url);
@@ -54,6 +58,9 @@ System.out.println(message);
             required
             type="text"
             placeholder="田中 太郎"
+             <% if(email != null){%>
+            value=<%=email %>
+            <%}%>
           />
         </div>
         <div class="input-area">
@@ -64,6 +71,9 @@ System.out.println(message);
             required
             type="email"
             placeholder="xxx@gmail.com"
+            <% if(email != null){%>
+            value=<%=email %>
+            <%}%>
           />
         </div>
         <div class="input-area">
@@ -75,6 +85,9 @@ System.out.println(message);
             type="password"
             placeholder="********"
             minlength="8"
+            <% if(password != null){%>
+            value=<%=password %>
+            <%}%>
           />
         </div>
         <div class="input-area">
@@ -86,6 +99,9 @@ System.out.println(message);
             type="password"
             placeholder="********"
             minlength="8"
+            <% if(password != null){%>
+            value=<%=confirmPassword %>
+            <%}%>
           />
         </div>
         <div class="btn-group">

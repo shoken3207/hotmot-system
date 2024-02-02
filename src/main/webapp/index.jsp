@@ -4,6 +4,8 @@
 	String message = (String)request.getAttribute("message");
 	String userId = (String)session.getAttribute("userId");
 	String cartId = (String)session.getAttribute("cartId");
+	String email = (String)request.getAttribute("email");
+	String password = (String)request.getAttribute("password");
 	if(userId != null && cartId != null) {
 		String url = "ProductListServlet?userId=" + userId;
 		response.sendRedirect(url);
@@ -37,11 +39,20 @@
     </div>
       <div class="input-area">
         <label for="email" class="label">メールアドレス</label>
-        <input autofocus id="email" name="email" required type="email" placeholder="xxx@gmail.com" />
+        <input autofocus id="email" name="email" required type="email" placeholder="xxx@gmail.com" 
+        <% if(email != null){%>
+         value=<%=email %>
+         <%}%>
+         />
+         
       </div>
       <div class="input-area">
         <label for="password" class="label">パスワード</label>
-        <input id="password" name="password" required type="password" placeholder="password" minlength="8" />
+        <input id="password" name="password" required type="password" placeholder="password" minlength="8" 
+        <% if(email != null){%>
+      value=<%=password %>
+      <%}%>
+      />
       </div>
       <div class="btn-group">
       	<a href="register.jsp" class="btn register">新規登録</a>
