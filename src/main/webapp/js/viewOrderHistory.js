@@ -17,11 +17,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   if (orderHistories.length === 0) {
     showToast({ text: "注文していません。" });
   }
-  console.log("orderHistories: ",orderHistories )
+  console.log("orderHistories: ", orderHistories);
   const convertOrderHistories = createOrderHistoriesResponse(orderHistories);
   console.log(convertOrderHistories);
   const detailsEl = ce("div");
-    convertOrderHistories.forEach((orderHistory) => {
+  convertOrderHistories.forEach((orderHistory) => {
     const { createdAt, details } = orderHistory;
     const detailEl = ce("details");
     addClasses(detailEl, ["details"]);
@@ -40,7 +40,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       createOrderDetailHistory(detail, orderDetailListEl);
     });
     ac(orderDetailListEl, detailEl);
-	  ac(detailEl, detailsEl);
+    ac(detailEl, detailsEl);
   });
   ac(detailsEl, orderHistoryListEl);
 });
@@ -49,32 +49,40 @@ const createOrderDetailHistory = (orderDetailHistory, parentEl) => {
   const { productName, productImage, quantity, riceName, price, productId } =
     orderDetailHistory;
   const detailBoxEl = ce("div");
+  addClasses(detailBoxEl, ["orderDetailBox"]);
+  const imageWrapEl = ce("div");
+  addClasses(imageWrapEl, ["image"]);
+  const imageEl = ce("img");
+  setSrc(imageEl, productImage);
+  ac(imageEl, imageWrapEl);
+  ac(imageWrapEl, detailBoxEl);
+  const contentEl = ce("div");
+  addClasses(contentEl, ["content"]);
   const productNameEl = ce("h3");
   productNameEl.innerText = productName;
-  const productImageEl = ce("img");
-  setSrc(productImageEl, productImage);
   const riceNameEl = ce("p");
-  riceNameEl.innerText = riceName;
+  riceNameEl.innerText = `ライス: ${riceName}`;
+  const priceEl = ce("p");
+  priceEl.innerText = `価格: ${price}円 (税抜 : ${Math.ceil(price / 1.08)}円）`;
   const quantityEl = ce("p");
   quantityEl.innerText = `個数: ${quantity}`;
-  const priceEl = ce("p");
-  priceEl.innerText = `${price}円 (税抜 : ${Math.ceil(price / 1.08)}円）`;
   const subTotal = price * quantity;
   const subTotalEl = ce("p");
   subTotalEl.innerText = `小計: ${subTotal}円 (税抜 : ${Math.ceil(
     subTotal / 1.08
   )}円）`;
-  ac(productNameEl, detailBoxEl);
-  ac(productImageEl, detailBoxEl);
-  ac(riceNameEl, detailBoxEl);
-  ac(quantityEl, detailBoxEl);
-  ac(priceEl, detailBoxEl);
-  ac(subTotalEl, detailBoxEl);
+  ac(productNameEl, contentEl);
+  ac(riceNameEl, contentEl);
+  ac(priceEl, contentEl);
+  ac(quantityEl, contentEl);
+  ac(subTotalEl, contentEl);
+  ac(contentEl, detailBoxEl);
   ac(detailBoxEl, parentEl);
 };
 
-
 const convertDate = (date) => {
-	const newDate = new Date(date);
-	return `${newDate.getFullYear()}/${newDate.getMonth() + 1}/${newDate.getDate()}`;
-}
+  const newDate = new Date(date);
+  return `${newDate.getFullYear()}/${
+    newDate.getMonth() + 1
+  }/${newDate.getDate()}`;
+};
