@@ -87,6 +87,13 @@ window.addEventListener('DOMContentLoaded', async () => {
       })
       .catch((err) => console.log('err', err));
   });
+  const total = calcTotal(convertCartDetails);
+  const totalEl = ce('h4');
+  addClasses(totalEl, ['total']);
+  totalEl.innerText = `合計: ${total.toLocaleString()}円 (税抜 : ${Math.ceil(
+    total / 1.08
+  ).toLocaleString()}円）`;
+  ac(totalEl, cartDetailListEl);
   convertCartDetails.forEach(
     ({
       id,
@@ -119,7 +126,9 @@ window.addEventListener('DOMContentLoaded', async () => {
       riceNameEl.innerText = riceName;
       const priceEl = ce('h4');
       addClasses(priceEl, ['price']);
-      priceEl.innerText = `${price}円 (税抜 : ${Math.ceil(price / 1.08)}円）`;
+      priceEl.innerText = `${price.toLocaleString()}円 (税抜 : ${Math.ceil(
+        price / 1.08
+      ).toLocaleString()}円）`;
       ac(productNameEl, rightEl);
       ac(riceNameEl, rightEl);
       ac(priceEl, rightEl);
@@ -203,4 +212,12 @@ const createEditQuantity = ({
   ac(addBtnEl, divEl);
   console.log('el: ', divEl, parentEl);
   ac(divEl, parentEl);
+};
+
+const calcTotal = (details) => {
+  const total = details.reduce((sum, { price, quantity }) => {
+    return sum + price * quantity;
+  }, 0);
+
+  return total;
 };

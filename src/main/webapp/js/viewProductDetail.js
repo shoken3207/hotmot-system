@@ -183,8 +183,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   const productNameEl = ce('h2');
   productNameEl.innerText = name;
   ac(productNameEl, topEl);
-  const bottomEl = ce('div');
-  addClasses(bottomEl, ['bottom']);
+  const middleEl = ce('div');
+  addClasses(middleEl, ['middle']);
   const leftEl = ce('div');
   addClasses(leftEl, ['left']);
   const imageWrapEl = ce('div');
@@ -193,15 +193,18 @@ window.addEventListener('DOMContentLoaded', async () => {
   setSrc(imageEl, image);
   ac(imageEl, imageWrapEl);
   ac(imageWrapEl, leftEl);
+  const bottomEl = ce('div');
+  addClasses(bottomEl, ['bottom']);
   const descEl = ce('p');
+  addClasses(descEl, ['desc']);
   descEl.innerHTML = desc;
-  ac(descEl, leftEl);
+  ac(descEl, bottomEl);
   const rightEl = ce('div');
   addClasses(rightEl, ['right']);
   const priceEl = ce('h3');
   priceEl.innerText = `${price}円 (税抜 : ${Math.ceil(price / 1.08)}円）`;
   ac(priceEl, rightEl);
-  ac(leftEl, bottomEl);
+  ac(leftEl, middleEl);
   const counterGroupEl = ce('div');
   addClasses(counterGroupEl, ['counter-group']);
   console.log('counterGroupEl', counterGroupEl);
@@ -293,7 +296,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
   ac(actionGroupEl, rightEl);
   createAllergys({ allergys, parentEl: rightEl });
-  ac(rightEl, bottomEl);
+  ac(rightEl, middleEl);
   ac(topEl, containerEl);
+  ac(middleEl, containerEl);
   ac(bottomEl, containerEl);
 });

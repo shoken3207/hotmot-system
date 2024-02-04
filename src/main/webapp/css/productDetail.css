@@ -18,6 +18,7 @@
 }
 
 .top h2 {
+  font-size: 2rem;
   width: calc(100% - 30px);
   overflow: hidden;
   white-space: nowrap;
@@ -28,10 +29,20 @@
   width: 20px;
 }
 
-.bottom {
+.middle {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
+
+.bottom {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+}
+
+.bottom .desc {
+  width: 66%;
 }
 .left {
   width: 66%;
@@ -39,7 +50,7 @@
 
 .right {
   margin-top: 3rem;
-  width: 30%;
+  width: 33%;
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
@@ -73,6 +84,12 @@
 
 .back-btn:hover {
   opacity: 0.3;
+}
+
+.counter-group {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
 }
 
 .counter {
@@ -153,4 +170,54 @@
 
 .cart-button:hover {
   opacity: 0.3;
+}
+
+@media screen and (max-width: 900px) {
+  .right h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .top h2 {
+    font-size: 1.2rem;
+  }
+  .middle {
+    flex-direction: column;
+    row-gap: 0.6rem;
+  }
+
+  .middle .left {
+    width: 100%;
+  }
+
+  .middle .right {
+    margin-top: 0;
+    width: 100%;
+    align-items: flex-start;
+    row-gap: 1rem;
+  }
+
+  .middle .right h3 {
+    width: 100%;
+  }
+
+  .bottom .desc {
+    width: 100%;
+  }
+
+  .counter-group {
+    width: 100%;
+  }
+
+  .counter-group-child {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .action-group {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
 }
