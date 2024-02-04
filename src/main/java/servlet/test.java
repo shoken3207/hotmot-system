@@ -36,7 +36,6 @@ public class test extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.print("test");
 		 String jsonData = "{\"message\": \"Hello from Servlet!\"}";
 
         // JSON形式のデータを返す
@@ -67,7 +66,6 @@ public class test extends HttpServlet {
     		AddCartDetailRequestBean addCartDetailRequest = new AddCartDetailRequestBean(cartId, productId, riceId, quantity);
 	        addCartDetailRequestList.add(addCartDetailRequest);
     	}
-    	System.out.println(addCartDetailRequestList);
 	}
 
 }

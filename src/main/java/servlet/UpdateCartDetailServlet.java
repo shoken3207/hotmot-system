@@ -38,7 +38,6 @@ public class UpdateCartDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("post");
 		ArrayList<UpdateCartDetailRequestBean> updateCartDetailRequestList = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
@@ -47,7 +46,6 @@ public class UpdateCartDetailServlet extends HttpServlet {
             sb.append(line);
         }
         String requestBody = sb.toString();
-        System.out.println("request: " + requestBody);
     	ObjectMapper objectMapper = new ObjectMapper();
     	List<Map<String, Object>> dataList = objectMapper.readValue(requestBody, List.class);
     	for(Map<String, Object> data: dataList) {
@@ -64,7 +62,6 @@ public class UpdateCartDetailServlet extends HttpServlet {
             response.getWriter().write(jsonResponse);
 			return;
 		}
-    	System.out.println(updateCartDetailRequestList);
     	CartDetailDao cartDetailDao = new CartDetailDao(); 
     	try {
 			cartDetailDao.update(updateCartDetailRequestList);

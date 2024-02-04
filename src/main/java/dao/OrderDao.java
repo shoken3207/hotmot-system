@@ -81,7 +81,6 @@ public class OrderDao extends CommonDao{
                 ResultSet generatedKeys = ps.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int lastInsertedId = generatedKeys.getInt(1);
-                    System.out.println("最後に挿入された主キー: " + lastInsertedId);
                     ps.close();
     	            conn.close();
                     return lastInsertedId;

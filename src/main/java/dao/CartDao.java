@@ -93,8 +93,6 @@ public class CartDao extends CommonDao{
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
     	String sql = "INSERT INTO carts(userId, shopId) " +
                 "VALUES(" + userId + "," + shopId + ")";
-    	System.out.print(userId+","+shopId);
-    	System.out.print(sql);
 
     	PreparedStatement statement = conn.prepareStatement(sql);
     	

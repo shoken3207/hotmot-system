@@ -19,13 +19,15 @@ const actionGroupEl = gebi('actionGroup');
 
 window.addEventListener('DOMContentLoaded', async () => {
   let cartDetails = JSON.parse(cartDetailsEl.value);
+  const totalEl = ce('h4');
+  addClasses(totalEl, ['total']);
   if (cartDetails.length === 0) {
     showToast({ text: 'カートに商品がありません。' });
   } else {
     addClasses(actionGroupEl, ['disp']);
+    addClasses(totalEl, ['disp']);
   }
   const convertCartDetails = createCartDetailsResponse(cartDetails);
-  console.log('cartDetails: ', convertCartDetails);
   let changeCartDetails = [];
   const change = ({ id, quantity }) => {
     if (changeCartDetails.some((x) => id === x.id)) {
@@ -36,7 +38,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
   };
   orderButtonEl.addEventListener('click', async () => {
-    console.log('order');
     await fetch('/hotmot/OrderServlet', {
       method: 'POST',
       body: JSON.stringify({
@@ -55,10 +56,8 @@ window.addEventListener('DOMContentLoaded', async () => {
           cartDetailListEl.removeChild(cartDetailListEl.firstChild);
         }
         if (res.message) {
-          console.log(res.message);
           showToast({ text: res.message });
         }
-        console.log(!res.isError);
         if (!res.isError) {
           window.location.href = `OrderHistoryServlet?userId=${userIdEl.value}`;
         }
@@ -67,7 +66,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   });
 
   updateCartButtonEl.addEventListener('click', async () => {
-    console.log('change: ', changeCartDetails);
     await fetch('/hotmot/UpdateCartDetailServlet', {
       method: 'POST',
       body: JSON.stringify(changeCartDetails),
@@ -81,15 +79,13 @@ window.addEventListener('DOMContentLoaded', async () => {
       .then((res) => {
         changeCartDetails = [];
         if (res.message) {
-          console.log(res.message);
           showToast({ text: res.message });
         }
       })
       .catch((err) => console.log('err', err));
   });
   const total = calcTotal(convertCartDetails);
-  const totalEl = ce('h4');
-  addClasses(totalEl, ['total']);
+
   totalEl.innerText = `合計: ${total.toLocaleString()}円 (税抜 : ${Math.ceil(
     total / 1.08
   ).toLocaleString()}円）`;
@@ -190,7 +186,6 @@ const createEditQuantity = ({
     if (value > 0) {
       removeClass(subBtnEl, 'disabled');
     }
-    console.log('click', value);
   });
   const subBtnEl = ce('button');
   addClasses(subBtnEl, ['sub']);
@@ -205,12 +200,10 @@ const createEditQuantity = ({
     if (value === 0) {
       addClasses(subBtnEl, ['disabled']);
     }
-    console.log('click', value);
   });
   ac(subBtnEl, divEl);
   ac(inputEl, divEl);
   ac(addBtnEl, divEl);
-  console.log('el: ', divEl, parentEl);
   ac(divEl, parentEl);
 };
 

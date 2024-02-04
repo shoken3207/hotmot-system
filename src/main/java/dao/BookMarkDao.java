@@ -27,11 +27,6 @@ public class BookMarkDao extends CommonDao{
 					int categoryId = rs.getInt("categoryId");
 					Date createdAt = rs.getDate("createdAt");
 
-					System.out.println(id);
-					System.out.println(userId);
-					System.out.println(productId);
-					System.out.println(categoryId);
-					System.out.println(createdAt);
 					BookMarkBean BookMark  = new BookMarkBean(id, userId, productId,categoryId,createdAt);
 					BookMarks.add(BookMark);
 				}

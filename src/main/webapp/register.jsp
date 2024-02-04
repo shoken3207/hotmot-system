@@ -8,12 +8,12 @@ String name =(String)request.getAttribute("name");
 String email =(String)request.getAttribute("email"); 
 String password =(String)request.getAttribute("password"); 
 String confirmPassword =(String)request.getAttribute("confirmPassword");
+System.out.println(name);
 if(userId != null && cartId != null) {
 	String url = "ProductListServlet?userId=" + userId;
 	response.sendRedirect(url);
 	return;
 }
-System.out.println(message);
 %>
 <!DOCTYPE html>
 <html>
@@ -58,8 +58,8 @@ System.out.println(message);
             required
             type="text"
             placeholder="田中 太郎"
-             <% if(email != null){%>
-            value=<%=email %>
+             <% if(name != null){%>
+            value=<%=name %>
             <%}%>
           />
         </div>

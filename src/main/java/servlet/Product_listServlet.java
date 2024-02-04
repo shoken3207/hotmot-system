@@ -30,7 +30,6 @@ public class Product_listServlet extends HttpServlet {
 
 		// JSONデータをリクエスト属性に設定
 		request.setAttribute("json", json);
-		System.out.print(json);
 		
 		
 		//フォワード

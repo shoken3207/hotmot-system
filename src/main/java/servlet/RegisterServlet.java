@@ -50,8 +50,6 @@ public class RegisterServlet extends HttpServlet {
 		}
 		
 		if(!password.equals(confirmPassword)) {
-			System.out.println("name");
-			System.out.println(name);
 			request.setAttribute("message", "パスワードと確認用パスワードが異なります。");
             request.setAttribute("name",name);
             request.setAttribute("email",email);
@@ -64,7 +62,6 @@ public class RegisterServlet extends HttpServlet {
 		UserDao userDao = new UserDao();
 		CartDao cartDao = new CartDao();
 		UserBean user = userDao.findUserByEmail(email);
-		System.out.println(user);
 		
 		if(user != null) {
             request.setAttribute("message", "登録済みのメールアドレスです。");

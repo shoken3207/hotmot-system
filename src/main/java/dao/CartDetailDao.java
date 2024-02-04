@@ -100,8 +100,6 @@ public class CartDetailDao extends CommonDao {
 				Date createdAt = rs.getDate("createdAt");
 
 				CartDetailBean CartDetail = new CartDetailBean(id, cartId, productId, riceId, quantity, createdAt);
-				System.out.println("CartDetail");
-				System.out.println(CartDetail);
 				ps.close();
 	            conn.close();
 				return CartDetail;

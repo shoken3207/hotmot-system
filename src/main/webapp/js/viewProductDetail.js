@@ -81,7 +81,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         return response.json();
       })
       .then((res) => {
-        console.log('success', option);
         if (res.message) {
           showToast({
             text: res.message,
@@ -110,7 +109,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   };
 
   const createEditQuantity = ({ rices, parentEl }) => {
-    console.log('rices: ', rices, parentEl);
     rices.forEach(({ id, name, price }) => {
       let quantity = 0;
       const addQuantityFunc = () => {
@@ -148,12 +146,10 @@ window.addEventListener('DOMContentLoaded', async () => {
       addClasses(addBtnEl, ['add']);
       addBtnEl.addEventListener('click', (e) => {
         addQuantityFunc();
-        console.log('quantity: ', quantity);
         inputEl.value = quantity;
         if (quantity > 0) {
           removeClass(subBtnEl, 'disabled');
         }
-        console.log('click', quantity);
       });
       const subBtnEl = ce('button');
       addClasses(subBtnEl, ['sub']);
@@ -167,12 +163,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (quantity === 0) {
           addClasses(subBtnEl, ['disabled']);
         }
-        console.log('click', quantity);
       });
       ac(subBtnEl, counterEl);
       ac(inputEl, counterEl);
       ac(addBtnEl, counterEl);
-      console.log('el: ', counterEl, parentEl);
       ac(textEl, counterRowEl);
       ac(counterEl, counterRowEl);
       ac(counterRowEl, parentEl);
@@ -207,7 +201,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   ac(leftEl, middleEl);
   const counterGroupEl = ce('div');
   addClasses(counterGroupEl, ['counter-group']);
-  console.log('counterGroupEl', counterGroupEl);
   createEditQuantity({ rices, parentEl: counterGroupEl });
   ac(counterGroupEl, rightEl);
   const actionGroupEl = ce('div');
@@ -222,7 +215,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   ac(cartButtonText, cartButton);
   cartButton.addEventListener('click', async () => {
     if (addCartDetails.length === 0) return;
-    console.log('addCartDetails: ', addCartDetails);
     await addCartDetailsFunc(addCartDetails);
   });
   ac(cartButton, actionGroupEl);
@@ -243,11 +235,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   addBookMarkButton.style.color = '#FFCF81';
   deleteBookMarkButton.style.color = '#FFCF81';
   addBookMarkButton.addEventListener('click', async () => {
-    console.log('req: ', {
-      userId: Number(userIdEl.value),
-      productId: product.id,
-      categoryId: product.categoryId,
-    });
     await fetch('/hotmot/AddBookMarkServlet', {
       method: 'POST',
       body: JSON.stringify({
@@ -257,7 +244,6 @@ window.addEventListener('DOMContentLoaded', async () => {
       }),
     })
       .then((res) => {
-        console.log('res: ', res);
         bookMarks.push({
           userId: Number(userIdEl.value),
           productId: product.id,

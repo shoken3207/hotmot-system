@@ -50,7 +50,6 @@ public class BookMarkServlet extends HttpServlet {
 			ArrayList<BookMarkBean> bookMarks = bookMarkDao.findBookMarksByUserId(parseUserId);
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writeValueAsString(bookMarks);
-			System.out.println(json);
 			session.setAttribute("bookMarks", json);
 		} catch (NumberFormatException e) {
 			// TODO 自動生成された catch ブロック

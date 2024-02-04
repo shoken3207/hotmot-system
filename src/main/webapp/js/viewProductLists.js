@@ -67,17 +67,12 @@ const addCartDetail = async (option, resetQuantityFunc) => {
       return response.json();
     })
     .then((res) => {
-      console.log('success', option);
       const inputCountEl = gebi(`input-${option[0].productId}`);
       inputCountEl.value = 0;
       const subBtnEl = gebi(`sub-${option[0].productId}`);
       addClasses(subBtnEl, ['disabled']);
       resetQuantityFunc();
       if (res.message) {
-        console.log(
-          res.message,
-          `CartDetailListServlet?cartId=${cartIdEl.value}`
-        );
         showToast({
           text: res.message,
           destination: `CartDetailListServlet?cartId=${cartIdEl.value}`,
@@ -237,7 +232,6 @@ const createProductList = (data) => {
           return response.json();
         })
         .then((res) => {
-          console.log('res: ', res);
           bookMarks.push({
             userId: Number(userIdEl.value),
             productId: x.id,
@@ -246,7 +240,6 @@ const createProductList = (data) => {
           rlc(actionGroup);
           ac(deleteBookMarkButton, actionGroup);
           if (res.message) {
-            console.log(res.message);
             showToast({ text: res.message });
           }
         })
@@ -277,7 +270,6 @@ const createProductList = (data) => {
           rlc(actionGroup);
           ac(addBookMarkButton, actionGroup);
           if (res.message) {
-            console.log(res.message);
             showToast({ text: res.message });
           }
         })

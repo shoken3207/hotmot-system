@@ -24,7 +24,6 @@ public class RegUserContServ extends HttpServlet {
     
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		request.setCharacterEncoding("UTF-8");
-		System.out.println("calle");
 		String email = request.getParameter("email");
 		String name = request.getParameter("name");
 		//String pass = request.getParameter("pass");
@@ -34,7 +33,6 @@ public class RegUserContServ extends HttpServlet {
 		try {
             // UserDaoのinsertメソッドを呼び出す
             int updateCount = userDao.insert(email, name, false); 
-            //System.out.println("updateCount: " + updateCount);
 
             if (updateCount >= 0) {
                 // 挿入成功時

@@ -18,8 +18,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     showToast({ text: '注文していません。' });
   }
   const convertOrderHistories = createOrderHistoriesResponse(orderHistories);
-  console.log('orderHistories: ', orderHistories);
-  console.log(convertOrderHistories);
   const detailsEl = ce('div');
   convertOrderHistories.forEach((orderHistory, index) => {
     const { createdAt, details } = orderHistory;
@@ -102,7 +100,6 @@ const createOrderDetailHistory = (orderDetailHistory, parentEl) => {
 };
 
 const convertDate = (date) => {
-  console.log(date);
   const newDate = new Date(date);
   return `${newDate.getFullYear()}年${
     newDate.getMonth() + 1

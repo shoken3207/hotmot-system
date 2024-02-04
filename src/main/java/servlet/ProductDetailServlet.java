@@ -31,7 +31,6 @@ public class ProductDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String productId = request.getParameter("id");
-		System.out.println("productId" + productId);
 		HttpSession session = request.getSession();
 		session.setAttribute("productId", productId);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productDetail.jsp");

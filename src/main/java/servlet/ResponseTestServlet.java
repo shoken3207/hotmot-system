@@ -32,7 +32,6 @@ public class ResponseTestServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("called");
 	  	ObjectMapper objectMapper = new ObjectMapper();
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");

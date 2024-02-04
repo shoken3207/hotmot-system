@@ -4,7 +4,6 @@ const addId = (el, id) => el.setAttribute('id', id);
 
 const userIdEl = gebi('userId');
 const cartIdEl = gebi('cartId');
-console.log('userId: ', userIdEl.value);
 const HEADER_INFO = [
   {
     label: 'ホーム',
@@ -35,7 +34,6 @@ const HEADER_INFO = [
 
 const currentUrl = window.location.href;
 const currentUrlArray = currentUrl.split(/[/#]/);
-console.log('currentUrlArray ', currentUrlArray);
 window.addEventListener('DOMContentLoaded', async () => {
   const defaultHeaderEl = gebi('header');
   const bodyEl = document.body;

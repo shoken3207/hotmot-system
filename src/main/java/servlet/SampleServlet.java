@@ -34,8 +34,6 @@
 //>>>>>>> origin/test
 //    	String name = request.getParameter("name");
 //    	String world = request.getParameter("world");
-//    	System.out.println(name);
-//    	System.out.println("world: " + world);
 //<<<<<<< HEAD
 //    	UserDao dao = new UserDao();
 //        dao.insertData(name);

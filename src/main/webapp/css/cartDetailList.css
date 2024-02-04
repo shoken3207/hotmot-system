@@ -9,8 +9,16 @@
   align-items: center;
 }
 
+.total {
+  display: none;
+}
+
 .action-group.disp {
   display: flex;
+}
+
+.total.disp {
+  display: block;
 }
 
 .action-button {

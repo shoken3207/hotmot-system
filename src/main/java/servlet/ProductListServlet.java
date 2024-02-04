@@ -38,7 +38,6 @@ public class ProductListServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		String userId = request.getParameter("userId");
-		System.out.println(userId);
 		if(userId == "") {
 			session.setAttribute("message", "パラメータに異常があります。");
 			return;
@@ -49,7 +48,6 @@ public class ProductListServlet extends HttpServlet {
 			ArrayList<BookMarkBean> bookMarks = bookMarkDao.findBookMarksByUserId(parseUserId);
 			ObjectMapper mapper = new ObjectMapper();
 			String json = mapper.writeValueAsString(bookMarks);
-			System.out.println(json);
 			session.setAttribute("bookMarks", json);
 		} catch (NumberFormatException e) {
 			// TODO 自動生成された catch ブロック
