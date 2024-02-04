@@ -48,7 +48,7 @@
       </div>
       <div class="input-area">
         <label for="password" class="label">パスワード</label>
-        <input id="password" name="password" required type="password" placeholder="password" minlength="8" 
+        <input id="password" name="password" required type="password" placeholder="******" minlength="6" 
         <% if(email != null){%>
       value=<%=password %>
       <%}%>

@@ -83,8 +83,8 @@ if(userId != null && cartId != null) {
             name="password"
             required
             type="password"
-            placeholder="********"
-            minlength="8"
+            placeholder="******"
+            minlength="6"
             <% if(password != null){%>
             value=<%=password %>
             <%}%>
@@ -97,8 +97,8 @@ if(userId != null && cartId != null) {
             name="confirmPassword"
             required
             type="password"
-            placeholder="********"
-            minlength="8"
+            placeholder="******"
+            minlength="6"
             <% if(password != null){%>
             value=<%=confirmPassword %>
             <%}%>
