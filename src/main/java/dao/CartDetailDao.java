@@ -159,8 +159,9 @@ public class CartDetailDao extends CommonDao {
 
 	// UPDATE文
 	public void updateCartDetail(int id, int quantity) throws SQLException {
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
     	try{
-    		String sql = "UPDATE cartdetails SET quantity = ? WHERE id = ?";
+    		String sql = "UPDATE CartDetails SET quantity = ? WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, quantity);
 			ps.setInt(2, id);

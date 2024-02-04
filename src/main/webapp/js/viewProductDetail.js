@@ -8,6 +8,8 @@ import {
   setHref,
   setSrc,
   removeClass,
+  rlc,
+  showToast,
 } from '../js/utils.js';
 
 const bookMarksEl = gebi('bookMarks');
@@ -40,7 +42,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   const productId = Number(productIdEl.value);
   const product = fetchDetailProduct(productId);
-  console.log('product: ', product);
   const { name, price, image, desc, rices, allergys } = product;
 
   const addCartDetails = [];
@@ -59,17 +60,37 @@ window.addEventListener('DOMContentLoaded', async () => {
         addCartDetails[index].quantity = quantity;
       }
     } else {
-      addCartDetails.push({ productId, riceId, quantity });
+      addCartDetails.push({
+        cartId: Number(cartIdEl.value),
+        productId,
+        riceId,
+        quantity,
+      });
     }
   };
 
-  const addCartDetailsFunc = async (option, resetQuantityFunc) => {
+  const addCartDetailsFunc = async (option) => {
     await fetch('/hotmot/AddCartDetailServlet', {
       method: 'POST',
       body: JSON.stringify(option),
     })
-      .then(() => {
-        console.log('success');
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((res) => {
+        console.log('success', option);
+        if (res.message) {
+          showToast({
+            text: res.message,
+            destination: `CartDetailListServlet?cartId=${cartIdEl.value}`,
+          });
+        }
+        if (!res.isError) {
+          window.location.href = `ProductListServlet?userId=${userIdEl.value}`;
+        }
       })
       .catch((err) => console.log('err: ', err));
   };
@@ -105,6 +126,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         add({ riceId: id, quantity });
       };
       const counterRowEl = ce('div');
+      addClasses(counterRowEl, ['counter-group-child']);
       const textEl = ce('p');
       textEl.innerText = `${name}: ${price}`;
       const counterEl = ce('div');
@@ -156,27 +178,37 @@ window.addEventListener('DOMContentLoaded', async () => {
       ac(counterRowEl, parentEl);
     });
   };
-
+  const topEl = ce('div');
+  addClasses(topEl, ['top']);
   const productNameEl = ce('h2');
   productNameEl.innerText = name;
-  ac(productNameEl, containerEl);
-  const priceEl = ce('h3');
-  priceEl.innerText = `${price}円 (税抜 : ${Math.ceil(price / 1.08)}円）`;
-  ac(priceEl, containerEl);
+  ac(productNameEl, topEl);
+  const bottomEl = ce('div');
+  addClasses(bottomEl, ['bottom']);
+  const leftEl = ce('div');
+  addClasses(leftEl, ['left']);
   const imageWrapEl = ce('div');
+  addClasses(imageWrapEl, ['image']);
   const imageEl = ce('img');
   setSrc(imageEl, image);
   ac(imageEl, imageWrapEl);
-  ac(imageWrapEl, containerEl);
+  ac(imageWrapEl, leftEl);
   const descEl = ce('p');
   descEl.innerHTML = desc;
-  ac(descEl, containerEl);
-
+  ac(descEl, leftEl);
+  const rightEl = ce('div');
+  addClasses(rightEl, ['right']);
+  const priceEl = ce('h3');
+  priceEl.innerText = `${price}円 (税抜 : ${Math.ceil(price / 1.08)}円）`;
+  ac(priceEl, rightEl);
+  ac(leftEl, bottomEl);
   const counterGroupEl = ce('div');
   addClasses(counterGroupEl, ['counter-group']);
   console.log('counterGroupEl', counterGroupEl);
   createEditQuantity({ rices, parentEl: counterGroupEl });
-  ac(counterGroupEl, containerEl);
+  ac(counterGroupEl, rightEl);
+  const actionGroupEl = ce('div');
+  addClasses(actionGroupEl, ['action-group']);
   const cartButton = ce('div');
   addClasses(cartButton, ['cart-button']);
   const cartButtonIcon = ce('i');
@@ -187,9 +219,10 @@ window.addEventListener('DOMContentLoaded', async () => {
   ac(cartButtonText, cartButton);
   cartButton.addEventListener('click', async () => {
     if (addCartDetails.length === 0) return;
-    await addCartDetailsFunc(addCartDetails, resetQuantityFunc);
+    console.log('addCartDetails: ', addCartDetails);
+    await addCartDetailsFunc(addCartDetails);
   });
-  ac(cartButton, containerEl);
+  ac(cartButton, actionGroupEl);
   const addBookMarkButton = ce('i');
   const deleteBookMarkButton = ce('i');
   addClasses(addBookMarkButton, [
@@ -207,29 +240,34 @@ window.addEventListener('DOMContentLoaded', async () => {
   addBookMarkButton.style.color = '#FFCF81';
   deleteBookMarkButton.style.color = '#FFCF81';
   addBookMarkButton.addEventListener('click', async () => {
+    console.log('req: ', {
+      userId: Number(userIdEl.value),
+      productId: product.id,
+      categoryId: product.categoryId,
+    });
     await fetch('/hotmot/AddBookMarkServlet', {
       method: 'POST',
       body: JSON.stringify({
         userId: Number(userIdEl.value),
-        productId: x.id,
-        categoryId: x.categoryId,
+        productId: product.id,
+        categoryId: product.categoryId,
       }),
     })
       .then((res) => {
         console.log('res: ', res);
         bookMarks.push({
           userId: Number(userIdEl.value),
-          productId: x.id,
-          categoryId: x.categoryId,
+          productId: product.id,
+          categoryId: product.categoryId,
         });
-        rlc(actionGroup);
-        ac(deleteBookMarkButton, actionGroup);
+        rlc(topEl);
+        ac(deleteBookMarkButton, topEl);
       })
       .catch((err) => console.log('err', err));
   });
   deleteBookMarkButton.addEventListener('click', async () => {
     const deleteBookMark = bookMarks.find(
-      (bookMark) => bookMark.productId === x.id
+      (bookMark) => bookMark.productId === product.id
     );
     await fetch('/hotmot/DeleteBookMarkServlet', {
       method: 'POST',
@@ -240,18 +278,22 @@ window.addEventListener('DOMContentLoaded', async () => {
     })
       .then((res) => {
         const deleteBookMarkIndex = bookMarks.findIndex(
-          (bookMark) => bookMark.productId === x.id
+          (bookMark) => bookMark.productId === product.id
         );
         bookMarks.splice(deleteBookMarkIndex, 1);
-        rlc(actionGroup);
-        ac(addBookMarkButton, actionGroup);
+        rlc(topEl);
+        ac(addBookMarkButton, topEl);
       })
       .catch((err) => console.log('err: ', err));
   });
-  if (bookMarks.some((bookMark) => bookMark.productId === x.id)) {
-    ac(deleteBookMarkButton, containerEl);
+  if (bookMarks.some((bookMark) => bookMark.productId === product.id)) {
+    ac(deleteBookMarkButton, topEl);
   } else {
-    ac(addBookMarkButton, containerEl);
+    ac(addBookMarkButton, topEl);
   }
-  createAllergys({ allergys, parentEl: containerEl });
+  ac(actionGroupEl, rightEl);
+  createAllergys({ allergys, parentEl: rightEl });
+  ac(rightEl, bottomEl);
+  ac(topEl, containerEl);
+  ac(bottomEl, containerEl);
 });

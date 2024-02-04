@@ -89,9 +89,9 @@ const createOrderDetailHistory = (orderDetailHistory, parentEl) => {
   quantityEl.innerText = `個数: ${quantity}`;
   const subTotal = price * quantity;
   const subTotalEl = ce('p');
-  subTotalEl.innerText = `小計: ${subTotal}円 (税抜 : ${Math.ceil(
+  subTotalEl.innerText = `小計: ${subTotal.toLocaleString()}円 (税抜 : ${Math.ceil(
     subTotal / 1.08
-  )}円）`;
+  ).toLocaleString()}円）`;
   ac(productNameEl, contentEl);
   ac(riceNameEl, contentEl);
   ac(quantityEl, contentEl);

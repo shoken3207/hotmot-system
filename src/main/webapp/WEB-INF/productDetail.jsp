@@ -38,7 +38,7 @@
 <input type="hidden" id="bookMarks" value='<%= bookMarks %>'>
 	<header class="header" id="header">
     </header>
-    <div class="sp" id="sp">
+    <div class="sp" id="sp"></div>
 <input type="hidden" id="productId" value="<%= productId %>">
 <div class="container" id="container">
 	<a class="back-btn" id="backBtn" href="/hotmot/ProductListServlet"></a>

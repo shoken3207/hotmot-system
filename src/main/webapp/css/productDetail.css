@@ -1,17 +1,78 @@
-
 .container {
-	width: 90%;
-	max-width: 1120px;
-	margin: 2rem auto;
+  width: 90%;
+  max-width: 1000px;
+  margin: 1rem auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.4rem;
+}
+
+.top {
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.top h2 {
+  width: calc(100% - 30px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.top .icon {
+  width: 20px;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.left {
+  width: 66%;
+}
+
+.right {
+  margin-top: 3rem;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  align-items: flex-end;
+}
+
+.right h3 {
+  font-size: 1.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid #ccc;
+}
+
+.left .image {
+  width: 100%;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+}
+.action-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .back-btn {
-	color: #1976D2;
-	transition: all .3s;
+  color: #1976d2;
+  transition: all 0.3s;
 }
 
 .back-btn:hover {
-	opacity: .3;
+  opacity: 0.3;
 }
 
 .counter {
@@ -48,49 +109,48 @@
 }
 
 .allergy-group {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	column-gap: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 0.5rem;
 }
 
 .allergy {
-	padding: .2rem .5rem;
-	color: white;
-	background-color: #BCA79D;
-	border-radius: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-width: 50px;
+  padding: 0.2rem 0.5rem;
+  color: white;
+  background-color: #bca79d;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
 }
 
 .allergy span {
-	font-size: .95rem;
+  font-size: 0.95rem;
 }
 
-
 .cart-button {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	column-gap: .4rem;
-	padding: 4px 12px;
-    border-radius: 4px;
-    font-weight: 500;
-    font-size: 0.7rem;
-    color: rgb(255, 255, 255);
-    background-color: rgb(211, 47, 47);
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
-    cursor: pointer;
-    transition: all .3s;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 0.4rem;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.7rem;
+  color: rgb(255, 255, 255);
+  background-color: rgb(211, 47, 47);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
+    rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .bookmark-button {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .cart-button:hover {
-	opacity: .3;
+  opacity: 0.3;
 }
-

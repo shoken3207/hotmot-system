@@ -1,9 +1,9 @@
 //import { PRODUCT_CATEGORIES } from '../const';
-import AllergyData from "../jsons/Allergy.json" assert { type: "json" };
-import ProductData from "../jsons/Product.json" assert { type: "json" };
-import ProductAllergyData from "../jsons/ProductAllergy.json" assert { type: "json" };
-import RiceData from "../jsons/Rice.json" assert { type: "json" };
-import RiceGroupDetailData from "../jsons/RiceGroupDetail.json" assert { type: "json" };
+import AllergyData from '../jsons/Allergy.json' assert { type: 'json' };
+import ProductData from '../jsons/Product.json' assert { type: 'json' };
+import ProductAllergyData from '../jsons/ProductAllergy.json' assert { type: 'json' };
+import RiceData from '../jsons/Rice.json' assert { type: 'json' };
+import RiceGroupDetailData from '../jsons/RiceGroupDetail.json' assert { type: 'json' };
 
 // ライス変換
 const _fetchConvertRices = (riceGroupId) => {
@@ -73,12 +73,13 @@ const fetchProductsByCategory = (category) => {
 const _convertDetailProduct = (product) => {
   const rices = _fetchConvertRices(product.riceGroupId);
   const allergys = _fetchConvertAllergys(product.id);
-  const { id, name, price, detailImage, desc } = product;
+  const { id, name, price, detailImage, desc, productCategoryId } = product;
   return {
     id,
     name,
     price,
     image: detailImage,
+    categoryId: productCategoryId,
     desc,
     rices,
     allergys,
