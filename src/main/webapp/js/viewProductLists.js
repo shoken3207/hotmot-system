@@ -1,5 +1,5 @@
-import { fetchProductsByCategory } from "../js/master.js";
-import { TABS, RICE_TYPE, DEFAULT_SELECT_TAB } from "./const.js";
+import { fetchProductsByCategory } from '../js/master.js';
+import { TABS, RICE_TYPE, DEFAULT_SELECT_TAB } from './const.js';
 import {
   ce,
   gebi,
@@ -12,16 +12,16 @@ import {
   rlc,
   setId,
   showToast,
-} from "../js/utils.js";
+} from '../js/utils.js';
 
-const lists = gebi("lists");
-const tabs = gebi("tabs");
+const lists = gebi('lists');
+const tabs = gebi('tabs');
 
-const bookMarksEl = gebi("bookMarks");
+const bookMarksEl = gebi('bookMarks');
 const bookMarks = JSON.parse(bookMarksEl.value);
-const userIdEl = gebi("userId");
-const cartIdEl = gebi("cartId");
-window.addEventListener("DOMContentLoaded", async () => {
+const userIdEl = gebi('userId');
+const cartIdEl = gebi('cartId');
+window.addEventListener('DOMContentLoaded', async () => {
   //	const topScrollButtonEl = ce("a");
   //	setHref(topScrollButtonEl, "#")
   //	addClasses(topScrollButtonEl, ["top-scroll-button"]);
@@ -43,26 +43,26 @@ window.addEventListener("DOMContentLoaded", async () => {
   //		}
   //	})
   const sessionSelectTab = Number(
-    sessionStorage.getItem("productListSelectTab")
+    sessionStorage.getItem('productListSelectTab')
   );
   let selectTab = sessionSelectTab || DEFAULT_SELECT_TAB;
   TABS.forEach(({ id, name }) => {
-    const tab = ce("div");
-    const tabClasses = ["tab"];
+    const tab = ce('div');
+    const tabClasses = ['tab'];
     if (id === selectTab) {
-      tabClasses.push("active");
+      tabClasses.push('active');
     }
     addClasses(tab, tabClasses);
     tab.innerText = name;
     setValue(tab, id);
-    tab.addEventListener("click", async () => {
+    tab.addEventListener('click', async () => {
       selectTab = id;
-      sessionStorage.setItem("productListSelectTab", id);
-      const tabItems = document.querySelectorAll(".tab");
+      sessionStorage.setItem('productListSelectTab', id);
+      const tabItems = document.querySelectorAll('.tab');
       tabItems.forEach((tabItem) => {
-        removeClass(tabItem, "active");
+        removeClass(tabItem, 'active');
       });
-      addClasses(tab, ["active"]);
+      addClasses(tab, ['active']);
       while (lists.firstChild) {
         lists.removeChild(lists.firstChild);
       }
@@ -76,29 +76,29 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 const addCartDetail = async (option, resetQuantityFunc) => {
-  await fetch("/hotmot/AddCartDetailServlet", {
-    method: "POST",
+  await fetch('/hotmot/AddCartDetailServlet', {
+    method: 'POST',
     body: JSON.stringify(option),
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
       return response.json();
     })
     .then((res) => {
-      console.log("success", option);
+      console.log('success', option);
       const inputCountEl = gebi(`input-${option[0].productId}`);
       inputCountEl.value = 0;
       const subBtnEl = gebi(`sub-${option[0].productId}`);
-      addClasses(subBtnEl, ["disabled"]);
+      addClasses(subBtnEl, ['disabled']);
       resetQuantityFunc();
       if (res.message) {
         console.log(res.message);
         showToast({ text: res.message });
       }
     })
-    .catch((err) => console.log("err: ", err));
+    .catch((err) => console.log('err: ', err));
 };
 
 const createProductList = (data) => {
@@ -106,22 +106,24 @@ const createProductList = (data) => {
     lists.removeChild(lists.firstChild);
   }
   data.map((x) => {
-    const listItem = ce("div");
-    addClasses(listItem, ["list-item"]);
+    const listItem = ce('div');
+    addClasses(listItem, ['list-item']);
     setTimeout(() => {
-      addClasses(listItem, ["show"]);
+      addClasses(listItem, ['show']);
     }, 200);
-    const linkEl = ce("a");
+    const linkEl = ce('a');
     setHref(linkEl, `/hotmot/ProductDetailServlet?id=${x.id}`);
-    createImgEl({ src: x.image, parentEl: linkEl, className: "image" });
+    createImgEl({ src: x.image, parentEl: linkEl, className: 'image' });
     ac(linkEl, listItem);
-    const divEl = ce("div");
-    addClasses(divEl, ["text-group"]);
-    createH3El({ text: x.name, parentEl: divEl, className: "text" });
+    const divEl = ce('div');
+    addClasses(divEl, ['text-group']);
+    createH3El({ text: x.name, parentEl: divEl, className: 'text' });
     createH3El({
-      text: `${x.price}円 (税抜 : ${Math.ceil(x.price / 1.08)}円）`,
+      text: `${x.price.toLocaleString()}円 (税抜 : ${Math.ceil(
+        x.price / 1.08
+      ).toLocaleString()}円）`,
       parentEl: divEl,
-      className: "text",
+      className: 'text',
     });
     ac(divEl, listItem);
     let riceId = RICE_TYPE.NONE;
@@ -131,7 +133,7 @@ const createProductList = (data) => {
       createSelecRicetEl({
         options: x.rices,
         parentEl: listItem,
-        className: "select",
+        className: 'select',
         changeRiceIdFunc,
       });
     }
@@ -143,41 +145,41 @@ const createProductList = (data) => {
       subQuantityFunc,
       changeQuantityFunc,
     }) => {
-      const divEl = ce("div");
-      addClasses(divEl, ["counter"]);
-      const inputEl = ce("input");
+      const divEl = ce('div');
+      addClasses(divEl, ['counter']);
+      const inputEl = ce('input');
       setId(inputEl, `input-${id}`);
       inputEl.value = quantity;
-      inputEl.type = "number";
-      inputEl.addEventListener("input", (e) => {
+      inputEl.type = 'number';
+      inputEl.addEventListener('input', (e) => {
         changeQuantityFunc(Number(e.target.value));
         inputEl.value = quantity;
         if (quantity > 0) {
-          removeClass(subBtnEl, "disabled");
+          removeClass(subBtnEl, 'disabled');
         } else if (quantity === 0) {
-          addClasses(subBtnEl, ["disabled"]);
+          addClasses(subBtnEl, ['disabled']);
         }
       });
-      const addBtnEl = ce("button");
-      addBtnEl.innerText = "＋";
-      addClasses(addBtnEl, ["add"]);
-      addBtnEl.addEventListener("click", (e) => {
+      const addBtnEl = ce('button');
+      addBtnEl.innerText = '＋';
+      addClasses(addBtnEl, ['add']);
+      addBtnEl.addEventListener('click', (e) => {
         addQuantityFunc();
         inputEl.value = quantity;
         if (quantity > 0) {
-          removeClass(subBtnEl, "disabled");
+          removeClass(subBtnEl, 'disabled');
         }
       });
-      const subBtnEl = ce("button");
+      const subBtnEl = ce('button');
       setId(subBtnEl, `sub-${id}`);
-      subBtnEl.classList.add("sub");
-      subBtnEl.classList.add("disabled");
-      subBtnEl.innerText = "－";
-      subBtnEl.addEventListener("click", (e) => {
+      subBtnEl.classList.add('sub');
+      subBtnEl.classList.add('disabled');
+      subBtnEl.innerText = '－';
+      subBtnEl.addEventListener('click', (e) => {
         subQuantityFunc();
         inputEl.value = quantity;
         if (quantity === 0) {
-          addClasses(subBtnEl, ["disabled"]);
+          addClasses(subBtnEl, ['disabled']);
         }
       });
       ac(subBtnEl, divEl);
@@ -199,17 +201,17 @@ const createProductList = (data) => {
       subQuantityFunc,
       changeQuantityFunc,
     });
-    const actionGroup = ce("div");
-    addClasses(actionGroup, ["action-group"]);
-    const cartButton = ce("div");
-    addClasses(cartButton, ["cart-button"]);
-    const cartButtonIcon = ce("i");
-    addClasses(cartButtonIcon, ["fa-solid", "fa-cart-shopping"]);
-    const cartButtonText = ce("span");
-    cartButtonText.innerHTML = "カートに<br />入れる";
+    const actionGroup = ce('div');
+    addClasses(actionGroup, ['action-group']);
+    const cartButton = ce('div');
+    addClasses(cartButton, ['cart-button']);
+    const cartButtonIcon = ce('i');
+    addClasses(cartButtonIcon, ['fa-solid', 'fa-cart-shopping']);
+    const cartButtonText = ce('span');
+    cartButtonText.innerHTML = 'カートに<br />入れる';
     ac(cartButtonIcon, cartButton);
     ac(cartButtonText, cartButton);
-    cartButton.addEventListener("click", async () => {
+    cartButton.addEventListener('click', async () => {
       if (quantity === 0) return;
       const option = [
         { cartId: Number(cartIdEl.value), productId: x.id, riceId, quantity },
@@ -217,25 +219,25 @@ const createProductList = (data) => {
       await addCartDetail(option, resetQuantityFunc);
     });
     ac(cartButton, actionGroup);
-    const addBookMarkButton = ce("i");
-    const deleteBookMarkButton = ce("i");
+    const addBookMarkButton = ce('i');
+    const deleteBookMarkButton = ce('i');
     addClasses(addBookMarkButton, [
-      "fa-regular",
-      "fa-bookmark",
-      "bookmark-button",
-      "fa-2x",
+      'fa-regular',
+      'fa-bookmark',
+      'bookmark-button',
+      'fa-2x',
     ]);
     addClasses(deleteBookMarkButton, [
-      "fa-solid",
-      "fa-bookmark",
-      "bookmark-button",
-      "fa-2x",
+      'fa-solid',
+      'fa-bookmark',
+      'bookmark-button',
+      'fa-2x',
     ]);
-    addBookMarkButton.style.color = "#FFCF81";
-    deleteBookMarkButton.style.color = "#FFCF81";
-    addBookMarkButton.addEventListener("click", async () => {
-      await fetch("/hotmot/AddBookMarkServlet", {
-        method: "POST",
+    addBookMarkButton.style.color = '#FFCF81';
+    deleteBookMarkButton.style.color = '#FFCF81';
+    addBookMarkButton.addEventListener('click', async () => {
+      await fetch('/hotmot/AddBookMarkServlet', {
+        method: 'POST',
         body: JSON.stringify({
           userId: Number(userIdEl.value),
           productId: x.id,
@@ -244,12 +246,12 @@ const createProductList = (data) => {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Network response was not ok");
+            throw new Error('Network response was not ok');
           }
           return response.json();
         })
         .then((res) => {
-          console.log("res: ", res);
+          console.log('res: ', res);
           bookMarks.push({
             userId: Number(userIdEl.value),
             productId: x.id,
@@ -262,14 +264,14 @@ const createProductList = (data) => {
             showToast({ text: res.message });
           }
         })
-        .catch((err) => console.log("err", err));
+        .catch((err) => console.log('err', err));
     });
-    deleteBookMarkButton.addEventListener("click", async () => {
+    deleteBookMarkButton.addEventListener('click', async () => {
       const deleteBookMark = bookMarks.find(
         (bookMark) => bookMark.productId === x.id
       );
-      await fetch("/hotmot/DeleteBookMarkServlet", {
-        method: "POST",
+      await fetch('/hotmot/DeleteBookMarkServlet', {
+        method: 'POST',
         body: JSON.stringify({
           userId: Number(userIdEl.value),
           productId: deleteBookMark.productId,
@@ -277,7 +279,7 @@ const createProductList = (data) => {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Network response was not ok");
+            throw new Error('Network response was not ok');
           }
           return response.json();
         })
@@ -293,7 +295,7 @@ const createProductList = (data) => {
             showToast({ text: res.message });
           }
         })
-        .catch((err) => console.log("err: ", err));
+        .catch((err) => console.log('err: ', err));
     });
     if (bookMarks.some((bookMark) => bookMark.productId === x.id)) {
       ac(deleteBookMarkButton, actionGroup);
@@ -306,7 +308,7 @@ const createProductList = (data) => {
 };
 
 const createPEl = ({ text, className, parentEl }) => {
-  const pEl = ce("p");
+  const pEl = ce('p');
   pEl.innerText = text;
   if (className) {
     pEl.classList.add(className);
@@ -315,7 +317,7 @@ const createPEl = ({ text, className, parentEl }) => {
 };
 
 const createH3El = ({ text, className, parentEl }) => {
-  const pEl = ce("h3");
+  const pEl = ce('h3');
   pEl.innerText = text;
   if (className) {
     pEl.classList.add(className);
@@ -324,10 +326,10 @@ const createH3El = ({ text, className, parentEl }) => {
 };
 
 const createImgEl = ({ src, alt, className, parentEl }) => {
-  const imgEl = ce("img");
+  const imgEl = ce('img');
   setSrc(imgEl, src);
   if (alt) {
-    imgEl.setAttribute("alt", alt);
+    imgEl.setAttribute('alt', alt);
   }
   if (className) {
     imgEl.classList.add(className);
@@ -341,13 +343,13 @@ const createSelecRicetEl = ({
   parentEl,
   changeRiceIdFunc,
 }) => {
-  const selectEl = ce("select");
-  selectEl.addEventListener("change", (e) => {
+  const selectEl = ce('select');
+  selectEl.addEventListener('change', (e) => {
     changeRiceIdFunc(Number(e.target.value));
   });
   addClasses(selectEl, [className]);
   options.forEach(({ id, name, price }) => {
-    const optionEl = ce("option");
+    const optionEl = ce('option');
     optionEl.innerText = `${name} (${price}円)`;
     setValue(optionEl, id);
     ac(optionEl, selectEl);

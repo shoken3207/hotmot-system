@@ -26,6 +26,8 @@ public class OrderDao extends CommonDao{
 				Date createdAt = rs.getDate("createdAt");
 
 				OrderBean Order  = new OrderBean(id, userId, shopId,createdAt);
+				ps.close();
+	            conn.close();
 				return Order;
 			}
 		} catch (SQLException e) {
@@ -38,7 +40,7 @@ public class OrderDao extends CommonDao{
 	public ArrayList<OrderBean> findOrdersByUserId(int arg_userId) {
         ArrayList<OrderBean> Orders = new ArrayList<OrderBean>();
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-			String sql = "SELECT * FROM Orders WHERE userId = ?";
+			String sql = "SELECT * FROM Orders WHERE userId = ? ORDER BY createdAt DESC";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, arg_userId);
 			ResultSet rs = ps.executeQuery();
@@ -52,6 +54,9 @@ public class OrderDao extends CommonDao{
 				OrderBean Order  = new OrderBean(id, userId, shopId,createdAt);
 				Orders.add(Order);
 			}
+			
+			ps.close();
+            conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -59,18 +64,33 @@ public class OrderDao extends CommonDao{
 		return Orders;
     }
 	
-    public void insertOrder (int arg_userId, int arg_shopId) throws SQLException {
+    public int insertOrder (int arg_userId, int arg_shopId) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
 	    	String sql = "INSERT INTO Orders(userId, shopId) VALUES(?, ?)";
 	
-	    	PreparedStatement ps = conn.prepareStatement(sql);
+	    	PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, arg_userId);
 			ps.setInt(2, arg_shopId);
-			ps.executeUpdate();
-    	
-    	}
-    	return;
+//			ps.executeUpdate();
+			
+			int rowsAffected = ps.executeUpdate();
+
+            // 最後に挿入された主キーの取得
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int lastInsertedId = generatedKeys.getInt(1);
+                    System.out.println("最後に挿入された主キー: " + lastInsertedId);
+                    ps.close();
+    	            conn.close();
+                    return lastInsertedId;
+                }
+            }
+    	} catch (Exception e) {
+            System.out.println("エラー: " + e.getMessage());
+        }
+    	return 0;
     }
     
     
@@ -80,47 +100,12 @@ public class OrderDao extends CommonDao{
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1,  arg_id);
         	statement.executeUpdate();
+        	
+        	statement.close();
+            conn.close();
     	}
     	return;
    }
     
-    public boolean confirmOrder(String userId, String cartId) throws SQLException {
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-            conn.setAutoCommit(false); // トランザクション開始
-
-            // カートの所有者を確認
-            String checkOwnershipQuery = "SELECT userId FROM carts WHERE cartId = ?";
-            try (PreparedStatement checkStmt = conn.prepareStatement(checkOwnershipQuery)) {
-                checkStmt.setString(1, cartId);
-                ResultSet resultSet = checkStmt.executeQuery();
-
-                if (!resultSet.next() || !resultSet.getString("userId").equals(userId)) {
-                    // カートが存在しないか、ユーザーに紐づいていない場合
-                    conn.rollback(); // ロールバック
-                    return false;
-                }
-            }
-
-            // 注文を作成する
-            String insertOrderQuery = "INSERT INTO orders (userId, cartId) VALUES (?, ?)";
-            try (PreparedStatement insertStmt = conn.prepareStatement(insertOrderQuery)) {
-                insertStmt.setString(1, userId);
-                insertStmt.setString(2, cartId);
-                int rowsAffected = insertStmt.executeUpdate();
-
-                if (rowsAffected == 0) {
-                    conn.rollback(); // ロールバック
-                    return false;
-                }
-            }
-
-            // 他の処理が必要ならばここに追加する
-
-            conn.commit(); // トランザクションのコミット
-            return true; // 成功を示すフラグ
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e; // 例外を呼び出し元に投げる
-        }
-    }
+    
 }

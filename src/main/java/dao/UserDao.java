@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.catalina.User;
-
 import models.UserBean;
 
 public class UserDao extends CommonDao {
@@ -31,6 +29,8 @@ public class UserDao extends CommonDao {
 				UserBean user  = new UserBean(id, email, name, pass, isAdmin);
 				return user;
 			}
+            statement.close();
+			con.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,6 +55,8 @@ public class UserDao extends CommonDao {
 				boolean isAdmin = rs.getBoolean("isAdmin");
 
 				UserBean user  = new UserBean(id, email, name, pass, isAdmin);
+				statement.close();
+				con.close();
 				return user;
 			}
 
@@ -76,6 +78,8 @@ public class UserDao extends CommonDao {
 			ps.setString(3, arg_password);
 			ps.setBoolean(4, arg_isAdmin);
 			ps.executeUpdate();
+			ps.close();
+            conn.close();
     	}catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -127,122 +131,5 @@ public class UserDao extends CommonDao {
 		}
 	}
 
-    public int insert (String email,String name,Boolean isAdmin) throws SQLException {
-    	//System.out.println(email+","+name);
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    	String sql = "INSERT INTO users(email,name,isAdmin) " +
-                "VALUES('" +email + "','" + name +"','" + 0 + "')";
-    	
-    	PreparedStatement statement = conn.prepareStatement(sql);
-    	ResultSet rs = statement.executeQuery();
-    	System.out.println(rs);
-    	
-    	rs.close();
-    	statement.close();
-    	
-    	conn.close();
-    	System.out.print(email);
-    	return 0;
-    	}
-    	
-    }
-    public int select(String email) throws SQLException{
-    	System.out.println(email);
-    	int userId=0;
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    		String sql = "SELECT id FROM users WHERE email = ?";
-    		PreparedStatement statement = conn.prepareStatement(sql);
-    		statement.setString(1, email);
-    		ResultSet rs = statement.executeQuery();
-    	
-    		if (rs.next()) {
-    			userId = rs.getInt("id");
-    			System.out.print(userId);
-    	    	
-    	    	rs.close();
-    	    	statement.close();
-    	    	
-    	    	conn.close();
-    		}
-    	} catch (SQLException e) {
-    		e.printStackTrace();
-    	}
-    	return userId;
-    	}
-    
-    public int update(String email,String name,boolean isAdmin) throws SQLException {
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-    		String sql = "UPDATE SET users(id,email,name,isAdmin) " +
-                    "VALUES("  + email + "," + name + "," + isAdmin + ")";
-        	PreparedStatement statement = conn.prepareStatement(sql);
-        	ResultSet rs = statement.executeQuery();
-        	rs.next();
-        	
-        	rs.close();
-        	statement.close();
-        	
-        	statement = conn.prepareStatement(sql);
-        	
-        	int updateCount = statement.executeUpdate();
-        	
-        	statement.close();
-        	
-        	conn.commit();
-        	conn.close();
-        	
-        	return updateCount;
-    	}
-    }
-    
-    public int delete(int id,String email,String name,boolean isAdmin) throws SQLException{
-    	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
-            String sql = "DELETE FROM users WHERE id = " + id ;
-            PreparedStatement statement = conn.prepareStatement(sql);
-        	ResultSet rs = statement.executeQuery();
-        	rs.next();
-        	
-        	rs.close();
-        	statement.close();
-        	
-        	statement = conn.prepareStatement(sql);
-        	
-        	int updateCount = statement.executeUpdate();
-        	
-        	statement.close();
-        	
-        	conn.commit();
-        	conn.close();
-        	
-        	return updateCount;
-    	}
-    }
-	public int getCartId(int userId) {
-		// TODO 自動生成されたメソッド・スタブ
-		String query = "SELECT * FROM carts WHERE userId = ?"; 
-		int cartId = 0;
-        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
-             PreparedStatement statement = con.prepareStatement(query)) {
-
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            
-            if(resultSet.next()) {
-            	System.out.print("true");
-            	cartId = resultSet.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // エラーハンドリングを適切に行う
-        }return cartId; 
-	}
-
-	public User findByName(String name1) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-	public Object getUser(String email1) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
+	
 }

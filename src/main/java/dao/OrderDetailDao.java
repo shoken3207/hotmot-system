@@ -26,9 +26,12 @@ public class OrderDetailDao extends CommonDao{
 				int productId = rs.getInt("productId");
 				int riceId = rs.getInt("riceId");
 				int quantity = rs.getInt("quantity");
+				int status = rs.getInt("status");
 				Date createdAt = rs.getDate("createdAt");
 
-				OrderDetailBean OrderDetail  = new OrderDetailBean(id, orderId, productId,riceId,quantity,createdAt);
+				OrderDetailBean OrderDetail  = new OrderDetailBean(id, orderId, productId,riceId,quantity,status,createdAt);
+				ps.close();
+	            conn.close();
 				return OrderDetail;
 			}
 		} catch (SQLException e) {
@@ -52,11 +55,14 @@ public class OrderDetailDao extends CommonDao{
 				int productId = rs.getInt("productId");
 				int riceId = rs.getInt("riceId");
 				int quantity = rs.getInt("quantity");
+				int status = rs.getInt("status");
 				Date createdAt = rs.getDate("createdAt");
 
-				OrderDetailBean OrderDetail  = new OrderDetailBean(id, orderId, productId,riceId,quantity,createdAt);
+				OrderDetailBean OrderDetail  = new OrderDetailBean(id, orderId, productId,riceId,quantity,status,createdAt);
 				OrderDetails.add(OrderDetail);
 			}
+			ps.close();
+            conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -81,6 +87,8 @@ public class OrderDetailDao extends CommonDao{
 
             // アップデートを実行
             statement.executeUpdate();
+            statement.close();
+            conn.close();
             return;
         }
     }
@@ -94,7 +102,9 @@ public class OrderDetailDao extends CommonDao{
             try(PreparedStatement statement = conn.prepareStatement(sql)) {
             	statement.setInt(1, id);
             	
-            	int updateCount = statement.executeUpdate();
+            	statement.executeUpdate();
+            	statement.close();
+	            conn.close();
             	return;
             	
             }

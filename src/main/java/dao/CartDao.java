@@ -26,6 +26,9 @@ public class CartDao extends CommonDao{
 				Date createdAt = rs.getDate("createdAt");
 
 				CartBean Cart  = new CartBean(id, userId, shopId,createdAt);
+				
+				ps.close();
+	            conn.close();
 				return Cart;
 			}
 		} catch (SQLException e) {
@@ -49,6 +52,9 @@ public class CartDao extends CommonDao{
 				Date createdAt = rs.getDate("createdAt");
 
 				CartBean Cart  = new CartBean(id, userId, shopId,createdAt);
+				
+				ps.close();
+	            conn.close();
 				return Cart;
 			}
 		} catch (SQLException e) {
@@ -74,6 +80,9 @@ public class CartDao extends CommonDao{
 				CartBean Cart  = new CartBean(id, userId, shopId,createdAt);
 				Carts.add(Cart);
 			}
+			
+			ps.close();
+            conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -113,8 +122,6 @@ public class CartDao extends CommonDao{
         	int updateCount = statement.executeUpdate();
         	
         	statement.close();
-        	
-        	conn.commit();
         	conn.close();
         	
         	return updateCount;
@@ -136,8 +143,6 @@ public class CartDao extends CommonDao{
         	int updateCount = statement.executeUpdate();
         	
         	statement.close();
-        	
-        	conn.commit();
         	conn.close();
         	
         	return updateCount;

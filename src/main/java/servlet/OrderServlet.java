@@ -92,10 +92,10 @@ public class OrderServlet extends HttpServlet {
 				return;
 			}
 			
-			orderDao.insertOrder(cart.getUserId(), cart.getShopId());
+			int autoIncrementId = orderDao.insertOrder(cart.getUserId(), cart.getShopId());
 			
 			for (CartDetailBean cartDetail : cartDetails) {
-				orderDetailDao.insert(1, cartDetail.getProductId(), cartDetail.getRiceId(), cartDetail.getQuantity());
+				orderDetailDao.insert(autoIncrementId, cartDetail.getProductId(), cartDetail.getRiceId(), cartDetail.getQuantity());
 			}
 			cartDetailDao.deleteCartDetailsByCartId(parseCartId);
 			

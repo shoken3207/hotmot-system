@@ -35,6 +35,8 @@ public class OrderDetailHistoryDao {
 
 				OrderDetailHistory.add(ob);
 			}
+			ps.close();
+            conn.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}

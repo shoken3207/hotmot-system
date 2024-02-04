@@ -35,6 +35,9 @@ public class BookMarkDao extends CommonDao{
 					BookMarkBean BookMark  = new BookMarkBean(id, userId, productId,categoryId,createdAt);
 					BookMarks.add(BookMark);
 				}
+				
+				 ps.close();
+	            conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -61,6 +64,9 @@ public class BookMarkDao extends CommonDao{
 					BookMarkBean BookMark  = new BookMarkBean(id, userId, productId,categoryId,createdAt);
 					BookMarks.add(BookMark);
 				}
+				
+				ps.close();
+	            conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -83,6 +89,9 @@ public class BookMarkDao extends CommonDao{
 					Date createdAt = rs.getDate("createdAt");
 					
 					BookMarkBean bookMark  = new BookMarkBean(id, userId, productId,categoryId,createdAt);
+					
+					ps.close();
+		            conn.close();
 					return bookMark;
 				}
 			} catch (SQLException e) {
@@ -107,6 +116,8 @@ public class BookMarkDao extends CommonDao{
 					Date createdAt = rs.getDate("createdAt");
 					
 					BookMarkBean bookMark  = new BookMarkBean(id, userId, productId,categoryId,createdAt);
+					ps.close();
+		            conn.close();
 					return bookMark;
 				}
 			} catch (SQLException e) {
@@ -126,6 +137,9 @@ public class BookMarkDao extends CommonDao{
 		    	statement.setInt(3, categoryId);
 		    	
 		    	statement.executeUpdate();
+		    	
+		    	statement.close();
+	            conn.close();
 	    	} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -139,6 +153,9 @@ public class BookMarkDao extends CommonDao{
 		    	statement.setInt(1, id);
 		    	
 		    	statement.executeUpdate();
+		    	
+		    	statement.close();
+	            conn.close();
 	    	} catch (SQLException e) {
 				e.printStackTrace();
 			}

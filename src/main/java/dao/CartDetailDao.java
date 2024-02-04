@@ -37,9 +37,12 @@ public class CartDetailDao extends CommonDao {
 				CartDetailBean cd = new CartDetailBean(id, cartId, productId, riceId, quantity, createdAt);
 				CartDetails.add(cd);
 			}
+			ps.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return CartDetails;
 	}
 
@@ -64,8 +67,12 @@ public class CartDetailDao extends CommonDao {
 				CartDetailBean CartDetail = new CartDetailBean(id, cartId, productId, riceId, quantity, createdAt);
 				CartDetails.add(CartDetail);
 			} else {
+				ps.close();
+	            conn.close();
 				return CartDetails;
 			}
+			ps.close();
+            conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -95,8 +102,12 @@ public class CartDetailDao extends CommonDao {
 				CartDetailBean CartDetail = new CartDetailBean(id, cartId, productId, riceId, quantity, createdAt);
 				System.out.println("CartDetail");
 				System.out.println(CartDetail);
+				ps.close();
+	            conn.close();
 				return CartDetail;
 			} else {
+				ps.close();
+	            conn.close();
 				return null;
 			}
 		} catch (SQLException e) {
@@ -120,6 +131,8 @@ public class CartDetailDao extends CommonDao {
 				ps.setInt(4, addCartDetailRequest.getQuantity()); 
 
 				ps.executeUpdate();
+				ps.close();
+	            conn.close();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -136,6 +149,8 @@ public class CartDetailDao extends CommonDao {
 			ps.setInt(3, riceId);
 			ps.setInt(4, quantity); 
 			ps.executeUpdate();
+			ps.close();
+            conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -149,7 +164,10 @@ public class CartDetailDao extends CommonDao {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, quantity);
 			ps.setInt(2, id);
-			int rs = ps.executeUpdate();
+			ps.executeUpdate();
+			
+			ps.close();
+            conn.close();
         	
     	}catch (SQLException e) {
 			e.printStackTrace();
@@ -163,7 +181,8 @@ public class CartDetailDao extends CommonDao {
             String sql = "DELETE FROM cartdetails WHERE id = ?" ;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
-        	
+            ps.close();
+            conn.close();
     	}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -192,6 +211,9 @@ public class CartDetailDao extends CommonDao {
 					ps2.executeUpdate();
 				}
 			}
+			ps1.close();
+			ps2.close();
+            conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -205,6 +227,8 @@ public class CartDetailDao extends CommonDao {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
 			ps.executeUpdate();
+			ps.close();
+            conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -217,6 +241,8 @@ public class CartDetailDao extends CommonDao {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, arg_cartId);
 			ps.executeUpdate();
+			ps.close();
+            conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
