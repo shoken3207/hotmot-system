@@ -94,8 +94,14 @@ const addCartDetail = async (option, resetQuantityFunc) => {
       addClasses(subBtnEl, ['disabled']);
       resetQuantityFunc();
       if (res.message) {
-        console.log(res.message);
-        showToast({ text: res.message });
+        console.log(
+          res.message,
+          `CartDetailListServlet?cartId=${cartIdEl.value}`
+        );
+        showToast({
+          text: res.message,
+          destination: `CartDetailListServlet?cartId=${cartIdEl.value}`,
+        });
       }
     })
     .catch((err) => console.log('err: ', err));

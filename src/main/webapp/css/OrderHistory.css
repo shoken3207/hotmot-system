@@ -11,6 +11,7 @@
 
 .details {
   width: 100%;
+  /* border-radius: 10px; */
   transition: 0.3s;
   overflow: hidden;
   margin-top: -10px;
@@ -24,7 +25,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.8rem;
   background-color: #9ed49e;
   border: none;
   font-size: 1.1rem;

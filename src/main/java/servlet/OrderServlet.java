@@ -101,7 +101,7 @@ public class OrderServlet extends HttpServlet {
 			
 			response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            ResponseMessage responseMessage = new ResponseMessage("カートの商品を注文しました。", true);
+            ResponseMessage responseMessage = new ResponseMessage("カートの商品を注文しました。", false);
             String jsonResponse = objectMapper.writeValueAsString(responseMessage);
             response.getWriter().write(jsonResponse);
 			return;

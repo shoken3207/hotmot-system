@@ -1,9 +1,49 @@
 @charset "UTF-8";
 
+.action-group {
+  margin-top: 0.3rem;
+  display: none;
+  justify-content: center;
+  column-gap: 1.5rem;
+  width: 100%;
+  align-items: center;
+}
+
+.action-group.disp {
+  display: flex;
+}
+
+.action-button {
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  background-color: white;
+}
+
+.action-button.order {
+  color: #ffb996;
+  border: 1px solid #ffb996;
+}
+.action-button.cart {
+  color: #9ed49e;
+  border: 1px solid #9ed49e;
+}
+
+.action-button.order:hover {
+  background-color: #ffb996;
+  color: white;
+}
+.action-button.cart:hover {
+  background-color: #9ed49e;
+  color: white;
+}
+
 .cart-detail-list {
   width: 88%;
   max-width: 560px;
-  margin: 2rem auto;
+  margin: 1.1rem auto;
   display: flex;
   flex-direction: column;
   row-gap: 6px;

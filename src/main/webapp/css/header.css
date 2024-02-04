@@ -50,7 +50,7 @@
 }
 
 .header .nav li a.current {
-	color: #ffb996
+  color: #ffb996;
 }
 
 .header .nav li a:hover {
@@ -92,7 +92,7 @@
 }
 
 .sp .nav ul li {
-  padding: 0.7rem .6rem;
+  padding: 0.7rem 0.6rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -107,7 +107,7 @@
 }
 
 .sp .nav ul li a.current {
-	color: #ffb996
+  color: #ffb996;
 }
 
 .sp .nav ul li a:hover {
@@ -139,7 +139,7 @@
 }
 
 /* レスポンシブスタイル */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 950px) {
   .header .nav ul {
     display: none;
   }
