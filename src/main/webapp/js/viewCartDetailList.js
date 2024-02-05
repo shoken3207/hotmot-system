@@ -77,6 +77,15 @@ window.addEventListener('DOMContentLoaded', async () => {
         return response.json();
       })
       .then((res) => {
+		  changeCartDetails.forEach(detail => {
+			  const {id, quantity} = detail;
+			  const index = convertCartDetails.findIndex(x => x.id === id);
+			  convertCartDetails[index].quantity = quantity;
+		  })
+		  const newTotal = calcTotal(convertCartDetails);
+		  totalEl.innerText = `合計: ${newTotal.toLocaleString()}円 (税抜 : ${Math.ceil(
+    newTotal / 1.08
+  ).toLocaleString()}円）`;
         changeCartDetails = [];
         if (res.message) {
           showToast({ text: res.message });
