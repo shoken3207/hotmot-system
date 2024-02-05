@@ -113,6 +113,12 @@ const createBookMarkList = (bookMarks, parentEl) => {
           categoryId: x.categoryId,
         }),
       })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
         .then((res) => {
           bookMarks.push({
             userId: Number(userIdEl.value),
@@ -121,6 +127,11 @@ const createBookMarkList = (bookMarks, parentEl) => {
           });
           rlc(divEl);
           ac(deleteBookMarkButton, divEl);
+          if (res.message) {
+            showToast({
+              text: res.message,
+            });
+          }
         })
         .catch((err) => console.log("err", err));
     });
@@ -132,10 +143,21 @@ const createBookMarkList = (bookMarks, parentEl) => {
           productId: x.productId,
         }),
       })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
         .then((res) => {
           bookMarks.splice(index, 1);
           rlc(divEl);
           ac(addBookMarkButton, divEl);
+          if (res.message) {
+            showToast({
+              text: res.message,
+            });
+          }
         })
         .catch((err) => console.log("err", err));
     });
