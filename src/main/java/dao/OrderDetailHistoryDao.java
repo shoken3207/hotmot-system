@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import models.OrderDetailBean;
+import models.OrderDetailHistoryByAdminBean;
 
 public class OrderDetailHistoryDao {
 	private Connection conn;
@@ -41,5 +42,31 @@ public class OrderDetailHistoryDao {
 			e.printStackTrace();
 		}
 		return OrderDetailHistory;
+	}
+	
+	public ArrayList<OrderDetailHistoryByAdminBean> getOrderDetailHistoryByAdmin(String fromDate, String toDate)throws SQLException{
+		conn = DriverManager.getConnection(CommonDao.URL, CommonDao.USER, CommonDao.PASS);
+		ArrayList<OrderDetailHistoryByAdminBean> histories = new ArrayList<OrderDetailHistoryByAdminBean>();
+		try {
+			String sql = "SELECT productId, riceId, SUM(quantity) as amount FROM orderdetails WHERE createdAt between ? AND ? GROUP BY productId, riceId;";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, fromDate);
+			ps.setString(2, toDate);
+			ResultSet rs = ps.executeQuery();
+
+			while(rs.next()) {
+				int productId = rs.getInt("productId");
+				int riceId = rs.getInt("riceId");
+				int quantity = rs.getInt("amount");
+				OrderDetailHistoryByAdminBean history = new OrderDetailHistoryByAdminBean( productId, riceId, quantity);
+
+				histories.add(history);
+			}
+			ps.close();
+            conn.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return histories;
 	}
 }

@@ -55,3 +55,31 @@ export const createOrderHistoriesResponse = (
 
   return orderHistories;
 };
+
+export const convertAdminHistories = (histories) => {
+	const productData = ProductData;
+  	const riceData = RiceData;
+  	
+  	const convertHistories = histories.map(history => {
+		  const product = productData.find(({ id }) => id === history.productId);
+	    const rice = riceData.find(({ id }) => id === history.riceId);
+	    if (product && rice) {
+	      const {
+	        id: productId,
+	        name: productName,
+	        listImage: productImage,
+	      } = product;
+	      const { name: riceName } = rice;
+	      const { quantity } = orderDetail;
+	      return {
+	        productName,
+	        productId,
+	        productImage,
+	        riceName,
+	        quantity,
+	      };
+	    }
+	  })
+	  
+	  return convertHistories;
+}

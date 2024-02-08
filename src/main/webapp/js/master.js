@@ -95,4 +95,5 @@ const fetchDetailProduct = (productId) => {
   }
 };
 
+
 export { fetchProductsByCategory, fetchDetailProduct };

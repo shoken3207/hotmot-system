@@ -64,6 +64,34 @@ public class OrderDao extends CommonDao{
 		return Orders;
     }
 	
+	public ArrayList<OrderBean> findOrdersByDate(String fromDate, String toDate) {
+        ArrayList<OrderBean> Orders = new ArrayList<OrderBean>();
+		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+			String sql = "SELECT * FROM Orders WHERE createdAt BETWEEN ? and ? ORDER BY createdAt DESC";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, fromDate);
+			ps.setString(2, toDate);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				int userId = rs.getInt("userId");
+				int shopId = rs.getInt("shopId");
+				Date createdAt = rs.getDate("createdAt");
+
+				OrderBean Order  = new OrderBean(id, userId, shopId,createdAt);
+				Orders.add(Order);
+			}
+			
+			ps.close();
+            conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return Orders;
+    }
+	
     public int insertOrder (int arg_userId, int arg_shopId) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {

@@ -67,6 +67,34 @@ public class UserDao extends CommonDao {
         return null;
     }
 	
+	public UserBean findUserById(int arg_id) {
+        String query = "SELECT * FROM users WHERE id = ?"; 
+        try (Connection con = DriverManager.getConnection(URL, USER, PASS);
+             PreparedStatement statement = con.prepareStatement(query)) {
+
+            statement.setInt(1, arg_id);
+            ResultSet rs = statement.executeQuery();
+           
+            while (rs.next()) {
+				int id = rs.getInt("id");
+				String email = rs.getString("email");
+				String pass = rs.getString("password");
+				String name = rs.getString("name");
+				boolean isAdmin = rs.getBoolean("isAdmin");
+
+				UserBean user  = new UserBean(id, email, name, pass, isAdmin);
+				statement.close();
+				con.close();
+				return user;
+			}
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // エラーハンドリングを適切に行う
+        }
+        return null;
+    }
+	
 	public void insertUser (String arg_name, String arg_email, String arg_password, Boolean arg_isAdmin) throws SQLException {
     	
     	try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {

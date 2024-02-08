@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		RequestDispatcher productListDispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
+        RequestDispatcher adminScreenDispatcher = request.getRequestDispatcher("WEB-INF/adminScreen.jsp");
 		RequestDispatcher loginDispatcher = request.getRequestDispatcher("index.jsp");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
 		session.setAttribute("userId", String.valueOf(user.getId()));
 		
 		if(user.getIsAdmin()) {
-			productListDispatcher.forward(request, response);
+			adminScreenDispatcher.forward(request, response);
 		} else {
 			
 			CartBean cart = cartDao.findCartByUserId(user.getId());
