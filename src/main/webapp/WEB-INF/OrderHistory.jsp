@@ -21,7 +21,7 @@
 	<title>注文履歴</title>
 	<link rel="stylesheet" href="css/OrderHistory.css">
 	<link rel="stylesheet" href="css/global.css" />
-<!-- 	<link rel="stylesheet" href="css/header.css" /> -->
+	<link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/topScrollButton.css" />
 	<link href="https://use.fontawesome.com/releases/v6.2.0/css/all.css" rel="stylesheet"/>
     <link
@@ -43,7 +43,7 @@
 	    	<div class="orderHistoryList" id="orderHistoryList">
 	    </div>
 
-<!-- 		<script src="./js/header.js" type="module"></script> -->
+		<script src="./js/header.js" type="module"></script>
     <script src="./js/topScrollButton.js" type="module"></script>
 		<script src="./js/viewOrderHistory.js" type="module"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

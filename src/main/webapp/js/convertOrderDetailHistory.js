@@ -35,51 +35,47 @@ const createOrderDetailHistoriesResponse = (orderDetails) => {
   return filterOrderDetailHistories;
 };
 
+export const createOrderHistoriesResponse = (orders) => {
+  const orderHistories = orders.map((order) => {
+    const { id, shopId, userId, details, createdAt } = order;
+    const orderDetailHistories = createOrderDetailHistoriesResponse(details);
 
-export const createOrderHistoriesResponse = (
-  orders
-) => {
-  const orderHistories = 
-    orders.map( (order) => {
-      const { id, shopId, userId, details, createdAt } = order;
-      const orderDetailHistories = createOrderDetailHistoriesResponse(details);
-
-      return {
-        id,
-        shopId,
-        userId,
-        createdAt,
-        details: orderDetailHistories,
-      };
-    })
+    return {
+      id,
+      shopId,
+      userId,
+      createdAt,
+      details: orderDetailHistories,
+    };
+  });
 
   return orderHistories;
 };
 
 export const convertAdminHistories = (histories) => {
-	const productData = ProductData;
-  	const riceData = RiceData;
-  	
-  	const convertHistories = histories.map(history => {
-		  const product = productData.find(({ id }) => id === history.productId);
-	    const rice = riceData.find(({ id }) => id === history.riceId);
-	    if (product && rice) {
-	      const {
-	        id: productId,
-	        name: productName,
-	        listImage: productImage,
-	      } = product;
-	      const { name: riceName } = rice;
-	      const { quantity } = orderDetail;
-	      return {
-	        productName,
-	        productId,
-	        productImage,
-	        riceName,
-	        quantity,
-	      };
-	    }
-	  })
-	  
-	  return convertHistories;
-}
+  const productData = ProductData;
+  const riceData = RiceData;
+
+  const convertHistories = histories.map((history) => {
+    const product = productData.find(({ id }) => id === history.productId);
+    const rice = riceData.find(({ id }) => id === history.riceId);
+    if (product && rice) {
+      const {
+        id: productId,
+        name: productName,
+        listImage: productImage,
+      } = product;
+      const { name: riceName } = rice;
+      const { quantity } = history;
+      return {
+        productName,
+        productId,
+        productImage,
+        riceName,
+        quantity,
+      };
+    }
+  });
+
+  return convertHistories;
+};
