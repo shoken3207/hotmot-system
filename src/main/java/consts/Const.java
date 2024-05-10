@@ -1,5 +1,13 @@
 package consts;
 
+/**
+ * プログラムで使う定数を定義するファイル
+ * @author ezaki
+ * @param　なし
+ * @return プログラムで使いまわしできる定数
+ * @version 1.0.0
+ */
+
 public class Const {
 	public static final String URL  = "jdbc:mysql://fukushima-pc/Ex_bus_System";
 	public static final String USER = "teamF";
