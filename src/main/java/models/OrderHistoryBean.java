@@ -1,5 +1,12 @@
 package models;
 
+/**
+ * 注文履歴を表すBean
+ * @author ezaki
+ * @param id 注文のID, shopId ショップのID, userId ユーザーのID, createdAt 作成日時, details 注文詳細のリスト
+ * @version 1.0.0
+ */
+
 import java.util.ArrayList;
 import java.util.Date;
 

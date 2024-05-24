@@ -1,5 +1,13 @@
 package models;
 
+/**
+ * ログイン情報を格納するモデル
+ * @author hayashi
+ * @param　ログインで入力された、EmailとPassword
+ * @return　
+ * @version 1.0.0
+ */
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

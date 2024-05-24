@@ -1,5 +1,13 @@
 package models;
 
+/**
+ * ブックマークを削除するためのリクエストを表すBean
+ * @author hira
+ * @param　userId ユーザーのId, productId 商品のId
+ * @return　なし
+ * @version 1.0.0
+ */
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

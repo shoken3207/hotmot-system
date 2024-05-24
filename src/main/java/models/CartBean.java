@@ -1,5 +1,13 @@
 package models;
 
+/**
+ * カートに関する情報を表すBean
+ * @author hira
+ * @param　Id:カートのId,userId:ユーザーのId,shopId:店舗のId,createdAt:作成日時
+ * @return　なし
+ * @version 1.0.0
+ */
+
 import java.util.Date;
 
 public class CartBean {

@@ -1,5 +1,13 @@
 package models;
 
+/**
+ * カートの詳細情報を追加するためのリクエストを表すBean
+ * @author hira
+ * @param　cartId:カートのId,productid:商品のId,riceId:ライスのオプションId,quantity:商品の数量
+ * @return　なし
+ * @version 1.0.0
+ */
+
 public class AddCartDetailRequestBean {
 	int cartId,productId,riceId,quantity;
 

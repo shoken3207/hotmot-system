@@ -1,5 +1,13 @@
 package models;
 
+/**
+ * カートの詳細情報を表すBean
+ * @author hira
+ * @param　Id カート詳細のId,productId 商品のId,riceId ライスのオプションId,quantity 数量,createdAt 作成日時
+ * @return　なし
+ * @version 1.0.0
+ */
+
 import java.util.Date;
 
 public class CartDetailBean {

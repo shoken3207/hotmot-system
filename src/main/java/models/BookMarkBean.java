@@ -1,5 +1,13 @@
 package models;
 
+/**
+ * ブックマーク情報を表すBean
+ * @author hira
+ * @param　id:ブックマークのId,userId:ユーザーのId,productId:商品のId,categoryId:商品カテゴリーのId
+ * @return　なし
+ * @version 1.0.0
+ */
+
 import java.util.Date;
 
 public class BookMarkBean {

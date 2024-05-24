@@ -1,5 +1,12 @@
 package models;
 
+/**
+ * 登録リクエストを表すBean
+ * @author ezaki
+ * @param name ユーザーの名前, email メールアドレス, password パスワード
+ * @version 1.0.0
+ */
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
