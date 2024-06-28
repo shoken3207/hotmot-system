@@ -34,6 +34,15 @@ public class BookMarkServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    
+	/**
+	 * HTTP GETリクエストを処理し、ブックマークを検索してJSON形式に変換し、セッションに
+	 保存します。その後、bookMark.jspにフォワードしてレスポンスを返します。
+	 * @author hayashi
+	 * @param　userId
+	 * @return なし
+	 * @version 1.0.0
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
@@ -63,6 +72,14 @@ public class BookMarkServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	
+	/**
+	 * doGetメソッドを呼び出す。
+	 * @author hayashi
+	 * @param　なし
+	 * @return なし
+	 * @version 1.0.0
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

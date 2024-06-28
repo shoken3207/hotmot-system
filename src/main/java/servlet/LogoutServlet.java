@@ -27,6 +27,14 @@ public class LogoutServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    
+    /**
+     * ログアウトし、ログイン画面に遷移
+     * @author hayashi
+     * @param　なし
+     * @return なし
+     * @version 1.0.0
+     */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.removeAttribute("userId");
