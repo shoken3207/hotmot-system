@@ -1,6 +1,6 @@
-import rice from '../jsons/Rice.json' assert { type: 'json' };
-import product from '../jsons/Product.json' assert { type: 'json' };
-import ProductData from '../jsons/Product.json' assert { type: 'json' };
+import rice from '../jsons/Rice.json' with { type: 'json' };
+import product from '../jsons/Product.json' with { type: 'json' };
+import ProductData from '../jsons/Product.json' with { type: 'json' };
 import { fetchProductsByCategory } from '../js/master.js';
 import { gebi } from '../js/utils.js';
 

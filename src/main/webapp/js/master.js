@@ -1,9 +1,9 @@
 //import { PRODUCT_CATEGORIES } from '../const';
-import AllergyData from '../jsons/Allergy.json' assert { type: 'json' };
-import ProductData from '../jsons/Product.json' assert { type: 'json' };
-import ProductAllergyData from '../jsons/ProductAllergy.json' assert { type: 'json' };
-import RiceData from '../jsons/Rice.json' assert { type: 'json' };
-import RiceGroupDetailData from '../jsons/RiceGroupDetail.json' assert { type: 'json' };
+import AllergyData from '../jsons/Allergy.json' with { type: 'json' };
+import ProductData from '../jsons/Product.json' with { type: 'json' };
+import ProductAllergyData from '../jsons/ProductAllergy.json' with { type: 'json' };
+import RiceData from '../jsons/Rice.json' with { type: 'json' };
+import RiceGroupDetailData from '../jsons/RiceGroupDetail.json' with { type: 'json' };
 
 // ライス変換
 const _fetchConvertRices = (riceGroupId) => {
