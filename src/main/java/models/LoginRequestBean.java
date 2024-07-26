@@ -3,6 +3,14 @@ package models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * ログイン情報を格納するモデル
+ * @author hayashi
+ * @param　ログインで入力された、EmailとPassword
+ * @return　Email、Passwordを返す
+ * @version 1.0.0
+ */
+
 public class LoginRequestBean {
 	String email, password;
 

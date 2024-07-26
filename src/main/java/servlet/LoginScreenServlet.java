@@ -1,5 +1,6 @@
 package servlet;
 
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -28,6 +29,14 @@ public class LoginScreenServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    
+    /**
+     * ログイン画面に遷移
+     * @author hayashi
+     * @param　なし
+     * @return なし
+     * @version 1.0.0
+     */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.removeAttribute("message");

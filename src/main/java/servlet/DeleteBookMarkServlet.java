@@ -37,6 +37,14 @@ public class DeleteBookMarkServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    
+	/**
+	 * 
+	 * @author hayashi
+	 * @param　userId
+	 * @return なし
+	 * @version 1.0.0
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();

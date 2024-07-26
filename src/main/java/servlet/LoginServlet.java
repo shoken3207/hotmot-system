@@ -18,6 +18,14 @@ import models.UserBean;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 
+	/**
+	 * このUserDaoクラスは、データベース操作用のメソッドを提供します。
+	 * 主な機能は、ユーザーの検索、挿入、更新、削除です。
+	 * @author hayashi
+	 * @param　なし
+	 * @return なし
+	 * @version 1.0.0
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
