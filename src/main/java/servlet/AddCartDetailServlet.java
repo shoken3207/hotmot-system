@@ -22,7 +22,10 @@ import models.CartDetailBean;
 import models.ResponseMessage;
 
 /**
- * Servlet implementation class AddCartDetailServlet
+ * カート詳細を追加するためのサーブレットです。
+ * 複数の商品を一度にカートに追加するリクエストを処理します。
+ * @author yamashita
+ * @version 1.0.0
  */
 @WebServlet("/AddCartDetailServlet")
 public class AddCartDetailServlet extends HttpServlet {
@@ -36,8 +39,14 @@ public class AddCartDetailServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * GETメソッドを処理します。商品一覧ページにフォワードします。
+	 * @author yamashita
+	 * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException 入出力エラーが発生した場合
+	 * @throws IOException リクエストの処理中にエラーが発生した場合
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/productList.jsp");
@@ -45,7 +54,12 @@ public class AddCartDetailServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * POSTメソッドを処理します。リクエストボディから商品情報を取得し、カートに追加します。
+	 * @author yamashita
+	 * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException 入出力エラーが発生した場合
+	 * @throws IOException リクエストの処理中にエラーが発生した場合
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<AddCartDetailRequestBean> addCartDetailRequestList = new ArrayList<>();

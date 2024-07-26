@@ -10,8 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.OrderDao;
 
+/**
+ * 注文を確認するためのサーブレットです。
+ * ユーザーIDとカートIDに基づいて注文を確定します。
+ * @author yamashita
+ * @version 1.0.0
+ */
 @WebServlet("/OrderConfirm")
 public class OrderConfilmServlet extends HttpServlet {
+	
+	/**
+     * POSTメソッドを処理します。リクエストからユーザーIDとカートIDを取得し、注文を確定します。
+     * @author yamashita
+     * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+     * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+     * @throws ServletException 入出力エラーが発生した場合
+     * @throws IOException リクエストの処理中にエラーが発生した場合
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userId = request.getParameter("userId");

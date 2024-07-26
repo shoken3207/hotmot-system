@@ -20,7 +20,10 @@ import models.ResponseMessage;
 import models.UpdateCartDetailRequestBean;
 
 /**
- * Servlet implementation class EditCartDetailServlet
+ * このサーブレットは、カートの詳細を更新するためのリクエストを処理します。
+ * HTTP POST リクエストで受け取ったデータに基づいてカートの内容を更新し、成功またはエラーメッセージをJSON形式で返します。
+ * @author okuda
+ * @version 1.0.0
  */
 @WebServlet("/UpdateCartDetailServlet")
 public class UpdateCartDetailServlet extends HttpServlet {
@@ -34,8 +37,15 @@ public class UpdateCartDetailServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * HTTP POST リクエストを処理し、カートの詳細を更新します。
+	 * リクエストボディは JSON 形式で、カート詳細の ID と新しい数量が含まれています。
+	 * @author okuda
+	 * @param request クライアントからのリクエストを含む HttpServletRequest オブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含む HttpServletResponse オブジェクト
+	 * @throws ServletException リクエスト処理中にエラーが発生した場合
+	 * @throws IOException リクエストやレスポンスの処理中にエラーが発生した場合
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<UpdateCartDetailRequestBean> updateCartDetailRequestList = new ArrayList<>();
