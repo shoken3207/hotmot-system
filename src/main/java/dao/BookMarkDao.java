@@ -11,6 +11,14 @@ import java.util.Date;
 import models.BookMarkBean;
 
 public class BookMarkDao extends CommonDao{
+	
+	/**
+	 * ブックマークに関するDao
+	 * @author okuda
+	 * @param ブックマークのId id,ユーザId userId,商品Id prouctId,カテゴリId categoryId
+	 * @return Bookmarks
+	 * @version 1.0.0
+	 */
 		
 	    public ArrayList<BookMarkBean> findBookMarksByUserId(int arg_userId) {
 	        ArrayList<BookMarkBean> BookMarks = new ArrayList<BookMarkBean>();

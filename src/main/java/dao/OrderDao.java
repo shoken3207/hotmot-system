@@ -12,6 +12,14 @@ import models.OrderBean;
 
 public class OrderDao extends CommonDao{
 	
+	/**
+	 * idをもとに注文の検索を行う
+	 * @author ezaki
+	 * @param 検索に使用するid
+	 * @return idを元に検索した注文の内容
+	 * @version 1.0.0
+	 */
+	
 	public OrderBean findOrderById(int arg_id) {
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
 			String sql = "SELECT * FROM Orders WHERE id = ?";

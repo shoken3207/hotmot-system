@@ -13,6 +13,14 @@ import models.CartDetailBean;
 import models.UpdateCartDetailRequestBean;
 
 public class CartDetailDao extends CommonDao {
+	
+	/**
+	 * idをもとにカート画面を表示する
+	 * @author ezaki
+	 * @param 検索に使用するid
+	 * @return cartDetails
+	 * @version 1.0.0
+	 */
 
 	private Connection conn;
 
