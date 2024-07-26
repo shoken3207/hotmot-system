@@ -1,5 +1,14 @@
 package models;
 
+/**
+ * ユーザー情報を表すBean
+ * @author hira
+ * @param　id ユーザーのId, email メールアドレス, name 名前, pass パスワード, isAdmin 管理者権限の有無
+ * @return　なし
+ * @version 1.0.0
+ */
+
+
 public class UserBean {
 	private int id;
 	private String email, name;

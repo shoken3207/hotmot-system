@@ -1,5 +1,12 @@
 package models;
 
+/**
+ * 管理者による注文詳細履歴を表すBean
+ * @author ezaki
+ * @param productId 商品のID, riceId ライスのID, quantity 数量
+ * @version 1.0.0
+ */
+
 public class OrderDetailHistoryByAdminBean {
 	int productId, riceId, quantity;
 
@@ -33,8 +40,5 @@ public class OrderDetailHistoryByAdminBean {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
-	
-	
 	
 }

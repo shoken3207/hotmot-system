@@ -1,5 +1,12 @@
 package models;
 
+/**
+ * 注文の詳細情報を表すBean
+ * @author ezaki
+ * @param id 注文詳細のID, orderId 注文のID, productId 商品のID, riceId ライスのID, quantity 数量, status ステータス, createdAt 作成日時
+ * @version 1.0.0
+ */
+
 import java.util.Date;
 
 public class OrderDetailBean {

@@ -1,5 +1,12 @@
 package models;
 
+/**
+ * レスポンスメッセージを表すBean
+ * @author ezaki
+ * @param message メッセージ内容, isError エラーの有無
+ * @version 1.0.0
+ */
+
 public class ResponseMessage {
 	String message;
 	Boolean isError;

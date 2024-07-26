@@ -1,6 +1,13 @@
 package models;
 import java.util.Date;
 
+/**
+ * 注文情報を表すBean
+ * @author hira
+ * @param id 注文のId, userId ユーザーのId, shopId 店舗のId, createdAt 注文の作成日時
+ * @version 1.0.0
+ */
+
 public class OrderBean {
 	private int id, userId, shopId;
 	private Date createdAt;
