@@ -56,7 +56,7 @@
       </div>
       <div class="btn-group">
       	<a href="register.jsp" class="btn register">新規登録</a>
-      	<div class="btn login">ログイン<input type="submit" />	</div>
+      	<div id="loginButton" class="btn login">ログイン<input type="submit" />	</div>
       </div>
     </form>
   </div>

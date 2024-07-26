@@ -17,8 +17,8 @@ const bookMarksEl = gebi("bookMarks");
 const lists = gebi("lists");
 const tabs = gebi("tabs");
 const userIdEl = gebi("userId");
-const cartIdEl = gebi("cartId");
 
+// ページロード時に商品カテゴリ選択タブ、ブックマーク済み商品一覧を生成
 window.addEventListener("DOMContentLoaded", () => {
   const bookMarks = JSON.parse(bookMarksEl.value);
   const convertBookMarks = createBookMarksResponse(bookMarks);
@@ -33,6 +33,7 @@ window.addEventListener("DOMContentLoaded", () => {
     addClasses(tab, tabClasses);
     tab.innerText = name;
     setValue(tab, id);
+    // タブでカテゴリを選択し、カテゴリにあったブックマーク済み商品をリスト表示
     tab.addEventListener("click", async () => {
       selectTab = id;
       sessionStorage.setItem("bookMarkSelectTab", id);
@@ -67,6 +68,7 @@ const filterByCategoryId = (bookMarks, selectTab) => {
   return bookMarksByCategoryId;
 };
 
+// ブックマーク済み商品をリスト表示
 const createBookMarkList = (bookMarks, parentEl) => {
   bookMarks.forEach((x, index) => {
     const listItem = ce("div");
@@ -104,6 +106,7 @@ const createBookMarkList = (bookMarks, parentEl) => {
     ]);
     addBookMarkButton.style.color = "#FFCF81";
     deleteBookMarkButton.style.color = "#FFCF81";
+    // ブックマーク画面でボタン押下時にブックマークを登録
     addBookMarkButton.addEventListener("click", async () => {
       await fetch("/hotmot/AddBookMarkServlet", {
         method: "POST",
@@ -135,6 +138,7 @@ const createBookMarkList = (bookMarks, parentEl) => {
         })
         .catch((err) => console.log("err", err));
     });
+    // ブックマーク画面でボタン押下時にブックマークを削除
     deleteBookMarkButton.addEventListener("click", async () => {
       await fetch("/hotmot/DeleteBookMarkServlet", {
         method: "POST",

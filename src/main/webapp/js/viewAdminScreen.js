@@ -1,17 +1,5 @@
-import {
-  convertAdminHistories,
-  createOrderHistoriesResponse,
-} from "../js/convertOrderDetailHistory.js";
-import {
-  ce,
-  gebi,
-  ac,
-  addClasses,
-  removeClass,
-  setSrc,
-  setHref,
-  showToast,
-} from "../js/utils.js";
+import { convertAdminHistories } from "../js/convertOrderDetailHistory.js";
+import { ce, gebi, ac, addClasses, setSrc, showToast } from "../js/utils.js";
 const userIdEl = gebi("userId");
 const historiesEl = gebi("histories");
 
@@ -28,6 +16,7 @@ const getDate = (arg_date) => {
   return { year, month, date };
 };
 
+// 注文履歴情報の取得
 const fetchOrderDetailHistories = async (fromDate, toDate) => {
   const histories = await fetch(
     `/hotmot/AdminScreenServlet?userId=${userIdEl.value}&fromDate=${fromDate}&toDate=${toDate}`,
@@ -55,6 +44,7 @@ const fetchOrderDetailHistories = async (fromDate, toDate) => {
   return histories;
 };
 
+// 管理者画面を生成
 const viewAdminScreen = (histories, parentEl) => {
   histories.forEach((history) => {
     const { productName, productImage, riceName, quantity } = history;
@@ -86,6 +76,8 @@ const viewAdminScreen = (histories, parentEl) => {
 };
 
 const selectDateEl = gebi("selectDate");
+// ページロード時に管理者画面を生成
+// 選択した日にちに注文された商品、個数を表示
 window.addEventListener("DOMContentLoaded", async () => {
   const { year, month, date } = getDate();
   selectDateEl.value = `${year}-${month}-${date}`;

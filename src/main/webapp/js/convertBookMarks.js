@@ -1,4 +1,4 @@
-import ProductData from "../jsons/Product.json" assert { type: "json" };
+import ProductData from "../jsons/Product.json" with { type: "json" };
 
 export const createBookMarksResponse = (bookMarks) => {
   const productData = ProductData;

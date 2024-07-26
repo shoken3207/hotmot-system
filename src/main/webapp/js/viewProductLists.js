@@ -21,6 +21,8 @@ const bookMarksEl = gebi("bookMarks");
 const bookMarks = JSON.parse(bookMarksEl.value);
 const userIdEl = gebi("userId");
 const cartIdEl = gebi("cartId");
+
+// ページ生成時に、商品カテゴリ選択タブ、商品一覧を生成
 window.addEventListener("DOMContentLoaded", async () => {
   const sessionSelectTab = Number(
     sessionStorage.getItem("productListSelectTab")
@@ -55,6 +57,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   createProductList(data);
 });
 
+// カートに商品を追加
 const addCartDetail = async (option, resetQuantityFunc) => {
   await fetch("/hotmot/AddCartDetailServlet", {
     method: "POST",
@@ -82,6 +85,7 @@ const addCartDetail = async (option, resetQuantityFunc) => {
     .catch((err) => console.log("err: ", err));
 };
 
+// 商品一覧を生成
 const createProductList = (data) => {
   while (lists.firstChild) {
     lists.removeChild(lists.firstChild);
@@ -119,6 +123,8 @@ const createProductList = (data) => {
       });
     }
     let quantity = 0;
+
+    // 商品の個数を編集するUI生成
     const createEditQuantity = ({
       id,
       parentEl,
@@ -192,6 +198,8 @@ const createProductList = (data) => {
     cartButtonText.innerHTML = "カートに<br />入れる";
     ac(cartButtonIcon, cartButton);
     ac(cartButtonText, cartButton);
+
+    // カートボタン押下時に、商品をカートに追加
     cartButton.addEventListener("click", async () => {
       if (quantity === 0) return;
       const option = [
@@ -216,6 +224,8 @@ const createProductList = (data) => {
     ]);
     addBookMarkButton.style.color = "#FFCF81";
     deleteBookMarkButton.style.color = "#FFCF81";
+
+    // ブックマーク登録処理
     addBookMarkButton.addEventListener("click", async () => {
       await fetch("/hotmot/AddBookMarkServlet", {
         method: "POST",
@@ -248,6 +258,8 @@ const createProductList = (data) => {
         })
         .catch((err) => console.log("err", err));
     });
+
+    // ブックマーク削除処理
     deleteBookMarkButton.addEventListener("click", async () => {
       const deleteBookMark = bookMarks.find(
         (bookMark) => bookMark.productId === x.id
@@ -291,15 +303,7 @@ const createProductList = (data) => {
   });
 };
 
-const createPEl = ({ text, className, parentEl }) => {
-  const pEl = ce("p");
-  pEl.innerText = text;
-  if (className) {
-    pEl.classList.add(className);
-  }
-  parentEl.appendChild(pEl);
-};
-
+// h3エレメントを生成
 const createH3El = ({ text, className, parentEl }) => {
   const pEl = ce("h3");
   pEl.innerText = text;
@@ -309,6 +313,7 @@ const createH3El = ({ text, className, parentEl }) => {
   parentEl.appendChild(pEl);
 };
 
+// imgエレメントを生成
 const createImgEl = ({ src, alt, className, parentEl }) => {
   const imgEl = ce("img");
   setSrc(imgEl, src);
@@ -321,6 +326,7 @@ const createImgEl = ({ src, alt, className, parentEl }) => {
   parentEl.appendChild(imgEl);
 };
 
+// ライスの種類を選択するセレクトボックスを生成
 const createSelecRicetEl = ({
   options,
   className,
