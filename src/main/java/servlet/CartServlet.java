@@ -14,7 +14,11 @@ import dao.CartDao;
 import models.CartBean;
 
 
-
+/**
+ * カートに関するリクエストを処理するためのサーブレットです。
+ * @author okuda
+ * @version 1.0.0
+ */
 @WebServlet("/CartServlet")
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -28,8 +32,13 @@ public class CartServlet extends HttpServlet {
     }
 
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * GETメソッドを処理します。指定されたパラメータに基づいてカート情報を取得し、レスポンスとして返します。
+	 * @author okuda
+	 * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException 入出力エラーが発生した場合
+	 * @throws IOException リクエストの処理中にエラーが発生した場合
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

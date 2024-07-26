@@ -3,7 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,15 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 import dao.CartDao;
 import dao.UserDao;
 
+/**
+ * ユーザーの登録を処理するサーブレットです。
+ * このサーブレットは、ユーザーの登録フォームを表示し、ユーザーの登録処理を行います。
+ * ユーザーが正常に登録された場合は、成功ページにリダイレクトし、
+ * エラーが発生した場合はエラーページにリダイレクトします。
+ * @author okuda
+ * @version 1.0.0
+ */
 @WebServlet("/RegUserContServ")
 public class RegUserContServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
-	RequestDispatcher dispatcher =  request.getRequestDispatcher("RegForm.jsp");
-	        dispatcher.forward(request, response);
-	}
     
+	/**
+     * HTTP POSTリクエストを処理し、ユーザーの登録を行います。
+     * @author okuda
+     * @param request クライアントからのリクエストを含むHttpServletRequestオブジェクト
+     * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+     * @throws ServletException リクエスト処理中にエラーが発生した場合
+     * @throws IOException リクエストやレスポンスの処理中にエラーが発生した場合
+     */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		request.setCharacterEncoding("UTF-8");
 		String email = request.getParameter("email");

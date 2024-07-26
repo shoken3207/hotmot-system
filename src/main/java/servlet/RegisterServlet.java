@@ -15,7 +15,12 @@ import dao.UserDao;
 import models.UserBean;
 
 /**
- * Servlet implementation class RegisterServlet
+ * ユーザーの登録を処理するサーブレットです。
+ * このサーブレットは、POSTリクエストを受け取り、ユーザーの登録処理を行います。
+ * ユーザーが正常に登録された場合はログイン画面にリダイレクトし、
+ * エラーが発生した場合は登録画面に戻します。
+ *  @author okuda
+ * @version 1.0.0
  */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
@@ -29,8 +34,13 @@ public class RegisterServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * HTTP POSTリクエストを処理し、ユーザーの登録を行います。
+	 *  @author okuda
+	 * @param request クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException リクエスト処理中にエラーが発生した場合
+	 * @throws IOException リクエストやレスポンスの処理中にエラーが発生した場合
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 request.setCharacterEncoding("UTF-8");

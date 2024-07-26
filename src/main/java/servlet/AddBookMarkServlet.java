@@ -20,7 +20,10 @@ import models.BookMarkBean;
 import models.ResponseMessage;
 
 /**
- * Servlet implementation class AddBookMarkServlet
+ * 指定されたユーザーID、商品ID、およびカテゴリIDを使用してお気に入りを追加するためのサーブレットです。
+ * もし既に同じ商品が登録されている場合は、その旨をクライアントに通知します。
+ * @author okuda
+ * @version 1.0.0
  */
 @WebServlet("/AddBookMarkServlet")
 public class AddBookMarkServlet extends HttpServlet {
@@ -34,8 +37,14 @@ public class AddBookMarkServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * HTTP POSTメソッドを処理します。
+	 * @author okuda
+	 * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException 入出力エラーが発生した場合
+	 * @throws IOException リクエストの処理中にエラーが発生した場合
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();

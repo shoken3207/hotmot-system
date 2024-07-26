@@ -22,7 +22,10 @@ import models.ResponseMessage;
 import models.UserBean;
 
 /**
- * Servlet implementation class AdminScreenServlet
+ * 管理者画面に関するリクエストを処理するためのサーブレットです。
+ * 指定されたユーザーID、開始日、および終了日を使用して注文履歴を取得します。
+ * @author ezaki
+ * @version 1.0.0
  */
 @WebServlet("/AdminScreenServlet")
 public class AdminScreenServlet extends HttpServlet {
@@ -35,9 +38,14 @@ public class AdminScreenServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    
+    /**
+	 * GETメソッドを処理します。ユーザーID、開始日、および終了日を使用して注文履歴を取得し、レスポンスとして返します。
+	 * @author ezaki
+	 * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException 入出力エラーが発生した場合
+	 * @throws IOException リクエストの処理中にエラーが発生した場合
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();

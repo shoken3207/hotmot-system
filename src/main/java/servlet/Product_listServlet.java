@@ -11,10 +11,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 商品リストを表示するためのサーブレットです。
+ * このサーブレットは、商品情報を含むJSONデータを生成し、JSPページにフォワードします。
+ * @author ezaki
+ * @version 1.0.0
+ */
 @WebServlet("/Product_listServlet")
 public class Product_listServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	 /**
+     * HTTP GETリクエストを処理します。商品情報をJSON形式で生成し、それをリクエスト属性に設定してJSPページにフォワードします。
+     * @author ezaki
+     * @param request クライアントからのリクエストを含むHttpServletRequestオブジェクト
+     * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+     * @throws ServletException リクエスト処理中にエラーが発生した場合
+     * @throws IOException リクエストやレスポンスの処理中にエラーが発生した場合
+     */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// JSONデータを生成

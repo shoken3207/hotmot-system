@@ -18,7 +18,9 @@ import dao.CartDetailDao;
 import models.CartDetailBean;
 
 /**
- * Servlet implementation class CartDetailListServlet
+ * カートの詳細情報をリスト表示するためのサーブレットです。
+ * @author okuda
+ * @version 1.0.0
  */
 @WebServlet("/CartDetailListServlet")
 public class CartDetailListServlet extends HttpServlet {
@@ -32,8 +34,13 @@ public class CartDetailListServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * GETメソッドを処理します。指定されたカートIDに基づいてカートの詳細情報を取得し、レスポンスとして返します。
+	 * @author okuda
+	 * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException 入出力エラーが発生した場合
+	 * @throws IOException リクエストの処理中にエラーが発生した場合
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String cartId = request.getParameter("cartId");
