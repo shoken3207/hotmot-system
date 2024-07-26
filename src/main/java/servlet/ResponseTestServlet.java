@@ -13,7 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import models.ResponseMessage;
 
 /**
- * Servlet implementation class ResponseTestServlet
+ * このサーブレットは、HTTP POSTリクエストに対してJSON形式のレスポンスを返します。
+ * 主にテスト目的で使用され、成功メッセージをJSON形式で返します。
+ * @author hira
+ * @version 1.0.0
  */
 @WebServlet("/ResponseTestServlet")
 public class ResponseTestServlet extends HttpServlet {
@@ -27,8 +30,13 @@ public class ResponseTestServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * HTTP POSTリクエストを処理し、JSON形式のレスポンスを返します。
+	 * @author hira
+	 * @param request クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException リクエスト処理中にエラーが発生した場合
+	 * @throws IOException リクエストやレスポンスの処理中にエラーが発生した場合
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

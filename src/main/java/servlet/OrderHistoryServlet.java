@@ -19,9 +19,24 @@ import models.OrderBean;
 import models.OrderDetailBean;
 import models.OrderHistoryBean;
 
+/**
+ * 注文履歴を取得して表示するためのサーブレットです。
+ * ユーザーIDに基づいて、ユーザーの注文履歴と注文の詳細を取得し、JSON形式でセッションに保存します。
+ * @author okuda
+ * @version 1.0.0
+ */
 @WebServlet("/OrderHistoryServlet")
 public class OrderHistoryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	 /**
+     * GETメソッドを処理します。リクエストからユーザーIDを取得し、そのユーザーの注文履歴を取得してJSON形式でセッションに保存します。
+     * @author okuda
+     * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+     * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+     * @throws ServletException 入出力エラーが発生した場合
+     * @throws IOException リクエストの処理中にエラーが発生した場合
+     */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//コードを変えた際にしたのをIntegerにする
 		String userId = request.getParameter("userId");

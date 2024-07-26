@@ -14,7 +14,9 @@ import models.json.ItemsBean;
 import models.json.OrderCheckBean;
 
 /**
- * Servlet implementation class OrderCheckServlet
+ * 注文確認を処理するためのサーブレットです。
+ * @author okuda
+ * @version 1.0.0
  */
 @WebServlet("/OrderCheckServlet")
 public class OrderCheckServlet extends HttpServlet {
@@ -28,8 +30,13 @@ public class OrderCheckServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * GETメソッドを処理します。リクエストから注文情報を取得し、セッションに格納します。
+	 * @author okuda
+	 * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException 入出力エラーが発生した場合
+	 * @throws IOException リクエストの処理中にエラーが発生した場合
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int img = Integer.parseInt(request.getParameter("img"));

@@ -17,7 +17,12 @@ import dao.BookMarkDao;
 import models.BookMarkBean;
 
 /**
- * Servlet implementation class ProductListServlet
+ * ユーザーのブックマークした商品のリストを表示するためのサーブレットです。
+ * このサーブレットは、GETリクエストでユーザーIDを受け取り、そのユーザーのブックマークをデータベースから取得し、
+ * JSON形式でセッションに設定し、リクエストをJSPページにフォワードします。
+ * POSTリクエストはGETリクエストと同じ処理を実行します。
+ * @author okuda
+ * @version 1.0.0
  */
 @WebServlet("/ProductListServlet")
 public class ProductListServlet extends HttpServlet {
@@ -31,8 +36,14 @@ public class ProductListServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * HTTP GETリクエストを処理し、ユーザーIDに基づいてブックマークを取得し、セッションに設定してから
+	 * JSPページにフォワードします。
+	 * @author okuda
+	 * @param request クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException リクエスト処理中にエラーが発生した場合
+	 * @throws IOException リクエストやレスポンスの処理中にエラーが発生した場合
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -57,11 +68,4 @@ public class ProductListServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 }

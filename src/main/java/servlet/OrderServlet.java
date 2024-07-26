@@ -24,7 +24,10 @@ import models.OrderRequestBean;
 import models.ResponseMessage;
 
 /**
- * Servlet implementation class OrderServlet
+ * 注文を処理するサーブレットです。カートIDを受け取り、カートの内容を注文としてデータベースに保存します。
+ * 注文処理が成功した場合はカートの内容を削除し、成功メッセージを返します。
+ * @author okuda
+ * @version 1.0.0
  */
 @WebServlet("/OrderServlet")
 public class OrderServlet extends HttpServlet {
@@ -38,8 +41,14 @@ public class OrderServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * POSTリクエストを処理します。リクエストボディからカートIDを取得し、そのカートの内容を注文としてデータベースに保存します。
+	 * 処理が成功すると、カートの内容が削除され、成功メッセージが返されます。
+	 * @author okuda
+	 * @param request  クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException 入出力エラーが発生した場合
+	 * @throws IOException リクエストの処理中にエラーが発生した場合
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();

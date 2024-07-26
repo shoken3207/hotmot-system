@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ProductDetailServlet
+ * 商品の詳細情報を表示するためのサーブレットです。
+ * このサーブレットは、リクエストから商品IDを取得し、セッションに設定してから、商品詳細のJSPページにフォワードします。
+ * @author hira
+ * @version 1.0.0
  */
 @WebServlet("/ProductDetailServlet")
 public class ProductDetailServlet extends HttpServlet {
@@ -25,8 +28,13 @@ public class ProductDetailServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+	 * HTTP GETリクエストを処理し、商品IDをセッションに設定し、商品詳細のJSPページにフォワードします。
+	 * @author hira
+	 * @param request クライアントからのリクエストを含むHttpServletRequestオブジェクト
+	 * @param response サーバーからクライアントへのレスポンスを含むHttpServletResponseオブジェクト
+	 * @throws ServletException リクエスト処理中にエラーが発生した場合
+	 * @throws IOException リクエストやレスポンスの処理中にエラーが発生した場合
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
