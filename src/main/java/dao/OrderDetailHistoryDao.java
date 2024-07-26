@@ -12,6 +12,15 @@ import models.OrderDetailBean;
 import models.OrderDetailHistoryByAdminBean;
 
 public class OrderDetailHistoryDao {
+	
+	/**
+	 * idをもとに注文履歴を表示する
+	 * @author ezaki
+	 * @param 検索に使用するid
+	 * @return idを元に検索した注文の内容
+	 * @version 1.0.0
+	 */
+	
 	private Connection conn;
 
 	//SELECT文
