@@ -1,5 +1,4 @@
 import { fetchDetailProduct } from "../js/master.js";
-import { RICE_TYPE } from "./const.js";
 import {
   ce,
   gebi,
@@ -16,6 +15,7 @@ const bookMarksEl = gebi("bookMarks");
 const bookMarks = JSON.parse(bookMarksEl.value);
 const userIdEl = gebi("userId");
 const cartIdEl = gebi("cartId");
+// ページロード時に商品詳細画面を生成
 window.addEventListener("DOMContentLoaded", async () => {
   const productIdEl = gebi("productId");
   const containerEl = gebi("container");
@@ -24,6 +24,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   let backLink = "";
   let backText = "";
+  // 前の画面に応じて、リンク先を変更
   if (referrer.includes("ProductListServlet")) {
     backLink = `ProductListServlet?userId=${userIdEl.value}`;
     backText = "＜商品一覧画面に戻る";
@@ -45,6 +46,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   const { name, price, image, desc, rices, allergys } = product;
 
   const addCartDetails = [];
+  // ライスの種類ごとに、カートに追加する個数を編集
   const add = ({ riceId, quantity }) => {
     if (
       addCartDetails.some(
@@ -69,6 +71,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
+  // 商品をカートに追加
   const addCartDetailsFunc = async (option) => {
     await fetch("/hotmot/AddCartDetailServlet", {
       method: "POST",
@@ -94,6 +97,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       .catch((err) => console.log("err: ", err));
   };
 
+  // 商品のアレルギー表示
   const createAllergys = ({ allergys, parentEl }) => {
     const allergyGroupEl = ce("div");
     addClasses(allergyGroupEl, ["allergy-group"]);
@@ -108,6 +112,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     ac(allergyGroupEl, parentEl);
   };
 
+  // 商品詳細画面の商品個数選択UI生成
   const createEditQuantity = ({ rices, parentEl }) => {
     rices.forEach(({ id, name, price }) => {
       let quantity = 0;
@@ -132,6 +137,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       const inputEl = ce("input");
       inputEl.value = quantity;
       inputEl.type = "number";
+      // inputタグに数値を入力して、商品の個数を増減させる
       inputEl.addEventListener("input", (e) => {
         changeQuantityFunc(Number(e.target.value));
         inputEl.value = quantity;
@@ -144,6 +150,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       const addBtnEl = ce("button");
       addBtnEl.innerText = "＋";
       addClasses(addBtnEl, ["add"]);
+      // ボタン押下時に商品の個数を1個増やす
       addBtnEl.addEventListener("click", (e) => {
         addQuantityFunc();
         inputEl.value = quantity;
@@ -157,6 +164,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         addClasses(subBtnEl, ["disabled"]);
       }
       subBtnEl.innerText = "－";
+      // ボタン押下時に商品の個数を1個減らす
       subBtnEl.addEventListener("click", (e) => {
         subQuantityFunc();
         inputEl.value = quantity;
@@ -234,6 +242,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   ]);
   addBookMarkButton.style.color = "#FFCF81";
   deleteBookMarkButton.style.color = "#FFCF81";
+  // 商品詳細画面でボタン押下時にブックマークを登録
   addBookMarkButton.addEventListener("click", async () => {
     await fetch("/hotmot/AddBookMarkServlet", {
       method: "POST",
@@ -266,6 +275,8 @@ window.addEventListener("DOMContentLoaded", async () => {
       })
       .catch((err) => console.log("err", err));
   });
+
+  // 商品詳細画面でボタン押下時にブックマークを削除
   deleteBookMarkButton.addEventListener("click", async () => {
     const deleteBookMark = bookMarks.find(
       (bookMark) => bookMark.productId === product.id

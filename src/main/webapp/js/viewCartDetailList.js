@@ -1,4 +1,4 @@
-import { createCartDetailsResponse } from '../js/convertCartDetails.js';
+import { createCartDetailsResponse } from "../js/convertCartDetails.js";
 import {
   ce,
   gebi,
@@ -8,27 +8,29 @@ import {
   setSrc,
   setHref,
   showToast,
-} from '../js/utils.js';
-const updateCartButtonEl = gebi('updateCart');
-const orderButtonEl = gebi('order');
-const cartDetailListEl = gebi('cartDetailList');
-const cartDetailsEl = gebi('cartDetails');
-const userIdEl = gebi('userId');
-const cartIdEl = gebi('cartId');
-const actionGroupEl = gebi('actionGroup');
+} from "../js/utils.js";
+const updateCartButtonEl = gebi("updateCart");
+const orderButtonEl = gebi("order");
+const cartDetailListEl = gebi("cartDetailList");
+const cartDetailsEl = gebi("cartDetails");
+const userIdEl = gebi("userId");
+const cartIdEl = gebi("cartId");
+const actionGroupEl = gebi("actionGroup");
 
-window.addEventListener('DOMContentLoaded', async () => {
+// ページ生成時にカート画面生成
+window.addEventListener("DOMContentLoaded", async () => {
   let cartDetails = JSON.parse(cartDetailsEl.value);
-  const totalEl = ce('h4');
-  addClasses(totalEl, ['total']);
+  const totalEl = ce("h4");
+  addClasses(totalEl, ["total"]);
   if (cartDetails.length === 0) {
-    showToast({ text: 'カートに商品がありません。' });
+    showToast({ text: "カートに商品がありません。" });
   } else {
-    addClasses(actionGroupEl, ['disp']);
-    addClasses(totalEl, ['disp']);
+    addClasses(actionGroupEl, ["disp"]);
+    addClasses(totalEl, ["disp"]);
   }
   const convertCartDetails = createCartDetailsResponse(cartDetails);
   let changeCartDetails = [];
+  // カートに追加された商品の中からidが同じ商品の個数を編集
   const change = ({ id, quantity }) => {
     if (changeCartDetails.some((x) => id === x.id)) {
       const index = changeCartDetails.findIndex((x) => x.id === id);
@@ -37,16 +39,17 @@ window.addEventListener('DOMContentLoaded', async () => {
       changeCartDetails.push({ id, quantity });
     }
   };
-  orderButtonEl.addEventListener('click', async () => {
-    await fetch('/hotmot/OrderServlet', {
-      method: 'POST',
+  // ボタン押下時にカートに追加された商品を注文する
+  orderButtonEl.addEventListener("click", async () => {
+    await fetch("/hotmot/OrderServlet", {
+      method: "POST",
       body: JSON.stringify({
         cartId: Number(cartIdEl.value),
       }),
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
@@ -62,36 +65,37 @@ window.addEventListener('DOMContentLoaded', async () => {
           window.location.href = `OrderHistoryServlet?userId=${userIdEl.value}`;
         }
       })
-      .catch((err) => console.log('err', err));
+      .catch((err) => console.log("err", err));
   });
 
-  updateCartButtonEl.addEventListener('click', async () => {
-    await fetch('/hotmot/UpdateCartDetailServlet', {
-      method: 'POST',
+  // ボタン押下時にカートに追加された商品の編集内容をデータベースに反映させる
+  updateCartButtonEl.addEventListener("click", async () => {
+    await fetch("/hotmot/UpdateCartDetailServlet", {
+      method: "POST",
       body: JSON.stringify(changeCartDetails),
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((res) => {
-		  changeCartDetails.forEach(detail => {
-			  const {id, quantity} = detail;
-			  const index = convertCartDetails.findIndex(x => x.id === id);
-			  convertCartDetails[index].quantity = quantity;
-		  })
-		  const newTotal = calcTotal(convertCartDetails);
-		  totalEl.innerText = `合計: ${newTotal.toLocaleString()}円 (税抜 : ${Math.ceil(
-    newTotal / 1.08
-  ).toLocaleString()}円）`;
+        changeCartDetails.forEach((detail) => {
+          const { id, quantity } = detail;
+          const index = convertCartDetails.findIndex((x) => x.id === id);
+          convertCartDetails[index].quantity = quantity;
+        });
+        const newTotal = calcTotal(convertCartDetails);
+        totalEl.innerText = `合計: ${newTotal.toLocaleString()}円 (税抜 : ${Math.ceil(
+          newTotal / 1.08
+        ).toLocaleString()}円）`;
         changeCartDetails = [];
         if (res.message) {
           showToast({ text: res.message });
         }
       })
-      .catch((err) => console.log('err', err));
+      .catch((err) => console.log("err", err));
   });
   const total = calcTotal(convertCartDetails);
 
@@ -109,28 +113,28 @@ window.addEventListener('DOMContentLoaded', async () => {
       quantity,
       riceName,
     }) => {
-      const boxEl = ce('div');
-      addClasses(boxEl, ['box']);
-      const linkEl = ce('a');
+      const boxEl = ce("div");
+      addClasses(boxEl, ["box"]);
+      const linkEl = ce("a");
       setHref(linkEl, `/hotmot/ProductDetailServlet?id=${productId}`);
-      const imageWrapEl = ce('div');
-      addClasses(imageWrapEl, ['image']);
-      const imageEl = ce('img');
+      const imageWrapEl = ce("div");
+      addClasses(imageWrapEl, ["image"]);
+      const imageEl = ce("img");
       setSrc(imageEl, productImage);
       ac(imageEl, linkEl);
       ac(linkEl, imageWrapEl);
       ac(imageWrapEl, boxEl);
 
-      const rightEl = ce('div');
-      addClasses(rightEl, ['right']);
-      const productNameEl = ce('h2');
-      addClasses(productNameEl, ['productName']);
+      const rightEl = ce("div");
+      addClasses(rightEl, ["right"]);
+      const productNameEl = ce("h2");
+      addClasses(productNameEl, ["productName"]);
       productNameEl.innerText = productName;
-      const riceNameEl = ce('h3');
-      addClasses(riceNameEl, ['riceName']);
+      const riceNameEl = ce("h3");
+      addClasses(riceNameEl, ["riceName"]);
       riceNameEl.innerText = riceName;
-      const priceEl = ce('h4');
-      addClasses(priceEl, ['price']);
+      const priceEl = ce("h4");
+      addClasses(priceEl, ["price"]);
       priceEl.innerText = `${price.toLocaleString()}円 (税抜 : ${Math.ceil(
         price / 1.08
       ).toLocaleString()}円）`;
@@ -163,6 +167,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   );
 });
 
+// カートに追加された商品の個数を編集するUIの生成
 const createEditQuantity = ({
   value,
   parentEl,
@@ -170,44 +175,47 @@ const createEditQuantity = ({
   subQuantityFunc,
   changeQuantityFunc,
 }) => {
-  const divEl = ce('div');
-  addClasses(divEl, ['counter']);
-  const inputEl = ce('input');
+  const divEl = ce("div");
+  addClasses(divEl, ["counter"]);
+  const inputEl = ce("input");
   inputEl.value = value;
-  inputEl.type = 'number';
-  inputEl.addEventListener('input', (e) => {
+  inputEl.type = "number";
+  // カート追加済み商品の個数を増減する
+  inputEl.addEventListener("input", (e) => {
     value = Number(e.target.value);
     inputEl.value = value;
     changeQuantityFunc(value);
     if (value > 0) {
-      subBtnEl.classList.remove('disabled');
+      subBtnEl.classList.remove("disabled");
     } else if (value === 0) {
-      subBtnEl.classList.add('disabled');
+      subBtnEl.classList.add("disabled");
     }
   });
-  const addBtnEl = ce('button');
-  addBtnEl.innerText = '＋';
-  addClasses(addBtnEl, ['add']);
-  addBtnEl.addEventListener('click', (e) => {
+  const addBtnEl = ce("button");
+  addBtnEl.innerText = "＋";
+  addClasses(addBtnEl, ["add"]);
+  // カート追加済み商品の個数を増やす
+  addBtnEl.addEventListener("click", (e) => {
     value++;
     addQuantityFunc();
     inputEl.value = value;
     if (value > 0) {
-      removeClass(subBtnEl, 'disabled');
+      removeClass(subBtnEl, "disabled");
     }
   });
-  const subBtnEl = ce('button');
-  addClasses(subBtnEl, ['sub']);
+  const subBtnEl = ce("button");
+  addClasses(subBtnEl, ["sub"]);
   if (value === 0) {
-    addClasses(subBtnEl, ['disabled']);
+    addClasses(subBtnEl, ["disabled"]);
   }
-  subBtnEl.innerText = '－';
-  subBtnEl.addEventListener('click', (e) => {
+  subBtnEl.innerText = "－";
+  // カート追加済み商品の個数を減らす
+  subBtnEl.addEventListener("click", (e) => {
     value--;
     subQuantityFunc();
     inputEl.value = value;
     if (value === 0) {
-      addClasses(subBtnEl, ['disabled']);
+      addClasses(subBtnEl, ["disabled"]);
     }
   });
   ac(subBtnEl, divEl);
@@ -216,6 +224,7 @@ const createEditQuantity = ({
   ac(divEl, parentEl);
 };
 
+// カートに追加された商品の合計価格を計算
 const calcTotal = (details) => {
   const total = details.reduce((sum, { price, quantity }) => {
     return sum + price * quantity;

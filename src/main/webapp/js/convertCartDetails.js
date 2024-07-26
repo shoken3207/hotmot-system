@@ -1,7 +1,6 @@
 import ProductData from "../jsons/Product.json" with { type: "json" };
 import RiceData from "../jsons/Rice.json" with { type: "json" };
 
-// 引数id, cartId, productId, riceId, quantity, createdAt
 export const createCartDetailsResponse = (cartDetails) => {
   const productData = ProductData;
   const riceData = RiceData;

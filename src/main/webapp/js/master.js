@@ -1,4 +1,3 @@
-//import { PRODUCT_CATEGORIES } from '../const';
 import AllergyData from '../jsons/Allergy.json' with { type: 'json' };
 import ProductData from '../jsons/Product.json' with { type: 'json' };
 import ProductAllergyData from '../jsons/ProductAllergy.json' with { type: 'json' };
