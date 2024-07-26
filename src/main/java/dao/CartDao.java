@@ -12,6 +12,14 @@ import models.CartBean;
 
 public class CartDao extends CommonDao{
 	
+	/**
+	 * idをもとにカート画面を表示する
+	 * @author hira
+	 * @param cartid,userid,shopid
+	 * @return Cart
+	 * @version 1.0.0
+	 */
+	
 	public CartBean findCartById(int arg_id) {
 		try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
 			String sql = "SELECT * FROM Carts WHERE id = ?";
